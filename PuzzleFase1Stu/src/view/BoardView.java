@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * Clase que representa la vista del tablero
- * @author Miguel Ángel
+ * @author Miguel Ã�ngel
  * @version 1.0
  */
 public class BoardView extends JPanel implements Observer {
@@ -20,7 +20,30 @@ public class BoardView extends JPanel implements Observer {
 
     public BoardView(int rowNum, int columnNum,int imageSize, String[] imageList){
         super();
+      
+       
+       iconArray=new ArrayList<PieceView>();
+        
+       int drawnRowIndex=0;
+       int drawnColumnIndex=0;
+       
+       
+        for(int i=0;i<rowNum*columnNum;i++) {
 
+        	if(i%columnNum==0) {
+        		drawnRowIndex+=30;
+        		drawnColumnIndex=75;
+        	}else {
+        		drawnColumnIndex+=30;
+
+        	}
+        		PieceView p=new PieceView( i, rowNum,  columnNum, imageSize, imageList[i]);
+        		p.setDrawnColumnIndex(drawnRowIndex);
+        		p.setDrawnRowIndex(drawnColumnIndex);
+        		iconArray.add(p);
+        		
+        		
+}
 
     }
 
@@ -35,9 +58,9 @@ public class BoardView extends JPanel implements Observer {
         return(resizedImage);
     }
 
-    //dividimos la imagen en el número
+    //dividimos la imagen en el nÃºmero
     private BufferedImage[] splitImage(BufferedImage image){
-        //Divisor de imágenes
+        //Divisor de imÃ¡genes
         BufferedImage images[] = null;
         return(images);
     }
@@ -51,9 +74,10 @@ public class BoardView extends JPanel implements Observer {
     }
 
     public void paint(Graphics g){
-        //for(PieceView iconImage:iconArray){
-            //g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
-        //}
+        for(PieceView iconImage:iconArray){
+            g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
+            
+        }
     }
 
     //Dado una posicion X e Y localizar una pieza

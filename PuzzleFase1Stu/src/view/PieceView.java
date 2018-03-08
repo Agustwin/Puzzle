@@ -5,29 +5,37 @@ import java.awt.*;
 
 /**
  * Clase que representa la vista del tablero
- * @author Miguel Ángel
+ * @author Miguel Ã�ngel
  * @version 1.0
  */
 public class PieceView extends ImageIcon implements Cloneable{
 
     //id de la imagen
     private int id;
-    //índice de fila
+    //Ã­ndice de fila
     private int indexRow;
-    //índice de columna
+    //Ã­ndice de columna
     private int indexColumn;
-    //Tamaño de la imagen
+    //TamaÃ±o de la imagen
     private int imageSize;
-
-
+    //Índice de fila dibujada
+    private int drawnRowIndex;
+  //Índice de columna dibujada
+    private int drawnColumnIndex;
+    
     /**
      * Constructor de una clase
      * @param indexRow indice de fila
      * @param indexColumn indice de columna
-     * @param imagePath ubicación de la imagen.
+     * @param imagePath ubicaciÃ³n de la imagen.
      */
     public PieceView(int id,int indexRow, int indexColumn,int imageSize,String imagePath){
-        super();
+        super(imagePath);
+        this.id=id;
+        this.indexColumn=indexColumn;
+        this.indexRow=indexRow;
+        this.imageSize=imageSize;
+        
     }
 
     public PieceView(int id, int indexRow, int indexColumn,int imageSize,Image image){
@@ -59,5 +67,25 @@ public class PieceView extends ImageIcon implements Cloneable{
     public String toString(){
         return("id:"+id);
     }
+
+	public int getDrawnRowIndex() {
+		return drawnRowIndex;
+	}
+
+	public void setDrawnRowIndex(int drawnRowIndex) {
+		this.drawnRowIndex = drawnRowIndex;
+	}
+
+	public int getDrawnColumnIndex() {
+		return drawnColumnIndex;
+	}
+
+	public void setDrawnColumnIndex(int drawnColumnIndex) {
+		this.drawnColumnIndex = drawnColumnIndex;
+	}
+
+	
+
+	
 
 }

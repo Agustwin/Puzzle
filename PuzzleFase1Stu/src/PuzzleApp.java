@@ -1,5 +1,13 @@
+import view.BoardView;
 import view.PuzzleGUI;
 import model.AbstractModel;
+import model.Model;
+
+import java.awt.Graphics;
+
+import control.AbstractController;
+import control.Controller;
+
 /*
  * Copyright 2016 Miguel Ã�ngel RodrÃ­guez-GarcÃ­a (miguel.rodriguez@urjc.es).
  *
@@ -35,20 +43,26 @@ public class PuzzleApp {
                 imagePath+"five.gif",imagePath+"six.gif",imagePath+"seven.gif",imagePath+"eight.gif"};
 
         // Creamos el modelo
+        AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
 
-        AbstractModel myModel=
-        
-        
         // Creamos el controlador
+        AbstractController myController=new Controller();
+        
 
         // Inicializamos la GUI
-
+        PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, imageList);
+        
         // Obtenemos la vista del tablero
-
+        PuzzleGUI myPuzzle=PuzzleGUI.getInstance();
+     
         // AÃ±adimos un nuevo observador al controlador
 
 
         // Visualizamos la aplicaciÃ³n.
         PuzzleGUI.getInstance().setVisible(true);
+        
+        /*-------------------------Provisional-------------------------------------------*/
+        //Habria que pintar cada vez que se modifique la vista
+        myPuzzle.getBoardView().paint(myPuzzle.getGraphics());
     }
 }
