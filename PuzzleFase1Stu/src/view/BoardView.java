@@ -76,7 +76,7 @@ public class BoardView extends JPanel implements Observer {
     public void paint(Graphics g){
         for(PieceView iconImage:iconArray){
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
-            System.out.println();
+            
         }
     }
 
