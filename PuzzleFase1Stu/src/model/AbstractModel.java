@@ -1,28 +1,36 @@
 package model;
 
+import java.util.ArrayList;
+
 import observer.Observer;
 
 /**
  * Modelo abstracto de datos
- * @author Miguel Ángel
+ * @author Miguel Ã�ngel
  * @version 1.0
+ * @param <E>
  */
 public abstract class AbstractModel<PieceModel> implements Observer {
-    //número de filas
+    //nÃºmero de filas
     protected int rowNum=0;
-    //número de columnas
+    //nÃºmero de columnas
     protected int columnNum=0;
-    //tamaño de la pieza
+    //tamaÃ±o de la pieza
     protected int pieceSize=0;
     //lista de images
     protected String[] imageList=null;
-
+    //Lista de piezas
+    protected ArrayList<PieceModel> listP=null;
+    
     //constructor de la clase.
     public AbstractModel(int rowNum, int columnNum,int pieceSize, String[] imageList) {
         this.rowNum = rowNum;
         this.columnNum = columnNum;
         this.pieceSize = pieceSize;
         this.imageList = imageList;
+        listP=new ArrayList<PieceModel>();
+        
+        
     }
 
     //constructor de la clase.
@@ -34,19 +42,19 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     }
 
     /**
-     * Añade una nueva pieza en el modelo
+     * AÃ±ade una nueva pieza en el modelo
      * @param id identificador de la pieza
-     * @param indexRow índice de fila donde se encuentra ubicada la pieza
-     * @param indexCol índice de columna donde se encuentra ubidada la pieza
-     * @param imagePath ubicación de la imagen.
+     * @param indexRow Ã­ndice de fila donde se encuentra ubicada la pieza
+     * @param indexCol Ã­ndice de columna donde se encuentra ubidada la pieza
+     * @param imagePath ubicaciÃ³n de la imagen.
      */
     public abstract void addNewPiece(int id, int indexRow, int indexCol, String imagePath);
 
     /**
-     * Añade una nueva pieza en el modelo
+     * AÃ±ade una nueva pieza en el modelo
      * @param id identificador de la pieza
-     * @param indexRow índice de fila donde se encuentra ubicada la pieza
-     * @param indexCol índice de columna donde se encuentra ubidada la pieza
+     * @param indexRow Ã­ndice de fila donde se encuentra ubicada la pieza
+     * @param indexCol Ã­ndice de columna donde se encuentra ubidada la pieza
      */
     public abstract void addNewPiece(int id, int indexRow, int indexCol);
 

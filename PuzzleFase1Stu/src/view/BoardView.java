@@ -37,6 +37,8 @@ public class BoardView extends JPanel implements Observer {
         		drawnColumnIndex+=30;
 
         	}
+        	
+        	
         		PieceView p=new PieceView( i, rowNum,  columnNum, imageSize, imageList[i]);
         		p.setDrawnColumnIndex(drawnRowIndex);
         		p.setDrawnRowIndex(drawnColumnIndex);
