@@ -27,6 +27,7 @@ public class Model extends AbstractModel<PieceModel>{
 	    }
 	        
 	 }
+	 
 	@Override
 	public void update(int blankPos, int movedPos) {
 		// TODO Auto-generated method stub

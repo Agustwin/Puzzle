@@ -22,6 +22,7 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     //Lista de piezas
     protected ArrayList<PieceModel> listP=null;
     
+    
     //constructor de la clase.
     public AbstractModel(int rowNum, int columnNum,int pieceSize, String[] imageList) {
         this.rowNum = rowNum;
