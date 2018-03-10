@@ -17,7 +17,8 @@ public class BoardView extends JPanel implements Observer {
     public static final int imageWidth= 96;
     public static final int imageHeight= 96;
     private ArrayList<PieceView> iconArray = null;
-
+    private static boolean offseted=false;
+    
     public BoardView(int rowNum, int columnNum,int imageSize, String[] imageList){
         super();
       
@@ -54,16 +55,18 @@ public class BoardView extends JPanel implements Observer {
     private void SetCoordinates(PieceView p) {
     	
     
-    	int drawnRow=this.getWidth()/2;
-    	int drawnColumn=this.getHeight()/2;
+    	int drawnRow;
+    	int drawnColumn;
     	
-    	 drawnRow+=p.getIndexRow()*30;
-    	 drawnColumn+=p.getIndexColumn()*30;
+    	 drawnRow=p.getIndexRow()*30;
+    	 drawnColumn=p.getIndexColumn()*30;
+
     	
+    	 
     	 p.setDrawnColumnIndex(drawnColumn);
     	 p.setDrawnRowIndex(drawnRow);
 	
-    		
+    	
     	
     	
     }
@@ -97,15 +100,22 @@ public class BoardView extends JPanel implements Observer {
 
     public void paint(Graphics g){
 
-    
+    	int rowOff=0;
+    	int colOff=0;
     	
+    	if(!offseted) {
+    	 rowOff=(this.getWidth()-this.imageWidth)/2;
+    	 colOff=(this.getHeight()-this.imageHeight)/2;
+    	offseted=true;
+    	}
     	
         for(PieceView iconImage:iconArray){
         	
-
-        	//Centro la imagen antes de pintarla
-        	iconImage.setDrawnRowIndex(iconImage.getDrawnRowIndex()+(this.getWidth()-this.imageWidth)/2);
-        	iconImage.setDrawnColumnIndex(iconImage.getDrawnColumnIndex()+(this.getHeight()-this.imageHeight)/2);
+        	
+        		iconImage.setDrawnRowIndex(iconImage.getDrawnRowIndex()+rowOff);
+            	iconImage.setDrawnColumnIndex(iconImage.getDrawnColumnIndex()+colOff);
+            
+        	
         	
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             

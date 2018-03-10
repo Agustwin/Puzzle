@@ -61,8 +61,8 @@ public class PuzzleApp {
         // Visualizamos la aplicaciÃ³n.
         PuzzleGUI.getInstance().setVisible(true);
         
-        /*-------------------------Provisional-------------------------------------------*/
-        //Habria que pintar cada vez que se modifique la vista
+       
+      
         
     }
 }
