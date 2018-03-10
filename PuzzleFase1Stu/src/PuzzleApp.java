@@ -63,6 +63,6 @@ public class PuzzleApp {
         
         /*-------------------------Provisional-------------------------------------------*/
         //Habria que pintar cada vez que se modifique la vista
-        myPuzzle.getBoardView().paint(myPuzzle.getGraphics());
+        
     }
 }

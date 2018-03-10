@@ -24,12 +24,11 @@ public class BoardView extends JPanel implements Observer {
        
        iconArray=new ArrayList<PieceView>();
         
-       int drawnRowIndex=0;
-       int drawnColumnIndex=0;
+       
        
        
         for(int i=0;i<rowNum*columnNum;i++) {
-
+/*
         	if(i%columnNum==0) {
         		drawnRowIndex+=30;
         		drawnColumnIndex=75;
@@ -38,16 +37,37 @@ public class BoardView extends JPanel implements Observer {
 
         	}
         	
+        	*/
         	
-        		PieceView p=new PieceView( i, rowNum,  columnNum, imageSize, imageList[i]);
-        		p.setDrawnColumnIndex(drawnRowIndex);
-        		p.setDrawnRowIndex(drawnColumnIndex);
+        	
+        		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
+        		SetCoordinates(p);
+        		
         		iconArray.add(p);
+        		
         		
         		
 }
 
     }
+    
+    private void SetCoordinates(PieceView p) {
+    	
+    
+    	int drawnRow=this.getWidth()/2;
+    	int drawnColumn=this.getHeight()/2;
+    	
+    	 drawnRow+=p.getIndexRow()*30;
+    	 drawnColumn+=p.getIndexColumn()*30;
+    	
+    	 p.setDrawnColumnIndex(drawnColumn);
+    	 p.setDrawnRowIndex(drawnRow);
+	
+    		
+    	
+    	
+    }
+    
 
     public BoardView(int rowNum, int columnNum, int imageSize, File imageFile){
         super();
@@ -76,7 +96,17 @@ public class BoardView extends JPanel implements Observer {
     }
 
     public void paint(Graphics g){
+
+    
+    	
+    	
         for(PieceView iconImage:iconArray){
+        	
+
+        	//Centro la imagen antes de pintarla
+        	iconImage.setDrawnRowIndex(iconImage.getDrawnRowIndex()+(this.getWidth()-this.imageWidth)/2);
+        	iconImage.setDrawnColumnIndex(iconImage.getDrawnColumnIndex()+(this.getHeight()-this.imageHeight)/2);
+        	
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
         }

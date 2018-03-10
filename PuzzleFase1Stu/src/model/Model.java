@@ -22,8 +22,8 @@ public class Model extends AbstractModel<PieceModel>{
 	        for(int i=0;i<rowNum*columnNum;i++) {
 	        	
 	        	
-	        		PieceModel p=new PieceModel( i, rowNum,columnNum);
-	        		listP.add(p); 
+	        		addNewPiece( i, rowNum,columnNum,imageList[i]);
+	        		
 	    }
 	        
 	 }
@@ -37,7 +37,8 @@ public class Model extends AbstractModel<PieceModel>{
 	@Override
 	public void addNewPiece(int id, int indexRow, int indexCol, String imagePath) {
 		// TODO Auto-generated method stub
-		
+		PieceModel p=new PieceModel( id, rowNum,columnNum,imagePath);
+		listP.add(p); 
 	}
 
 	@Override
