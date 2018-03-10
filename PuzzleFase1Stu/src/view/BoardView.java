@@ -17,19 +17,19 @@ public class BoardView extends JPanel implements Observer {
     public static final int imageWidth= 96;
     public static final int imageHeight= 96;
     private ArrayList<PieceView> iconArray = null;
-
+    private static boolean offseted=false;
+    
     public BoardView(int rowNum, int columnNum,int imageSize, String[] imageList){
         super();
       
        
        iconArray=new ArrayList<PieceView>();
         
-       int drawnRowIndex=0;
-       int drawnColumnIndex=0;
+       
        
        
         for(int i=0;i<rowNum*columnNum;i++) {
-
+/*
         	if(i%columnNum==0) {
         		drawnRowIndex+=30;
         		drawnColumnIndex=75;
@@ -37,15 +37,40 @@ public class BoardView extends JPanel implements Observer {
         		drawnColumnIndex+=30;
 
         	}
-        		PieceView p=new PieceView( i, rowNum,  columnNum, imageSize, imageList[i]);
-        		p.setDrawnColumnIndex(drawnRowIndex);
-        		p.setDrawnRowIndex(drawnColumnIndex);
+        	
+        	*/
+        	
+        	
+        		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
+        		SetCoordinates(p);
+        		
         		iconArray.add(p);
+        		
         		
         		
 }
 
     }
+    
+    private void SetCoordinates(PieceView p) {
+    	
+    
+    	int drawnRow;
+    	int drawnColumn;
+    	
+    	 drawnRow=p.getIndexRow()*30;
+    	 drawnColumn=p.getIndexColumn()*30;
+
+    	
+    	 
+    	 p.setDrawnColumnIndex(drawnColumn);
+    	 p.setDrawnRowIndex(drawnRow);
+	
+    	
+    	
+    	
+    }
+    
 
     public BoardView(int rowNum, int columnNum, int imageSize, File imageFile){
         super();
@@ -74,7 +99,24 @@ public class BoardView extends JPanel implements Observer {
     }
 
     public void paint(Graphics g){
+
+    	int rowOff=0;
+    	int colOff=0;
+    	
+    	if(!offseted) {
+    	 rowOff=(this.getWidth()-this.imageWidth)/2;
+    	 colOff=(this.getHeight()-this.imageHeight)/2;
+    	offseted=true;
+    	}
+    	
         for(PieceView iconImage:iconArray){
+        	
+        	
+        		iconImage.setDrawnRowIndex(iconImage.getDrawnRowIndex()+rowOff);
+            	iconImage.setDrawnColumnIndex(iconImage.getDrawnColumnIndex()+colOff);
+            
+        	
+        	
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
         }
