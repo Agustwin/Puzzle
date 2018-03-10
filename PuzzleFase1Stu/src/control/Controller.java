@@ -1,6 +1,7 @@
 package control;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 
 public class Controller extends AbstractController{
 
@@ -16,4 +17,10 @@ public class Controller extends AbstractController{
 		
 	}
 
+
+public void mouseClicked(MouseEvent e) {
+	System.out.println("X: "+e.getX()+" Y: "+	e.getY());
+	
+
+}
 }

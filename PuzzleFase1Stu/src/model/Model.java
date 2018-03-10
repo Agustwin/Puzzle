@@ -22,7 +22,7 @@ public class Model extends AbstractModel<PieceModel>{
 	        for(int i=0;i<rowNum*columnNum;i++) {
 	        	
 	        	
-	        		addNewPiece( i, rowNum,columnNum,imageList[i]);
+	        		addNewPiece( i, i%rowNum,i/columnNum,imageList[i]);
 	        		
 	    }
 	        
