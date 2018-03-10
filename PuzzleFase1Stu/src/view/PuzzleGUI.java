@@ -4,6 +4,8 @@ import control.AbstractController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
@@ -103,7 +105,11 @@ public class PuzzleGUI extends JFrame{
         menu.add(help);
 
         load.addActionListener(controller);
-        exit.addActionListener(controller);
+        exit.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent ev) {
+	                System.exit(0);
+	        }
+	    });
         info.addActionListener(controller);
 
         return(menu);
