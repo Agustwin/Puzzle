@@ -1,14 +1,10 @@
 package control;
 
 import java.awt.event.ActionEvent;
-<<<<<<< HEAD
 import java.awt.event.MouseEvent;
-=======
 import java.io.File;
-
 import javax.swing.JFileChooser;
 
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 
 public class Controller extends AbstractController{
 
@@ -70,9 +66,8 @@ public class Controller extends AbstractController{
 	}
 
 
-public void mouseClicked(MouseEvent e) {
-	System.out.println("X: "+e.getX()+" Y: "+	e.getY());
-	
-
-}
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("X: "+e.getX()+" Y: "+	e.getY());
+			
+	}
 }
