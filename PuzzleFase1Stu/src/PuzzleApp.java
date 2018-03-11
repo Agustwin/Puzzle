@@ -56,7 +56,7 @@ public class PuzzleApp {
         PuzzleGUI myPuzzle=PuzzleGUI.getInstance();
      
         // AÃ±adimos un nuevo observador al controlador
-
+        myController.addObserver(myModel);
 
         // Visualizamos la aplicaciÃ³n.
         PuzzleGUI.getInstance().setVisible(true);
