@@ -13,7 +13,7 @@ public class Controller extends AbstractController{
 
 	@Override
 	public void notifyObservers(int blankPos, int movedPos) {
-		// TODO Auto-generated method stub
+		//TODO Auto-generated method stub
 		
 	}
 

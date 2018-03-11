@@ -18,6 +18,8 @@ public class BoardView extends JPanel implements Observer {
     public static final int imageHeight= 96;
     private ArrayList<PieceView> iconArray = null;
     private static boolean offseted=false;
+    private int rowOff;
+	private int colOff;
     
     public BoardView(int rowNum, int columnNum,int imageSize, String[] imageList){
         super();
@@ -42,7 +44,7 @@ public class BoardView extends JPanel implements Observer {
         	
         	
         		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
-        		SetCoordinates(p);
+        		SetCoordinates(p,imageSize);
         		
         		iconArray.add(p);
         		
@@ -52,14 +54,14 @@ public class BoardView extends JPanel implements Observer {
 
     }
     
-    private void SetCoordinates(PieceView p) {
+    private void SetCoordinates(PieceView p,int imageSize) {
     	
     
     	int drawnRow;
     	int drawnColumn;
     	
-    	 drawnRow=p.getIndexRow()*30;
-    	 drawnColumn=p.getIndexColumn()*30;
+    	 drawnRow=p.getIndexRow()*imageSize;
+    	 drawnColumn=p.getIndexColumn()*imageSize;
 
     	
     	 
@@ -100,8 +102,8 @@ public class BoardView extends JPanel implements Observer {
 
     public void paint(Graphics g){
 
-    	int rowOff=0;
-    	int colOff=0;
+    	rowOff=0;
+    	colOff=0;
     	
     	if(!offseted) {
     	 rowOff=(this.getWidth()-this.imageWidth)/2;
