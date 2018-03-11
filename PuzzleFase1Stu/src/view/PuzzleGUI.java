@@ -69,9 +69,9 @@ public class PuzzleGUI extends JFrame{
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        JButton clutterButton = new JButton("Desordenar");//botón de desordenar
+        JButton clutterButton = new JButton("Clutter");//botón de desordenar
         clutterButton.setActionCommand("clutter");
-        JButton solveButton = new JButton("Resolver");
+        JButton solveButton = new JButton("Solve");
         solveButton.setActionCommand("solve");
 
         clutterButton.addActionListener(controller);
@@ -96,8 +96,16 @@ public class PuzzleGUI extends JFrame{
         exit.setActionCommand("exit");
         JMenuItem info = new JMenuItem("Info");
         info.setActionCommand("info");
+        
+        //Paso 4 para guardar y cargar partidas
+        JMenuItem saveGame = new JMenuItem("saveGame");
+        saveGame.setActionCommand("saveGame");
+        JMenuItem loadGame = new JMenuItem("loadGame");
+        loadGame.setActionCommand("loadGame");
 
         archive.add(load);
+        archive.add(saveGame);
+        archive.add(loadGame);       
         archive.add(exit);
         help.add(info);
 
@@ -105,6 +113,11 @@ public class PuzzleGUI extends JFrame{
         menu.add(help);
 
         load.addActionListener(controller);
+        
+        //Paso 4 para guardar y cargar partidas
+        saveGame.addActionListener(controller);
+        loadGame.addActionListener(controller);
+        
         exit.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent ev) {
 	                System.exit(0);

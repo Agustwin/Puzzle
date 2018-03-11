@@ -25,13 +25,12 @@ public class BoardView extends JPanel implements Observer {
         super();
       
        
-       iconArray=new ArrayList<PieceView>();
-        
-       
+        iconArray=new ArrayList<PieceView>();
+            
        
        
         for(int i=0;i<rowNum*columnNum;i++) {
-/*
+        	/*
         	if(i%columnNum==0) {
         		drawnRowIndex+=30;
         		drawnColumnIndex=75;
@@ -47,10 +46,9 @@ public class BoardView extends JPanel implements Observer {
         		SetCoordinates(p,imageSize);
         		
         		iconArray.add(p);
+        		       		
         		
-        		
-        		
-}
+        }
 
     }
     
@@ -68,8 +66,7 @@ public class BoardView extends JPanel implements Observer {
     	 p.setDrawnColumnIndex(drawnColumn);
     	 p.setDrawnRowIndex(drawnRow);
 	
-    	
-    	
+    	   	
     	
     }
     
@@ -93,7 +90,7 @@ public class BoardView extends JPanel implements Observer {
     }
 
     public void update(int blankPos, int movedPos){
-
+    	
     }
 
     public void update(Graphics g){
@@ -106,17 +103,16 @@ public class BoardView extends JPanel implements Observer {
     	colOff=0;
     	
     	if(!offseted) {
-    	 rowOff=(this.getWidth()-this.imageWidth)/2;
-    	 colOff=(this.getHeight()-this.imageHeight)/2;
-    	offseted=true;
+    		rowOff=(this.getWidth()-this.imageWidth)/2;
+    		colOff=(this.getHeight()-this.imageHeight)/2;
+    		offseted=true;
     	}
     	
         for(PieceView iconImage:iconArray){
         	
         	
-        		iconImage.setDrawnRowIndex(iconImage.getDrawnRowIndex()+rowOff);
-            	iconImage.setDrawnColumnIndex(iconImage.getDrawnColumnIndex()+colOff);
-            
+        	iconImage.setDrawnRowIndex(iconImage.getDrawnRowIndex()+rowOff);
+            iconImage.setDrawnColumnIndex(iconImage.getDrawnColumnIndex()+colOff);           
         	
         	
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
@@ -139,8 +135,16 @@ public class BoardView extends JPanel implements Observer {
      * actual de la pieza que tiene que ser movida.
      */
     public int[] movePiece(int posX,int posY){
-
-        return(null);
+    	//Array de 2 posiciones para devolver
+    	int[] move = new int[4];
+    	
+    	//Pieza blanca
+    	
+    	
+    	//En primera posicion pieza blanca y segunda pieza posX y posY
+    	move = new int[]{0,0,0,0};
+    	
+        return(move);
     }
 
 }
