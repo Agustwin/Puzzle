@@ -33,16 +33,16 @@ public class PieceModel {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getRowNum() {
+	public int getIndexRow() {
 		return rowNum;
 	}
-	public void setRowNum(int rowNum) {
+	public void setIndexRow(int rowNum) {
 		this.rowNum = rowNum;
 	}
-	public int getColumnNum() {
+	public int getIndexColumn() {
 		return columnNum;
 	}
-	public void setColumnNum(int columnNum) {
+	public void setIndexColumn(int columnNum) {
 		this.columnNum = columnNum;
 	}
 

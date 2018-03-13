@@ -1,27 +1,16 @@
 package control;
 
 import java.awt.event.ActionEvent;
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 import java.awt.event.MouseEvent;
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 import java.io.File;
 import javax.swing.JFileChooser;
 
-<<<<<<< HEAD
 import observer.Observer;
 import view.BoardView;
 import view.PuzzleGUI;
 
-
-
-=======
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 
 public class Controller extends AbstractController{
 
@@ -96,7 +85,6 @@ public class Controller extends AbstractController{
 	}
 
 
-<<<<<<< HEAD
 public void mouseClicked(MouseEvent e) {
 
 	System.out.println(e.getX()+"   "+ e.getY());
@@ -117,10 +105,5 @@ public BoardView getMyView() {
 public void setMyView(BoardView myView) {
 	this.myView = myView;
 }
-=======
-	public void mouseClicked(MouseEvent e) {
-		System.out.println("X: "+e.getX()+" Y: "+	e.getY());
-			
-	}
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
+
 }

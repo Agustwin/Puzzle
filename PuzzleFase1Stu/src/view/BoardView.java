@@ -3,6 +3,9 @@ package view;
 import observer.Observer;
 
 import javax.swing.*;
+
+import model.PieceModel;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -94,6 +97,11 @@ public class BoardView extends JPanel implements Observer {
     		SetCoordinates(iconArray.get(i),iconArray.get(i).getImageSize());
     	}
     	
+    	System.out.println("View: ");
+		for(PieceView p:iconArray) {
+			System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
+		}
+    	
     	update(this.getGraphics());
     }
 
@@ -102,7 +110,6 @@ public class BoardView extends JPanel implements Observer {
     }
 
     public void paint(Graphics g){
-System.out.println("pinto");
 
     	
     	rowOff=0;

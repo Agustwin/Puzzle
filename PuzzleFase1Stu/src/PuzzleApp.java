@@ -56,14 +56,12 @@ public class PuzzleApp {
         BoardView view=PuzzleGUI.getInstance().getBoardView();
      
         // AÃ±adimos un nuevo observador al controlador
-<<<<<<< HEAD
+
         myController.addObserver(view);
         myController.addObserver(myModel);
         
 
-=======
-        myController.addObserver(myPuzzle.getBoardView());
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
+
 
         // Visualizamos la aplicaciÃ³n.
         PuzzleGUI.getInstance().setVisible(true);
