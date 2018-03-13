@@ -34,7 +34,7 @@ public class Controller extends AbstractController{
 
 		switch (action) {
 			case "clutter": 
-				System.out.println("Clutter");
+				PuzzleGUI.getInstance().getBoardView().Clutter();
 				break;
 				
 			case "solve":

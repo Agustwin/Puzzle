@@ -51,7 +51,7 @@ public class BoardView extends JPanel implements Observer {
         
     }
     
-    private void SetCoordinates(PieceView p,int imageSize) {
+    private void SetDrawnCoordinates(PieceView p,int imageSize) {
     	
     	
     	rowOff=(this.getWidth()-this.imageWidth)/2;
@@ -61,10 +61,7 @@ public class BoardView extends JPanel implements Observer {
     	int drawnColumn;
     	
     	 drawnRow=p.getIndexRow()*imageSize;
-    	 drawnColumn=p.getIndexColumn()*imageSize;
-
-    	
-    	 
+    	 drawnColumn=p.getIndexColumn()*imageSize;    	 
     	 p.setDrawnColumnIndex(drawnColumn+colOff);
     	 p.setDrawnRowIndex(drawnRow+rowOff);
 	
@@ -99,7 +96,7 @@ public class BoardView extends JPanel implements Observer {
     	
     	//Actualizo las coordenadas de todo el puzle
     	for(int i=0;i<iconArray.size();i++) {
-    		SetCoordinates(iconArray.get(i),iconArray.get(i).getImageSize());
+    		SetDrawnCoordinates(iconArray.get(i),iconArray.get(i).getImageSize());
     	}
     	
     	System.out.println("View: ");
@@ -123,7 +120,7 @@ public class BoardView extends JPanel implements Observer {
     	
     		for(PieceView iconImage:iconArray){	
         	
-    		SetCoordinates(iconImage,iconImage.getImageSize());
+    		SetDrawnCoordinates(iconImage,iconImage.getImageSize());
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
         }
@@ -237,16 +234,28 @@ public void Solve() {
 	Collections.sort(iconArray, 
             (o1, o2) -> (Integer.compare(o1.getId(), o2.getId())));
 	
-	for(int i=0;i<iconArray.size();i++) {
+	SetCoordinates();
+	update(this.getGraphics());
+}
+
+public void Clutter() {
+	
+	Collections.shuffle(iconArray);
+	
+	SetCoordinates();
+	update(this.getGraphics());
+}
+
+public void SetCoordinates() {
+	
+for(int i=0;i<iconArray.size();i++) {
 		
 		PieceView p=iconArray.get(i);
 		p.setIndexRow(i%3);
 		p.setIndexColumn(i/3);
 		System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
-		update(this.getGraphics());
+		
 	}
 	
 }
-
-
 }
