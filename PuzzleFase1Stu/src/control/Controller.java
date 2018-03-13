@@ -39,6 +39,8 @@ public class Controller extends AbstractController{
 				
 			case "solve":
 				System.out.println("Solve");
+				PuzzleGUI.getInstance().getBoardView().Solve();
+				
 				break;
 				
 			case "load":

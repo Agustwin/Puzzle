@@ -29,7 +29,10 @@ public class PuzzleGUI extends JFrame{
     public static String[] imageList = null;
     //Panel de juego
     private BoardView boardView;
-
+    //ancho y alto de la ventana
+    private int
+     windowH=250;
+	private int windowW=250;
 
     /**
      * Constructor privado
@@ -44,8 +47,9 @@ public class PuzzleGUI extends JFrame{
         this.getContentPane().add(createSouthPanel(), BorderLayout.SOUTH);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setSize(250, 250);
+        this.setSize(windowW,windowH);
         this.setLocation(centerFrame());
+       
     }
 
     //Singleton
@@ -62,6 +66,7 @@ public class PuzzleGUI extends JFrame{
         PuzzleGUI.columnNum = columnNum;
         PuzzleGUI.imageSize = imageSize;
         PuzzleGUI.imageList = imageList;
+        
     }
 
     //MÃ©todo que crea el panel inferior
@@ -154,5 +159,21 @@ public class PuzzleGUI extends JFrame{
     public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
+
+	public int getWindowW() {
+		return windowW;
+	}
+
+	public void setWindowW(int windowW) {
+		this.windowW = windowW;
+	}
+
+	public int getWindowH() {
+		return windowH;
+	}
+
+	public void setWindowH(int windowH) {
+		this.windowH = windowH;
+	}
 
 }

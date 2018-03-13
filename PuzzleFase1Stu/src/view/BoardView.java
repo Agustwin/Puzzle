@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Clase que representa la vista del tablero
@@ -21,6 +22,7 @@ public class BoardView extends JPanel implements Observer {
     public static final int imageWidth= 96;
     public static final int imageHeight= 96;
     private ArrayList<PieceView> iconArray = null;
+    
     private int rowOff;
 	private int colOff;
     
@@ -30,7 +32,7 @@ public class BoardView extends JPanel implements Observer {
     public BoardView(int rowNum, int columnNum,int imageSize, String[] imageList){
         super();
       
-       
+        
         iconArray=new ArrayList<PieceView>();
        
         
@@ -39,7 +41,7 @@ public class BoardView extends JPanel implements Observer {
         for(int i=0;i<rowNum*columnNum;i++) {
        
         		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
-        		SetCoordinates(p,imageSize);
+        		
         		
         		iconArray.add(p);
         		       		
@@ -51,7 +53,10 @@ public class BoardView extends JPanel implements Observer {
     
     private void SetCoordinates(PieceView p,int imageSize) {
     	
-    
+    	
+    	rowOff=(this.getWidth()-this.imageWidth)/2;
+		colOff=(this.getHeight()-this.imageHeight)/2;
+    	
     	int drawnRow;
     	int drawnColumn;
     	
@@ -60,8 +65,8 @@ public class BoardView extends JPanel implements Observer {
 
     	
     	 
-    	 p.setDrawnColumnIndex(drawnColumn);
-    	 p.setDrawnRowIndex(drawnRow);
+    	 p.setDrawnColumnIndex(drawnColumn+colOff);
+    	 p.setDrawnRowIndex(drawnRow+rowOff);
 	
     	
     }
@@ -110,23 +115,15 @@ public class BoardView extends JPanel implements Observer {
     }
 
     public void paint(Graphics g){
+    		
+    		//g.clearRect(0, 0,this.getWidth(), this.getHeight());
 
-    	
-    	rowOff=0;
-    	colOff=0;
+    		
     	
     	
-    		rowOff=(this.getWidth()-this.imageWidth)/2;
-    		colOff=(this.getHeight()-this.imageHeight)/2;
-    	
-    	
-        for(PieceView iconImage:iconArray){
+    		for(PieceView iconImage:iconArray){	
         	
-        	
-        	iconImage.setDrawnRowIndex(iconImage.getDrawnRowIndex()+rowOff);
-            iconImage.setDrawnColumnIndex(iconImage.getDrawnColumnIndex()+colOff);           
-        	
-        	
+    		SetCoordinates(iconImage,iconImage.getImageSize());
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
         }
@@ -233,5 +230,23 @@ public class BoardView extends JPanel implements Observer {
     		}
     		return blankPos;
     	}
+public void Solve() {
+	System.out.println("Resolver");
+	
+	//Expresion lambda que ordena el puzzle
+	Collections.sort(iconArray, 
+            (o1, o2) -> (Integer.compare(o1.getId(), o2.getId())));
+	
+	for(int i=0;i<iconArray.size();i++) {
+		
+		PieceView p=iconArray.get(i);
+		p.setIndexRow(i%3);
+		p.setIndexColumn(i/3);
+		System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
+		update(this.getGraphics());
+	}
+	
+}
+
 
 }
