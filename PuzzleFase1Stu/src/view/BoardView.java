@@ -89,10 +89,23 @@ public class BoardView extends JPanel implements Observer {
 
     public void update(int blankPos, int movedPos){
     	
+    	
     	PieceView blank=iconArray.get(blankPos);
 
     	iconArray.set(blankPos,iconArray.get(movedPos));
     	iconArray.set(movedPos, blank);
+    	
+    	
+    	//muevo las coordenadas de las piezas
+		int auxX=iconArray.get(movedPos).getIndexRow();
+		int auxY=iconArray.get(movedPos).getIndexColumn();;
+	
+		iconArray.get(movedPos).setIndexRow(iconArray.get(blankPos).getIndexRow());
+		iconArray.get(movedPos).setIndexColumn(iconArray.get(blankPos).getIndexColumn());
+		
+		iconArray.get(blankPos).setIndexColumn(auxY);
+		iconArray.get(blankPos).setIndexRow(auxX);
+    	
     	
     	//Actualizo las coordenadas de todo el puzle
     	for(int i=0;i<iconArray.size();i++) {
@@ -104,6 +117,7 @@ public class BoardView extends JPanel implements Observer {
 			System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
 		}
     	
+    	update(this.getGraphics());
     	update(this.getGraphics());
     }
 
@@ -168,15 +182,7 @@ public class BoardView extends JPanel implements Observer {
     		return null;
     	}
     	
-    	//muevo las coordenadas de las piezas
-    		int auxX=iconArray.get(pos).getIndexRow();
-    		int auxY=iconArray.get(pos).getIndexColumn();;
     	
-    		iconArray.get(pos).setIndexRow(iconArray.get(blankPos).getIndexRow());
-    		iconArray.get(pos).setIndexColumn(iconArray.get(blankPos).getIndexColumn());
-    		
-    		iconArray.get(blankPos).setIndexColumn(auxY);
-    		iconArray.get(blankPos).setIndexRow(auxX);
     		
     		
     	

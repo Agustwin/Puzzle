@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
 
+import command.Command;
+import command.MoveCommand;
 import observer.Observer;
 import view.BoardView;
 import view.PuzzleGUI;
@@ -19,10 +21,14 @@ public class Controller extends AbstractController{
 	
 	/*No se si es correcto*/
 	private BoardView myView;
-
+	private int posX;
+	private int posY;
+	Command move;
 	
 	
-	
+	public Controller() {
+		move=new MoveCommand(this);
+	}
 	/*  ¿HABRIA QUE METER TODAS LAS ACCIONES DENTRO DE UN COMMAND?  */
 	@Override
 	public void actionPerformed(ActionEvent act) {
@@ -38,8 +44,7 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "solve":
-				System.out.println("Solve");
-				PuzzleGUI.getInstance().getBoardView().Solve();
+				move.undoCommand();
 				
 				break;
 				
@@ -89,15 +94,11 @@ public class Controller extends AbstractController{
 
 public void mouseClicked(MouseEvent e) {
 
-	System.out.println(e.getX()+"   "+ e.getY());
 	
-	int[] pos=PuzzleGUI.getInstance().getBoardView().movePiece(e.getX(), e.getY());
-
-	if(pos==null) {
-		return;
-	}
+	posX=e.getX();
+	posY=e.getY();
 	
-	notifyObservers(pos[0],pos[1]);
+	move.execute();
 }
 
 public BoardView getMyView() {
@@ -106,6 +107,22 @@ public BoardView getMyView() {
 
 public void setMyView(BoardView myView) {
 	this.myView = myView;
+}
+
+public int getPosY() {
+	return posY;
+}
+
+public void setPosY(int posY) {
+	this.posY = posY;
+}
+
+public int getPosX() {
+	return posX;
+}
+
+public void setPosX(int posX) {
+	this.posX = posX;
 }
 
 }
