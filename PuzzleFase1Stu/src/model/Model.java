@@ -6,7 +6,7 @@ import view.PieceView;
 
 public class Model extends AbstractModel<PieceModel>{
 
-	
+	protected ArrayList<PieceModel> listP=null;
 
 	public Model(int rowNum, int columnNum, int pieceSize) {
 		super(rowNum, columnNum, pieceSize);
@@ -17,7 +17,7 @@ public class Model extends AbstractModel<PieceModel>{
 
 	 public Model(int rowNum, int columnNum,int pieceSize, String[] imageList) {
 	        super(rowNum,columnNum,pieceSize,imageList);
-	       
+	        listP=new ArrayList<PieceModel>();
 	        
 	        for(int i=0;i<rowNum*columnNum;i++) {
 	        	

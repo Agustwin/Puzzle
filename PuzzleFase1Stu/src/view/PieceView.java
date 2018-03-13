@@ -50,6 +50,14 @@ public class PieceView extends ImageIcon implements Cloneable{
     public int getIndexColumn() {
         return indexColumn;
     }
+    
+    public void setIndexRow(int i) {
+         this.indexRow=i;
+    }
+
+    public void setIndexColumn(int i) {
+        this.indexColumn=i;
+   }
 
 
     public int getImageSize() {

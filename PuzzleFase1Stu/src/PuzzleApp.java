@@ -46,21 +46,20 @@ public class PuzzleApp {
         AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
 
         // Creamos el controlador
-        AbstractController myController=new Controller();
+        Controller myController=new Controller();
         
 
         // Inicializamos la GUI
         PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, imageList);
         
         // Obtenemos la vista del tablero
-        PuzzleGUI myPuzzle=PuzzleGUI.getInstance();
+        BoardView view=PuzzleGUI.getInstance().getBoardView();
      
         // AÃ±adimos un nuevo observador al controlador
+        myController.addObserver(view);
         myController.addObserver(myModel);
-<<<<<<< HEAD
-        myController.addObserver(myPuzzle.getBoardView());
-=======
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
+        
+
 
         // Visualizamos la aplicaciÃ³n.
         PuzzleGUI.getInstance().setVisible(true);

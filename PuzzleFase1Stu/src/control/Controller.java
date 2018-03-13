@@ -1,25 +1,40 @@
 package control;
 
 import java.awt.event.ActionEvent;
-<<<<<<< HEAD
+
 import java.awt.event.MouseEvent;
-=======
+
 import java.io.File;
 
 import javax.swing.JFileChooser;
 
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
+import observer.Observer;
+import view.BoardView;
+import view.PuzzleGUI;
+
+
+
 
 public class Controller extends AbstractController{
 
 	//Variable para recibir del PuzzleGUI la accion realizada
 	private String action;
 	
+	/*No se si es correcto*/
+	private BoardView myView;
+
+	
+	
+	
+	/*  ¿HABRIA QUE METER TODAS LAS ACCIONES DENTRO DE UN COMMAND?  */
 	@Override
 	public void actionPerformed(ActionEvent act) {
 		// TODO Auto-generated method stub
-		this.action = act.getActionCommand();
 		
+		
+		this.action = act.getActionCommand();
+		System.out.println(	act.getSource().toString());
+
 		switch (action) {
 			case "clutter": 
 				System.out.println("Clutter");
@@ -65,14 +80,32 @@ public class Controller extends AbstractController{
 	@Override
 	public void notifyObservers(int blankPos, int movedPos) {
 		//TODO Auto-generated method stub
-		
+		for(Observer o:observerList) {
+			
+			o.update(blankPos, movedPos);
+		}
 		
 	}
 
 
 public void mouseClicked(MouseEvent e) {
-	System.out.println("X: "+e.getX()+" Y: "+	e.getY());
-	
 
+	System.out.println(e.getX()+"   "+ e.getY());
+	
+	int[] pos=PuzzleGUI.getInstance().getBoardView().movePiece(e.getX(), e.getY());
+
+	if(pos==null) {
+		return;
+	}
+	
+	notifyObservers(pos[0],pos[1]);
+}
+
+public BoardView getMyView() {
+	return myView;
+}
+
+public void setMyView(BoardView myView) {
+	this.myView = myView;
 }
 }

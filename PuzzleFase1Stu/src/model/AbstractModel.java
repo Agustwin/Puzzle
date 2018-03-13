@@ -20,7 +20,7 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     //lista de images
     protected String[] imageList=null;
     //Lista de piezas
-    protected ArrayList<PieceModel> listP=null;
+    
     
     
     //constructor de la clase.
@@ -29,7 +29,7 @@ public abstract class AbstractModel<PieceModel> implements Observer {
         this.columnNum = columnNum;
         this.pieceSize = pieceSize;
         this.imageList = imageList;
-        listP=new ArrayList<PieceModel>();
+        
         
         
     }

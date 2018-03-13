@@ -4,6 +4,7 @@ import observer.Observer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -17,31 +18,23 @@ public class BoardView extends JPanel implements Observer {
     public static final int imageWidth= 96;
     public static final int imageHeight= 96;
     private ArrayList<PieceView> iconArray = null;
-    private static boolean offseted=false;
     private int rowOff;
 	private int colOff;
     
+	
+	/*-----------------EL ID 0 SIEMPRE VA A CORRESPONDER A LA PIEZA BLANCA------------------------*/
+	
     public BoardView(int rowNum, int columnNum,int imageSize, String[] imageList){
         super();
       
        
         iconArray=new ArrayList<PieceView>();
-            
        
+        
        
+        
         for(int i=0;i<rowNum*columnNum;i++) {
-        	/*
-        	if(i%columnNum==0) {
-        		drawnRowIndex+=30;
-        		drawnColumnIndex=75;
-        	}else {
-        		drawnColumnIndex+=30;
-
-        	}
-        	
-        	*/
-        	
-        	
+       
         		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
         		SetCoordinates(p,imageSize);
         		
@@ -49,7 +42,8 @@ public class BoardView extends JPanel implements Observer {
         		       		
         		
         }
-
+        //Por convenio inicializamos la pieza blanca en el 0
+        
     }
     
     private void SetCoordinates(PieceView p,int imageSize) {
@@ -66,7 +60,6 @@ public class BoardView extends JPanel implements Observer {
     	 p.setDrawnColumnIndex(drawnColumn);
     	 p.setDrawnRowIndex(drawnRow);
 	
-    	   	
     	
     }
     
@@ -91,6 +84,17 @@ public class BoardView extends JPanel implements Observer {
 
     public void update(int blankPos, int movedPos){
     	
+    	PieceView blank=iconArray.get(blankPos);
+
+    	iconArray.set(blankPos,iconArray.get(movedPos));
+    	iconArray.set(movedPos, blank);
+    	
+    	//Actualizo las coordenadas de todo el puzle
+    	for(int i=0;i<iconArray.size();i++) {
+    		SetCoordinates(iconArray.get(i),iconArray.get(i).getImageSize());
+    	}
+    	
+    	update(this.getGraphics());
     }
 
     public void update(Graphics g){
@@ -98,15 +102,16 @@ public class BoardView extends JPanel implements Observer {
     }
 
     public void paint(Graphics g){
+System.out.println("pinto");
 
+    	
     	rowOff=0;
     	colOff=0;
     	
-    	if(!offseted) {
+    	
     		rowOff=(this.getWidth()-this.imageWidth)/2;
     		colOff=(this.getHeight()-this.imageHeight)/2;
-    		offseted=true;
-    	}
+    	
     	
         for(PieceView iconImage:iconArray){
         	
@@ -121,7 +126,23 @@ public class BoardView extends JPanel implements Observer {
     }
 
     //Dado una posicion X e Y localizar una pieza
-    private int locatePiece(int posX,int posY){
+    //private int locatePiece(int posX,int posY){
+     public int locatePiece(int posX,int posY){
+
+    	for(int i=0;i<iconArray.size();i++) {
+    		PieceView p=iconArray.get(i);
+    		
+    		//localizo la imagen sobre la que ha pulsado el puntero
+    		if(posX>p.getDrawnRowIndex() && posX<p.getDrawnRowIndex()+p.getImageSize() && posY>p.getDrawnColumnIndex() && posY<p.getDrawnColumnIndex()+p.getImageSize()) {
+    			
+    				System.out.println("id: "+p.getId());
+    				
+    				return i;
+
+    		}
+    		
+    	}
+    	
         return(-1);
     }
 
@@ -134,17 +155,76 @@ public class BoardView extends JPanel implements Observer {
      * @return Array de dos posiciones: posicion actual de la pieza blanca y posicion
      * actual de la pieza que tiene que ser movida.
      */
+     
+     //Método que devuelve la posicion en el array 
     public int[] movePiece(int posX,int posY){
     	//Array de 2 posiciones para devolver
-    	int[] move = new int[4];
+    	int[] move =new int[2];
+    	int pos=locatePiece(posX,posY);
+    	int blankPos=checkMove(pos);		//Devuelve la pieza blanca solo si es adyacente a la pieza que se quiere mover
     	
-    	//Pieza blanca
+    	if(pos==-1 || blankPos==-1) {
+    		return null;
+    	}
+    	
+    	//muevo las coordenadas de las piezas
+    		int auxX=iconArray.get(pos).getIndexRow();
+    		int auxY=iconArray.get(pos).getIndexColumn();;
+    	
+    		iconArray.get(pos).setIndexRow(iconArray.get(blankPos).getIndexRow());
+    		iconArray.get(pos).setIndexColumn(iconArray.get(blankPos).getIndexColumn());
+    		
+    		iconArray.get(blankPos).setIndexColumn(auxY);
+    		iconArray.get(blankPos).setIndexRow(auxX);
+    		
+    		
+    	
+    	//Intercambio las posiciones de las piezas
+    	move[0]=pos;
+    	move[1]=blankPos;
     	
     	
-    	//En primera posicion pieza blanca y segunda pieza posX y posY
-    	move = new int[]{0,0,0,0};
+    	
     	
         return(move);
     }
+    	//Comprueba si el movimiento es valido devuelve los ids 
+    	public int checkMove(int pos) {
+    	
+    		int blankPos=-1;
+    		int pieceWidth=imageWidth/iconArray.get(0).getImageSize();
+    		
+    		
+    		
+    		if(pos-1>=0) {
+    			if(iconArray.get(pos-1).getId()==0) {
+    				System.out.println("HIT");
+    				return pos-1;
+    			}
+    			
+    		}
+    		
+    		if(pos+1<iconArray.size()) {
+    			if(iconArray.get(pos+1).getId()==0) {
+    				System.out.println("HIT");
+    				return pos+1;
+    			}
+    		}
+    		
+    		if(pos-pieceWidth>=0) {
+    			if(iconArray.get(pos-pieceWidth).getId()==0) {
+    				System.out.println("HIT");
+    				return pos-pieceWidth;
+    				}    		
+    			}
+    		
+    		if(pos+pieceWidth<iconArray.size()) {
+    			if(iconArray.get(pos+pieceWidth).getId()==0) {
+    				System.out.println("HIT");
+    				return pos+pieceWidth;
+    			}
+    		}
+    		return blankPos;
+    	}
 
 }
