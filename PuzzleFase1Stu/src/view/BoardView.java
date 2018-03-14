@@ -25,7 +25,7 @@ public class BoardView extends JPanel implements Observer {
     
     private int rowOff;
 	private int colOff;
-    
+    private int pieceWidth;
 	
 	/*-----------------EL ID 0 SIEMPRE VA A CORRESPONDER A LA PIEZA BLANCA------------------------*/
 	
@@ -47,6 +47,8 @@ public class BoardView extends JPanel implements Observer {
         		       		
         		
         }
+        
+        pieceWidth= imageWidth/iconArray.get(0).getImageSize();
         //Por convenio inicializamos la pieza blanca en el 0
         
     }
@@ -199,7 +201,7 @@ public class BoardView extends JPanel implements Observer {
     	public int checkMove(int pos) {
     	
     		int blankPos=-1;
-    		int pieceWidth=imageWidth/iconArray.get(0).getImageSize();
+    		 pieceWidth=imageWidth/iconArray.get(0).getImageSize();
     		
     		
     		
@@ -248,8 +250,7 @@ public void Clutter() {
 	
 	Collections.shuffle(iconArray);
 	
-	SetCoordinates();
-	update(this.getGraphics());
+	
 }
 
 public void SetCoordinates() {

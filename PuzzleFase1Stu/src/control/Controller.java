@@ -9,6 +9,8 @@ import javax.swing.JFileChooser;
 
 import command.Command;
 import command.MoveCommand;
+import command.RandomCommand;
+import command.SolveCommand;
 import observer.Observer;
 import view.BoardView;
 import view.PuzzleGUI;
@@ -23,11 +25,14 @@ public class Controller extends AbstractController{
 	private BoardView myView;
 	private int posX;
 	private int posY;
-	Command move;
-	
+	private MoveCommand move;
+	private Command solve;
+	private Command random;
 	
 	public Controller() {
 		move=new MoveCommand(this);
+		solve=new SolveCommand(this);
+		random=new RandomCommand(this);
 	}
 	/*  ¿HABRIA QUE METER TODAS LAS ACCIONES DENTRO DE UN COMMAND?  */
 	@Override
@@ -40,11 +45,11 @@ public class Controller extends AbstractController{
 
 		switch (action) {
 			case "clutter": 
-				PuzzleGUI.getInstance().getBoardView().Clutter();
+				random.execute();
 				break;
 				
 			case "solve":
-				move.undoCommand();
+				solve.execute();
 				
 				break;
 				
@@ -124,5 +129,7 @@ public int getPosX() {
 public void setPosX(int posX) {
 	this.posX = posX;
 }
-
+public MoveCommand getCommandMove() {
+	return move;
+}
 }

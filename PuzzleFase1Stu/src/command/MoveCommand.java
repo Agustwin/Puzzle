@@ -23,7 +23,7 @@ public class MoveCommand implements Command{
 		
 		
 			// TODO Auto-generated method stub
-			while(index>0) {
+			
 				
 				int pos[]=list.get(index-1);
 				System.err.println(index);
@@ -34,7 +34,7 @@ public class MoveCommand implements Command{
 				
 				controller.notifyObservers(pos[1],pos[0]);
 				
-			}
+			
 		}
 		
 		
@@ -86,7 +86,28 @@ public class MoveCommand implements Command{
 	}
 
 	
+	public void Random(int blankPos, int movedPos) {
+		
+		int pos[]=new int[2];
+		
+		
+		
+		pos[0]=blankPos;
+		pos[1]=movedPos;
 
+		
+		
+		try {
+			list.set(index,pos);
+		}catch (Exception e) {
+			list.add(index,pos);
+
+		}
+		index++;
+		
+		
+		controller.notifyObservers(pos[0],pos[1]);	
+	}
 	
 
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Parameters>
+
+<imageSize>32</imageSize>
+<rowNum>3</rowNum>
+<columnNum>3</columnNum>
+<imagePath>algo.jpg</imagePath>
+
+</Parameters>
