@@ -54,12 +54,17 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "load":
-				JFileChooser fc = new JFileChooser();
-				int returnVal = fc.showOpenDialog(null);
-				if(returnVal==JFileChooser.APPROVE_OPTION){
-					File file = fc.getSelectedFile();
-				}
 				
+				/*--------------------Meter en comando---------------------*/
+				File f=PuzzleGUI.getInstance().showFileSelector();
+				System.out.println("Path: "+f);
+				if(f!=null)
+				PuzzleGUI.getInstance().updateBoard(f);
+				
+				this.myView=PuzzleGUI.getInstance().getBoardView();
+				
+
+				//PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
 				System.out.println("Load Image");
 				break;
 				
@@ -68,6 +73,7 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "loadGame":
+			
 				JFileChooser fc2 = new JFileChooser();
 				int returnVal2 = fc2.showOpenDialog(null);
 				if(returnVal2==JFileChooser.APPROVE_OPTION){

@@ -39,7 +39,11 @@ public class PieceView extends ImageIcon implements Cloneable{
     }
 
     public PieceView(int id, int indexRow, int indexColumn,int imageSize,Image image){
-        super();
+        super(image);
+        this.id=id;
+        this.indexColumn=indexColumn;
+        this.indexRow=indexRow;
+        this.imageSize=imageSize;
     }
 
 

@@ -4,6 +4,14 @@ import model.AbstractModel;
 import model.Model;
 
 import java.awt.Graphics;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 import control.AbstractController;
 import control.Controller;
@@ -31,17 +39,25 @@ import control.Controller;
  */
 public class PuzzleApp {
 
+	static int imageSize;
+    static int rowNum;
+    static int columnNum;
+    static String imagePath=null;
+    
     public static void main(String args[]){
-        int imageSize = 32;
-        int rowNum = 3;
-        int columnNum= 3;
-
+        
+        
+        
+        readXML();
+        
         String fileSeparator = System.getProperty("file.separator");
-        String imagePath=System.getProperty("user.dir")+fileSeparator+"resources"+fileSeparator;
+         imagePath=System.getProperty("user.dir")+fileSeparator+"resources"+fileSeparator;
 
         String[] imageList={imagePath+"blank.gif",imagePath+"one.gif",imagePath+"two.gif",imagePath+"three.gif",imagePath+ "four.gif",
                 imagePath+"five.gif",imagePath+"six.gif",imagePath+"seven.gif",imagePath+"eight.gif"};
 
+        File f=new File(imagePath+"kingdom.jpg");
+         
         // Creamos el modelo
         AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
 
@@ -69,5 +85,27 @@ public class PuzzleApp {
        
       
         
+    }
+    
+    
+    public static void readXML()  {
+    	
+    	SAXBuilder builder = new SAXBuilder();
+    	File xmlFile = new File( "./resources/Parameters.xml" );
+    	System.out.println(xmlFile);
+    	try {
+    		Document document = (Document) builder.build( xmlFile );
+    		Element rootNode = document.getRootElement();
+    		 imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
+    		 rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));;
+    		 columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
+    		 imagePath=rootNode.getChildTextTrim("imagePath");
+    		System.out.println(imagePath);
+    	}catch(Exception e) {
+    		System.err.println(e);
+    	}
+    	
+    	
+    	
     }
 }
