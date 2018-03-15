@@ -92,7 +92,7 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "loadGame":
-				load.execute();				
+				load.execute();	
 				System.out.println("Load data");
 				break;
 				
