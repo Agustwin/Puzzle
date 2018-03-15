@@ -3,10 +3,12 @@ package control;
 import java.awt.event.ActionEvent;
 
 import java.awt.event.MouseEvent;
-
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 
@@ -107,11 +109,11 @@ public class Controller extends AbstractController{
 	}
 
 	@Override
-	public void notifyObservers(int blankPos, int movedPos) {
+	public void notifyObservers(List<Element> pieceList, Element image) {
 		//TODO Auto-generated method stub
 		for(Observer o:observerList) {
 			
-			o.update(blankPos, movedPos);
+			o.loadBoard(pieceList, image);
 		}
 		
 	}
@@ -172,7 +174,114 @@ public void reset() {
 }
 
 
+public void writeXML() throws IOException{
+	
+	
+	
+	Element Model = new Element("Model");
+	Document doc = new Document(Model);
+	try {
+		doc.getRootElement().addContent(new Element("Image").setText(PuzzleGUI.getInstance().getBoardView().getImage().getPath()));
 
+	}catch(Exception e) {
+		
+	}
+	
+	Element pieces=new Element("Pieces");
+	
+	
+	
+	for(PieceView p:PuzzleGUI.getInstance().getBoardView().getIconArray()) {
+		//System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
+		
+		Element pieceModel = new Element("pieceModel");
 
+		
+		
+	
+		pieceModel.addContent(new Element("Id").setText(Integer.toString(p.getId())));
+		pieceModel.addContent(new Element("X").setText(Integer.toString(p.getIndexRow())));
+		pieceModel.addContent(new Element("Y").setText(Integer.toString(p.getIndexColumn())));
+		
+		pieceModel.addContent(new Element("Size").setText(Integer.toString(p.getImageSize())));
+		pieceModel.addContent(new Element("ImagePath").setText(p.getImagePath()));
+		
+		pieces.addContent(pieceModel);
+	}
+	
+	doc.getRootElement().addContent(pieces);
+	
+	// new XMLOutputter().output(doc, System.out);
+	XMLOutputter xmlOutput = new XMLOutputter();
 
+	// display nice 
+	xmlOutput.setFormat(Format.getPrettyFormat());
+	xmlOutput.output(doc, new FileWriter(System.getProperty("user.dir")+File.separator+"partida.xml"+File.separator));
+
+	System.out.println("File Saved!");
+}
+
+public void readXML(File file){
+	//Se crea un SAXBuilder para poder parsear el archivo
+	SAXBuilder builder = new SAXBuilder();
+	try{
+        //Se crea el documento a traves del archivo
+        Document document = (Document) builder.build(file);
+
+       
+        //Obtener la raiz del documento
+       Element model = document.getRootElement();
+       Element pieces= model.getChild("Pieces");
+       Element Image=model.getChild("Image");
+        
+       
+       
+
+       
+        java.util.List<Element> pieceList = pieces.getChildren("pieceModel");		        
+        
+        
+        
+        for (int i = 0; i < pieceList.size(); i++) {
+        	 Element pieceModel = (Element) pieceList.get(i);
+		        
+		     System.out.println("Id: " + pieceModel.getChildText("Id"));
+		     System.out.println("IndexRow: " + pieceModel.getChildText("X"));
+		     System.out.println("IndexColumn: " + pieceModel.getChildText("Y"));
+		     System.out.println("Size: " + pieceModel.getChildText("Size"));
+		     System.out.println("Path: " + pieceModel.getChildText("Image"));
+		     
+		    // Elements.add(pieces);
+		    
+   
+        }
+        notifyObservers(pieceList,Image);
+        
+        //PuzzleGUI.getInstance().getBoardView().setIconArray(aux);
+        //SetCoordinates();
+        PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
+        
+        
+    }catch(IOException io){
+    	System.out.println(io.getMessage());
+    } catch (JDOMException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}		
+}
+
+private void notifyObservers(ArrayList<Element> elements, Element image) {
+	// TODO Auto-generated method stub
+	for(Observer o:observerList) {
+		o.loadBoard(elements, image);
+	}
+}
+
+@Override
+public void notifyObservers(int blankPos, int movedPos) {
+	// TODO Auto-generated method stub
+	for(Observer o:observerList) {
+		o.update(blankPos, movedPos);
+	}
+}
 }

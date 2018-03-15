@@ -57,7 +57,7 @@ public class PuzzleApp {
         String[] imageList={imagePath+"blank.gif",imagePath+"one.gif",imagePath+"two.gif",imagePath+"three.gif",imagePath+ "four.gif",
                 imagePath+"five.gif",imagePath+"six.gif",imagePath+"seven.gif",imagePath+"eight.gif"};
 
-        File f=new File(imagePath+"kingdom.jpg");
+       
          
         // Creamos el modelo
         AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);

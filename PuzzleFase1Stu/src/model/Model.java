@@ -1,9 +1,13 @@
 package model;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.jdom2.Element;
 
 
 
@@ -89,9 +93,25 @@ public class Model extends AbstractModel<PieceModel>{
 		
 	}
 	
-	public void loadNewBoard() {
+	@Override
+	public void loadBoard(List<Element> list,Element img) {
+		 
+		ArrayList<PieceModel> aux=new ArrayList();
 		
+		for(int i=0;i<list.size();i++) {
+			Element pieceModel=list.get(i);
+			
+			int id = Integer.parseInt(pieceModel.getChildText("Id"));
+		     int row = Integer.parseInt(pieceModel.getChildText("X"));
+		     int col = Integer.parseInt(pieceModel.getChildText("Y"));
+		     int size = Integer.parseInt(pieceModel.getChildText("Size"));
+		     String image=pieceModel.getChildText("ImagePath");
+		     
+		     PieceModel p=new PieceModel(id,row,col,image);
+		     aux.add(p);
+		}
+		this.listP=aux;
 		
-	}
+	 }
 }
 

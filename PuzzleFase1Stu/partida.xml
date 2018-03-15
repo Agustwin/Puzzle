@@ -1,69 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Model>
-  <Image>C:\Users\Agustín\Desktop\Prueba.jpg</Image>
   <Pieces>
     <pieceModel>
-      <Id>1</Id>
+      <Id>2</Id>
       <X>0</X>
       <Y>0</Y>
       <Size>32</Size>
-      <ImagePath />
+      <ImagePath>C:\Users\Agustín\Git\Puzzle\PuzzleFase1Stu\resources\two.gif</ImagePath>
     </pieceModel>
     <pieceModel>
-      <Id>6</Id>
+      <Id>3</Id>
       <X>1</X>
       <Y>0</Y>
       <Size>32</Size>
-      <ImagePath />
+      <ImagePath>C:\Users\Agustín\Git\Puzzle\PuzzleFase1Stu\resources\three.gif</ImagePath>
     </pieceModel>
     <pieceModel>
-      <Id>2</Id>
+      <Id>1</Id>
       <X>2</X>
       <Y>0</Y>
       <Size>32</Size>
-      <ImagePath />
+      <ImagePath>C:\Users\Agustín\Git\Puzzle\PuzzleFase1Stu\resources\one.gif</ImagePath>
     </pieceModel>
     <pieceModel>
-      <Id>4</Id>
+      <Id>5</Id>
       <X>0</X>
       <Y>1</Y>
       <Size>32</Size>
-      <ImagePath />
+      <ImagePath>C:\Users\Agustín\Git\Puzzle\PuzzleFase1Stu\resources\five.gif</ImagePath>
     </pieceModel>
     <pieceModel>
       <Id>0</Id>
       <X>1</X>
       <Y>1</Y>
       <Size>32</Size>
-      <ImagePath>resources/blank.gif</ImagePath>
-    </pieceModel>
-    <pieceModel>
-      <Id>5</Id>
-      <X>2</X>
-      <Y>1</Y>
-      <Size>32</Size>
-      <ImagePath />
+      <ImagePath>C:\Users\Agustín\Git\Puzzle\PuzzleFase1Stu\resources\blank.gif</ImagePath>
     </pieceModel>
     <pieceModel>
       <Id>7</Id>
-      <X>0</X>
-      <Y>2</Y>
+      <X>2</X>
+      <Y>1</Y>
       <Size>32</Size>
-      <ImagePath />
-    </pieceModel>
-    <pieceModel>
-      <Id>3</Id>
-      <X>1</X>
-      <Y>2</Y>
-      <Size>32</Size>
-      <ImagePath />
+      <ImagePath>C:\Users\Agustín\Git\Puzzle\PuzzleFase1Stu\resources\seven.gif</ImagePath>
     </pieceModel>
     <pieceModel>
       <Id>8</Id>
+      <X>0</X>
+      <Y>2</Y>
+      <Size>32</Size>
+      <ImagePath>C:\Users\Agustín\Git\Puzzle\PuzzleFase1Stu\resources\eight.gif</ImagePath>
+    </pieceModel>
+    <pieceModel>
+      <Id>6</Id>
+      <X>1</X>
+      <Y>2</Y>
+      <Size>32</Size>
+      <ImagePath>C:\Users\Agustín\Git\Puzzle\PuzzleFase1Stu\resources\six.gif</ImagePath>
+    </pieceModel>
+    <pieceModel>
+      <Id>4</Id>
       <X>2</X>
       <Y>2</Y>
       <Size>32</Size>
-      <ImagePath />
+      <ImagePath>C:\Users\Agustín\Git\Puzzle\PuzzleFase1Stu\resources\four.gif</ImagePath>
     </pieceModel>
   </Pieces>
 </Model>

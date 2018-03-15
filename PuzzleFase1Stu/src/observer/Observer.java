@@ -1,6 +1,9 @@
 package observer;
 
 import java.io.File;
+import java.util.List;
+
+import org.jdom2.Element;
 
 /**
  * Interfaz que representa un observador. Esta interfaz
@@ -17,4 +20,5 @@ public interface Observer {
      */
     public void update(int blankPos,int movedPos);
     public void setNewBoard();
+    public void loadBoard(List<Element> list,Element img);
 }

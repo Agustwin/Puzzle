@@ -46,7 +46,7 @@ public class LoadCommand implements Command {
 		*/	
 		
 
-		PuzzleGUI.getInstance().getBoardView().readXML(file);		
+		controller.readXML(file);		
 
 	}
 }

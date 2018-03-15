@@ -1,5 +1,8 @@
 package observer;
 
+import java.util.List;
+
+import org.jdom2.Element;
 
 /**
  * Interfaz que gestiona los elementos observados
@@ -11,4 +14,6 @@ public interface Observable {
     public void removeObserver(Observer observer);
     public void addObserver(Observer observer);
     public void notifyObservers(int blankPos,int movedPos);
+	void notifyObservers(List<Element> pieceList, Element image);
+
 }
