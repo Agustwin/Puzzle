@@ -27,6 +27,8 @@ public class PuzzleGUI extends JFrame{
     public static int imageSize =0;
     //Array de imagenes
     public static String[] imageList = null;
+    
+    public static File i;
     //Panel de juego
     private BoardView boardView;
     //ancho y alto de la ventana
@@ -66,6 +68,8 @@ public class PuzzleGUI extends JFrame{
         PuzzleGUI.columnNum = columnNum;
         PuzzleGUI.imageSize = imageSize;
         PuzzleGUI.imageList = imageList;
+        
+        
         
     }
 
@@ -143,6 +147,11 @@ public class PuzzleGUI extends JFrame{
 
     public File showFileSelector(){
         File selectedFile = null;
+        JFileChooser fc = new JFileChooser();
+		int returnVal = fc.showOpenDialog(null);
+		if(returnVal==JFileChooser.APPROVE_OPTION){
+			 selectedFile = fc.getSelectedFile();
+		}
         return(selectedFile);
     }
 
@@ -152,7 +161,10 @@ public class PuzzleGUI extends JFrame{
 
     //MÃ©todo para actualizar la imagen del tablero
     public void updateBoard(File imageFile){
-
+    	boardView=null;
+    	boardView = new BoardView(rowNum,columnNum,imageSize,imageFile);
+        boardView.addMouseListener(controller);
+        
     }
 
 
