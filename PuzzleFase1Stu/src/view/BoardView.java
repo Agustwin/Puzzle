@@ -47,8 +47,10 @@ public class BoardView extends JPanel implements Observer {
         		
         		
         		iconArray.add(p);
-        		       		
-        		
+            	System.err.println("INIT");
+            	SetDrawnCoordinates(p,imageSize);
+            	System.err.println("Id: "+p.getId()+" coord"+p.getDrawnColumnIndex()+p.getDrawnRowIndex());
+
         }
         
         pieceWidth= imageWidth/iconArray.get(0).getImageSize();
@@ -80,6 +82,9 @@ public class BoardView extends JPanel implements Observer {
         		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
         		
         	}
+        	
+
+        	
         	iconArray.add(p);
         	
         }
@@ -158,7 +163,7 @@ public class BoardView extends JPanel implements Observer {
 		}
     	
     	update(this.getGraphics());
-    	update(this.getGraphics());
+    	
     }
 
     public void update(Graphics g){
@@ -173,8 +178,9 @@ public class BoardView extends JPanel implements Observer {
     	
     	
     		for(PieceView iconImage:iconArray){	
-    			System.out.println("imagen: "+iconImage);
+    			
     		SetDrawnCoordinates(iconImage,iconImage.getImageSize());
+    		System.err.println("PIEZAAAAAAAA"+iconImage);
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
         }
@@ -186,7 +192,7 @@ public class BoardView extends JPanel implements Observer {
 
     	for(int i=0;i<iconArray.size();i++) {
     		PieceView p=iconArray.get(i);
-    		
+    		System.err.println("Id "+p.getId()+" X "+p.getIndexRow()+" Y "+p.getIndexColumn());
     		//localizo la imagen sobre la que ha pulsado el puntero
     		if(posX>p.getDrawnRowIndex() && posX<p.getDrawnRowIndex()+p.getImageSize() && posY>p.getDrawnColumnIndex() && posY<p.getDrawnColumnIndex()+p.getImageSize()) {
     			
@@ -218,6 +224,8 @@ public class BoardView extends JPanel implements Observer {
     	int pos=locatePiece(posX,posY);
     	int blankPos=checkMove(pos);		//Devuelve la pieza blanca solo si es adyacente a la pieza que se quiere mover
     	
+    	System.out.println("poooooooooooooos"+pos);
+    	System.out.println("blaaaaaaaaaaaaaank"+blankPos);
     	if(pos==-1 || blankPos==-1) {
     		return null;
     	}
@@ -245,7 +253,7 @@ public class BoardView extends JPanel implements Observer {
     		
     		if(pos-1>=0) {
     			if(iconArray.get(pos-1).getId()==0) {
-    				System.out.println("HIT");
+    				System.out.println("HIT1");
     				return pos-1;
     			}
     			
@@ -253,36 +261,27 @@ public class BoardView extends JPanel implements Observer {
     		
     		if(pos+1<iconArray.size()) {
     			if(iconArray.get(pos+1).getId()==0) {
-    				System.out.println("HIT");
+    				System.out.println("HIT2");
     				return pos+1;
     			}
     		}
     		
     		if(pos-pieceWidth>=0) {
     			if(iconArray.get(pos-pieceWidth).getId()==0) {
-    				System.out.println("HIT");
+    				System.out.println("HIT3");
     				return pos-pieceWidth;
     				}    		
     			}
     		
     		if(pos+pieceWidth<iconArray.size()) {
     			if(iconArray.get(pos+pieceWidth).getId()==0) {
-    				System.out.println("HIT");
+    				System.out.println("HIT4");
     				return pos+pieceWidth;
     			}
     		}
     		return blankPos;
     	}
-public void Solve() {
-	System.out.println("Resolver");
-	
-	//Expresion lambda que ordena el puzzle
-	Collections.sort(iconArray, 
-            (o1, o2) -> (Integer.compare(o1.getId(), o2.getId())));
-	
-	SetCoordinates();
-	update(this.getGraphics());
-}
+
 
 public void Clutter() {
 	
@@ -291,7 +290,7 @@ public void Clutter() {
 	
 }
 
-public void SetCoordinates() {
+/*public void SetCoordinates() {
 	
 for(int i=0;i<iconArray.size();i++) {
 		
@@ -302,7 +301,7 @@ for(int i=0;i<iconArray.size();i++) {
 		
 	}
 	
-}
+}*/
 private void SetDrawnCoordinates(PieceView p,int imageSize) {
 	
 	
@@ -318,5 +317,33 @@ private void SetDrawnCoordinates(PieceView p,int imageSize) {
 	 p.setDrawnRowIndex(drawnRow+rowOff);
 
 	
+}
+
+
+
+
+
+public void setNew(File image,int rowNum) {
+	// TODO Auto-generated method stub
+	iconArray.clear();
+	
+	BufferedImage img=resizeImage(image);
+    BufferedImage[] listImg=splitImage(img);
+	
+
+    
+    for(int i=0;i< listImg.length;i++) {
+    	PieceView p;
+    	if(i==0) {
+    		p=new PieceView( i,i%rowNum,i/rowNum,imageSize,"resources/blank.gif");
+    	}else {
+    		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
+    		
+    	}
+
+    	iconArray.add(p);
+    	
+    }
+	this.update(getGraphics());
 }
 }

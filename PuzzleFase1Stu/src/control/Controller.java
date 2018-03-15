@@ -11,6 +11,7 @@ import command.Command;
 import command.MoveCommand;
 import command.RandomCommand;
 import command.SolveCommand;
+import model.Model;
 import observer.Observer;
 import view.BoardView;
 import view.PuzzleGUI;
@@ -23,6 +24,7 @@ public class Controller extends AbstractController{
 	
 	/*No se si es correcto*/
 	private BoardView myView;
+	private Model myModel;
 	private int posX;
 	private int posY;
 	private MoveCommand move;
@@ -58,11 +60,13 @@ public class Controller extends AbstractController{
 				/*--------------------Meter en comando---------------------*/
 				File f=PuzzleGUI.getInstance().showFileSelector();
 				System.out.println("Path: "+f);
-				if(f!=null)
-				PuzzleGUI.getInstance().updateBoard(f);
+				if(f!=null) {
+					PuzzleGUI.getInstance().updateBoard(f);
+				}
+				observerList.set(0, PuzzleGUI.getInstance().getBoardView());
 				
 				this.myView=PuzzleGUI.getInstance().getBoardView();
-				
+				reset();
 
 				//PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
 				System.out.println("Load Image");
@@ -102,6 +106,14 @@ public class Controller extends AbstractController{
 		
 	}
 
+	public void notifyObserversReset() {
+		//TODO Auto-generated method stub
+		for(Observer o:observerList) {
+			
+			
+		}
+		
+	}
 
 public void mouseClicked(MouseEvent e) {
 
@@ -137,5 +149,10 @@ public void setPosX(int posX) {
 }
 public MoveCommand getCommandMove() {
 	return move;
+}
+public void reset() {
+	move=new MoveCommand(this);
+	solve=new SolveCommand(this);
+	random=new RandomCommand(this);
 }
 }

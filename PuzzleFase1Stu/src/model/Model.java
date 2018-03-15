@@ -27,6 +27,8 @@ public class Model extends AbstractModel<PieceModel>{
 	        
 	 }
 	 
+	 																																																																											
+	 
 	@Override
 	public void update(int blankPos, int movedPos) {
 		// TODO Auto-generated method stub
@@ -63,7 +65,8 @@ public class Model extends AbstractModel<PieceModel>{
 	@Override
 	public void addNewPiece(int id, int indexRow, int indexCol) {
 		// TODO Auto-generated method stub
-		
+		PieceModel p=new PieceModel( id, indexRow,indexCol);
+		listP.add(p); 
 	}
 
 	@Override
@@ -77,5 +80,10 @@ public class Model extends AbstractModel<PieceModel>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void reset() {
+		
+		
+	}
+	}
 
-}
