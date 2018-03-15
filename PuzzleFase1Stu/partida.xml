@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Model>
   <pieceModel>
-    <Id>7</Id>
-    <X>0</X>
-    <Y>0</Y>
-    <Size>32</Size>
-    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\seven.gif</Image>
-  </pieceModel>
-  <pieceModel>
-    <Id>8</Id>
-    <X>1</X>
-    <Y>0</Y>
-    <Size>32</Size>
-    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\eight.gif</Image>
-  </pieceModel>
-  <pieceModel>
-    <Id>2</Id>
-    <X>2</X>
-    <Y>0</Y>
-    <Size>32</Size>
-    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\two.gif</Image>
-  </pieceModel>
-  <pieceModel>
     <Id>1</Id>
     <X>0</X>
-    <Y>1</Y>
+    <Y>0</Y>
     <Size>32</Size>
     <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\one.gif</Image>
   </pieceModel>
   <pieceModel>
-    <Id>0</Id>
+    <Id>3</Id>
     <X>1</X>
+    <Y>0</Y>
+    <Size>32</Size>
+    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\three.gif</Image>
+  </pieceModel>
+  <pieceModel>
+    <Id>5</Id>
+    <X>2</X>
+    <Y>0</Y>
+    <Size>32</Size>
+    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\five.gif</Image>
+  </pieceModel>
+  <pieceModel>
+    <Id>0</Id>
+    <X>0</X>
     <Y>1</Y>
     <Size>32</Size>
     <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\blank.gif</Image>
   </pieceModel>
   <pieceModel>
-    <Id>5</Id>
+    <Id>2</Id>
+    <X>1</X>
+    <Y>1</Y>
+    <Size>32</Size>
+    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\two.gif</Image>
+  </pieceModel>
+  <pieceModel>
+    <Id>7</Id>
     <X>2</X>
     <Y>1</Y>
     <Size>32</Size>
-    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\five.gif</Image>
+    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\seven.gif</Image>
+  </pieceModel>
+  <pieceModel>
+    <Id>4</Id>
+    <X>0</X>
+    <Y>2</Y>
+    <Size>32</Size>
+    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\four.gif</Image>
   </pieceModel>
   <pieceModel>
     <Id>6</Id>
-    <X>0</X>
+    <X>1</X>
     <Y>2</Y>
     <Size>32</Size>
     <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\six.gif</Image>
   </pieceModel>
   <pieceModel>
-    <Id>3</Id>
-    <X>1</X>
-    <Y>2</Y>
-    <Size>32</Size>
-    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\three.gif</Image>
-  </pieceModel>
-  <pieceModel>
-    <Id>4</Id>
+    <Id>8</Id>
     <X>2</X>
     <Y>2</Y>
     <Size>32</Size>
-    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\four.gif</Image>
+    <Image>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\PuzzleFase1Stu\resources\eight.gif</Image>
   </pieceModel>
 </Model>
