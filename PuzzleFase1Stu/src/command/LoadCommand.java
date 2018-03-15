@@ -45,10 +45,8 @@ public class LoadCommand implements Command {
 		}	
 		*/	
 		
-<<<<<<< HEAD
-		//PuzzleGUI.getInstance().getBoardView().readXML(file);;
-=======
-		PuzzleGUI.getInstance().getBoardView().readXML(file);		
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
+
+		controller.readXML(file);		
+
 	}
 }
