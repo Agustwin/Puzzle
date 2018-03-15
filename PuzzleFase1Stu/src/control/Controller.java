@@ -8,8 +8,10 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 import command.Command;
+import command.LoadCommand;
 import command.MoveCommand;
 import command.RandomCommand;
+import command.SaveCommand;
 import command.SolveCommand;
 import model.Model;
 import observer.Observer;
@@ -18,7 +20,6 @@ import view.PuzzleGUI;
 
 
 public class Controller extends AbstractController{
-
 	//Variable para recibir del PuzzleGUI la accion realizada
 	private String action;
 	
@@ -30,18 +31,22 @@ public class Controller extends AbstractController{
 	private MoveCommand move;
 	private Command solve;
 	private Command random;
+	private Command save;
+	private Command load;
 	
 	public Controller() {
 		move=new MoveCommand(this);
 		solve=new SolveCommand(this);
 		random=new RandomCommand(this);
+		
+		save=new SaveCommand(this);
+		load=new LoadCommand(this);
 	}
-	/*  ¿HABRIA QUE METER TODAS LAS ACCIONES DENTRO DE UN COMMAND?  */
+	
+	//Ejecutamos todas las acciones con su correspondiente command
 	@Override
 	public void actionPerformed(ActionEvent act) {
-		// TODO Auto-generated method stub
-		
-		
+		// TODO Auto-generated method stub			
 		this.action = act.getActionCommand();
 		System.out.println(	act.getSource().toString());
 
@@ -51,8 +56,7 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "solve":
-				solve.execute();
-				
+				solve.execute();				
 				break;
 				
 			case "load":
@@ -72,17 +76,12 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "saveGame":
+				save.execute();
 				System.out.println("Save data");
 				break;
 				
 			case "loadGame":
-			
-				JFileChooser fc2 = new JFileChooser();
-				int returnVal2 = fc2.showOpenDialog(null);
-				if(returnVal2==JFileChooser.APPROVE_OPTION){
-					File file = fc2.getSelectedFile();
-				}
-				
+				load.execute();				
 				System.out.println("Load data");
 				break;
 				
@@ -105,6 +104,7 @@ public class Controller extends AbstractController{
 		
 	}
 
+<<<<<<< HEAD
 	public void notifyObserversReset() {
 		//TODO Auto-generated method stub
 		for(Observer o:observerList) {
@@ -116,10 +116,20 @@ public class Controller extends AbstractController{
 
 public void mouseClicked(MouseEvent e) {
 
+=======
+	public void mouseClicked(MouseEvent e) {		
+		posX=e.getX();
+		posY=e.getY();
+		
+		move.execute();
+	}
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 	
-	posX=e.getX();
-	posY=e.getY();
+	public BoardView getMyView() {
+		return myView;
+	}
 	
+<<<<<<< HEAD
 	move.execute();
 }
 
@@ -154,4 +164,28 @@ public void reset() {
 	solve=new SolveCommand(this);
 	random=new RandomCommand(this);
 }
+=======
+	public void setMyView(BoardView myView) {
+		this.myView = myView;
+	}
+	
+	public int getPosY() {
+		return posY;
+	}
+	
+	public void setPosY(int posY) {
+		this.posY = posY;
+	}
+	
+	public int getPosX() {
+		return posX;
+	}
+	
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
+	public MoveCommand getCommandMove() {
+		return move;
+	}
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 }
