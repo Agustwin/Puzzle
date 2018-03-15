@@ -1,5 +1,7 @@
 package command;
 
+import javax.swing.JOptionPane;
+
 import control.Controller;
 
 public class SolveCommand implements Command {
@@ -27,6 +29,8 @@ public class SolveCommand implements Command {
 		// TODO Auto-generated method stub		
 		while((controller.getCommandMove()).getIndex()>0) {
 			controller.getCommandMove().undoCommand();
-		}		
+		}
+		//Mensaje de que se ha solucionado el puzzle
+		JOptionPane.showMessageDialog(null,"Puzzle is solved");
 	}
 }
