@@ -78,17 +78,7 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "loadGame":
-<<<<<<< HEAD
 				load.execute();				
-=======
-			
-				JFileChooser fc2 = new JFileChooser();
-				int returnVal2 = fc2.showOpenDialog(null);
-				if(returnVal2==JFileChooser.APPROVE_OPTION){
-					File file = fc2.getSelectedFile();
-				}
-				
->>>>>>> 1e471084db16e45b80a5d018472498309ee117dd
 				System.out.println("Load data");
 				break;
 				

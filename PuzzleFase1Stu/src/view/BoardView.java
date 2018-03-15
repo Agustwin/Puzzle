@@ -18,10 +18,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-<<<<<<< HEAD
 import java.io.FileWriter;
-=======
->>>>>>> 1e471084db16e45b80a5d018472498309ee117dd
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,15 +37,11 @@ public class BoardView extends JPanel implements Observer {
     private int rowOff;
 	private int colOff;
     private int pieceWidth;
-<<<<<<< HEAD
 	
 	/*-----------------EL ID 0 SIEMPRE VA A CORRESPONDER A LA PIEZA BLANCA------------------------*/	
-=======
     private int pieceHeight;
     private int imageSize;
-	/*-----------------EL ID 0 SIEMPRE VA A CORRESPONDER A LA PIEZA BLANCA------------------------*/
-	
->>>>>>> 1e471084db16e45b80a5d018472498309ee117dd
+
     public BoardView(int rowNum, int columnNum,int imageSize, String[] imageList){
         super();
         this.imageSize=imageSize;
@@ -391,25 +385,20 @@ public class BoardView extends JPanel implements Observer {
 			System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());			
 		}		
 	}
-<<<<<<< HEAD
-=======
-	
-}
-private void SetDrawnCoordinates(PieceView p,int imageSize) {
-	
-	
-	rowOff=(this.getWidth()-this.imageWidth)/2;
-	colOff=(this.getHeight()-this.imageHeight)/2;
-	
-	int drawnRow;
-	int drawnColumn;
-	
-	 drawnRow=p.getIndexRow()*imageSize;
-	 drawnColumn=p.getIndexColumn()*imageSize;    	 
-	 p.setDrawnColumnIndex(drawnColumn+colOff);
-	 p.setDrawnRowIndex(drawnRow+rowOff);
 
-	
-}
->>>>>>> 1e471084db16e45b80a5d018472498309ee117dd
+	private void SetDrawnCoordinates(PieceView p,int imageSize) {
+		
+		
+		rowOff=(this.getWidth()-this.imageWidth)/2;
+		colOff=(this.getHeight()-this.imageHeight)/2;
+		
+		int drawnRow;
+		int drawnColumn;
+		
+		 drawnRow=p.getIndexRow()*imageSize;
+		 drawnColumn=p.getIndexColumn()*imageSize;    	 
+		 p.setDrawnColumnIndex(drawnColumn+colOff);
+		 p.setDrawnRowIndex(drawnRow+rowOff);
+	}
+
 }
