@@ -18,7 +18,7 @@ public class PieceModel {
 		this.columnNum=columnNum;
 		this.setImagePath(imagePath);		
 	}
-<<<<<<< HEAD
+
 	
 public PieceModel(int id,int rowNum,int columnNum){
 		
@@ -32,11 +32,7 @@ public PieceModel(int id,int rowNum,int columnNum){
 	}
 	
 	
-	
-	
-=======
 
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 	public int getId() {
 		return id;
 	}
@@ -71,5 +67,10 @@ public PieceModel(int id,int rowNum,int columnNum){
 	@XmlElement
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
+	}
+
+	public int getImageSize() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

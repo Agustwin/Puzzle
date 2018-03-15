@@ -1,16 +1,17 @@
 package model;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
+
 
 public class Model extends AbstractModel<PieceModel>{
 	
 	protected ArrayList<PieceModel> listP=null;	
-
+	
+	
 	public Model(int rowNum, int columnNum, int pieceSize) {
 		super(rowNum, columnNum, pieceSize);
 	
@@ -87,5 +88,6 @@ public class Model extends AbstractModel<PieceModel>{
  }
 		
 	}
-	}
-
+	
+	
+}

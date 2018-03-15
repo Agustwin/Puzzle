@@ -5,7 +5,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.JFileChooser;
+
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import command.Command;
 import command.LoadCommand;
@@ -16,6 +26,7 @@ import command.SolveCommand;
 import model.Model;
 import observer.Observer;
 import view.BoardView;
+import view.PieceView;
 import view.PuzzleGUI;
 
 
@@ -103,8 +114,6 @@ public class Controller extends AbstractController{
 		}
 		
 	}
-
-<<<<<<< HEAD
 	public void notifyObserversReset() {
 		//TODO Auto-generated method stub
 		for(Observer o:observerList) {
@@ -114,28 +123,24 @@ public class Controller extends AbstractController{
 		
 	}
 
-public void mouseClicked(MouseEvent e) {
 
-=======
 	public void mouseClicked(MouseEvent e) {		
 		posX=e.getX();
 		posY=e.getY();
 		
 		move.execute();
 	}
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
+
 	
 	public BoardView getMyView() {
 		return myView;
 	}
 	
-<<<<<<< HEAD
-	move.execute();
-}
 
-public BoardView getMyView() {
-	return myView;
-}
+	
+
+
+
 
 public void setMyView(BoardView myView) {
 	this.myView = myView;
@@ -164,28 +169,95 @@ public void reset() {
 	solve=new SolveCommand(this);
 	random=new RandomCommand(this);
 }
-=======
-	public void setMyView(BoardView myView) {
-		this.myView = myView;
+
+
+public void writeXML() throws IOException{
+	Element Model = new Element("Model");
+	Document doc = new Document(Model);
+	try {
+		doc.getRootElement().addContent(new Element("Image").setText(myView.getImage().getPath()));
+
+	}catch(Exception e) {
+		
 	}
 	
-	public int getPosY() {
-		return posY;
+	Element pieces=new Element("Pieces");
+	for(PieceView p:myView.getIconArray()) {
+		//System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
+		
+		Element pieceModel = new Element("pieceModel");
+
+		
+	
+		pieceModel.addContent(new Element("Id").setText(Integer.toString(p.getId())));
+		pieceModel.addContent(new Element("X").setText(Integer.toString(p.getIndexRow())));
+		pieceModel.addContent(new Element("Y").setText(Integer.toString(p.getIndexColumn())));
+		
+		pieceModel.addContent(new Element("Size").setText(Integer.toString(p.getImageSize())));
+		pieceModel.addContent(new Element("ImagePath").setText(p.getImagePath()));
+		
+		pieces.addContent(pieceModel);
 	}
 	
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
+	doc.getRootElement().addContent(pieces);
 	
-	public int getPosX() {
-		return posX;
-	}
-	
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
-	public MoveCommand getCommandMove() {
-		return move;
-	}
->>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
+	// new XMLOutputter().output(doc, System.out);
+	XMLOutputter xmlOutput = new XMLOutputter();
+
+	// display nice 
+	xmlOutput.setFormat(Format.getPrettyFormat());
+	xmlOutput.output(doc, new FileWriter(System.getProperty("user.dir")+File.separator+"partida.xml"+File.separator));
+
+	System.out.println("File Saved!");
+}
+
+public void readXML(File file){
+	//Se crea un SAXBuilder para poder parsear el archivo
+    SAXBuilder builder = new SAXBuilder();
+	try{
+        //Se crea el documento a traves del archivo
+        Document document = (Document) builder.build(file);
+
+        //Obtener la raiz del documento
+        Element model = document.getRootElement();
+        
+        java.util.List<Element> pieceList = model.getChildren("pieceModel");		        
+        
+        
+       // this.setImage();
+        
+        for (int i = 0; i < pieceList.size(); i++) {
+        	 Element pieceModel = (Element) pieceList.get(i);
+		        
+		     System.out.println("Id: " + pieceModel.getChildText("Id"));
+		     System.out.println("IndexRow: " + pieceModel.getChildText("X"));
+		     System.out.println("IndexColumn: " + pieceModel.getChildText("Y"));
+		     System.out.println("Size: " + pieceModel.getChildText("Size"));
+		     System.out.println("Path: " + pieceModel.getChildText("Image"));
+		     
+		     int id = Integer.parseInt(pieceModel.getChildText("Id"));
+		     int row = Integer.parseInt(pieceModel.getChildText("X"));
+		     int col = Integer.parseInt(pieceModel.getChildText("Y"));
+		     int size = Integer.parseInt(pieceModel.getChildText("Size"));
+		     String image = pieceModel.getChildText("ImagePath");
+		     
+		     myView.getIconArray().get(i).setId(id);
+		     myView.getIconArray().get(i).setIndexColumn(col);
+		     myView.getIconArray().get(i).setIndexRow(row);
+		     myView.getIconArray().get(i).setImageSize(size);
+		     myView.getIconArray().get(i).setImagepath(image);
+		     
+        }
+        
+        //SetCoordinates();
+		//update(this.getGraphics());
+        
+        
+    }catch(IOException io){
+    	System.out.println(io.getMessage());
+    } catch (JDOMException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}		
+}
 }

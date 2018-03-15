@@ -20,9 +20,11 @@ public class PieceView extends ImageIcon implements Cloneable{
     private int imageSize;
     //Índice de fila dibujada
     private int drawnRowIndex;
-  //Índice de columna dibujada
+     //Índice de columna dibujada
     private int drawnColumnIndex;    
-
+     //imagen a guardar
+    Image image;
+    
 	private String imagepath;
     
     /**
@@ -47,6 +49,7 @@ public class PieceView extends ImageIcon implements Cloneable{
         this.indexColumn=indexColumn;
         this.indexRow=indexRow;
         this.imageSize=imageSize;
+        this.image=image;
     }
     
     public PieceView(int id, int indexRow, int indexColumn){
@@ -109,7 +112,7 @@ public class PieceView extends ImageIcon implements Cloneable{
 
 	
 
-    public String getImagepath() {
+    public String getImagePath() {
 		return imagepath;
 	}
 
