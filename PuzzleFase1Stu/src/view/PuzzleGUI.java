@@ -163,22 +163,8 @@ public class PuzzleGUI extends JFrame{
     //MÃ©todo para actualizar la imagen del tablero
     public void updateBoard(File imageFile){
     	
-    	boardView.setNew(imageFile, rowNum);
-    	 /*
-    	this.getContentPane().remove(boardView);
+    	boardView.setImage(imageFile);
     	
-    	
-    	boardView = new BoardView(rowNum,columnNum,imageSize,imageFile);
-        boardView.addMouseListener(controller);
-      this.getContentPane().setLayout(new BorderLayout());
-        this.setJMenuBar(createMenuBar());
-        this.getContentPane().add(boardView, BorderLayout.CENTER);
-        this.getContentPane().add(createSouthPanel(), BorderLayout.SOUTH);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setSize(windowW,windowH);
-        this.setLocation(centerFrame());*/
-        
         
         
     }

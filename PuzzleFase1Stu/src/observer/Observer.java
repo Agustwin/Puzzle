@@ -1,5 +1,7 @@
 package observer;
 
+import java.io.File;
+
 /**
  * Interfaz que representa un observador. Esta interfaz
  * serÃ¡ implementada por todos los modelos.
@@ -14,5 +16,5 @@ public interface Observer {
      * @param movedPos Posicion de la pieza a mover
      */
     public void update(int blankPos,int movedPos);
-    
+    public void setNewBoard();
 }

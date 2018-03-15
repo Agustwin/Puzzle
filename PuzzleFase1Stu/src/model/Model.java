@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -81,8 +82,12 @@ public class Model extends AbstractModel<PieceModel>{
 		return null;
 	}
 	@Override
-	public void reset() {
-		
+	public void setNewBoard() {
+		 for(int i=0;i<rowNum*columnNum;i++) {
+	        		
+     		addNewPiece(i, i%rowNum,i/columnNum);
+     		
+ }
 		
 	}
 	}

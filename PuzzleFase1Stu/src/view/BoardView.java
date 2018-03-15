@@ -24,16 +24,20 @@ public class BoardView extends JPanel implements Observer {
     public static final int imageWidth= 96;
     public static final int imageHeight= 96;
     private ArrayList<PieceView> iconArray = null;
+    private File image;
+    private int rowNum;
+    private int columnNum;
     
     private int rowOff;
 	private int colOff;
-    private int pieceWidth;
-    private int pieceHeight;
+
     private int imageSize;
 	/*-----------------EL ID 0 SIEMPRE VA A CORRESPONDER A LA PIEZA BLANCA------------------------*/
 	
     public BoardView(int rowNum, int columnNum,int imageSize, String[] imageList){
         super();
+        this.rowNum=rowNum;
+        this.columnNum=columnNum;
         this.imageSize=imageSize;
         
         iconArray=new ArrayList<PieceView>();
@@ -43,18 +47,18 @@ public class BoardView extends JPanel implements Observer {
         
         for(int i=0;i<rowNum*columnNum;i++) {
        
+        		
         		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
         		
         		
         		iconArray.add(p);
-            	System.err.println("INIT");
+            	
             	SetDrawnCoordinates(p,imageSize);
-            	System.err.println("Id: "+p.getId()+" coord"+p.getDrawnColumnIndex()+p.getDrawnRowIndex());
+            	
 
         }
         
-        pieceWidth= imageWidth/iconArray.get(0).getImageSize();
-        pieceHeight=imageHeight/iconArray.get(0).getImageSize();
+        
         //Por convenio inicializamos la pieza blanca en el 0
         
     }
@@ -66,8 +70,7 @@ public class BoardView extends JPanel implements Observer {
         super();
         this.imageSize=imageSize;
         iconArray=new ArrayList<PieceView>();
-        pieceWidth= imageWidth/imageSize;
-        pieceHeight=imageHeight/imageSize;
+        
         
         BufferedImage img=resizeImage(imageFile);
         BufferedImage[] listImg=splitImage(img);
@@ -121,11 +124,11 @@ public class BoardView extends JPanel implements Observer {
     //dividimos la imagen en el nÃºmero
     private BufferedImage[] splitImage(BufferedImage image){
     	
-    	BufferedImage images[]=new BufferedImage[pieceHeight*pieceWidth];
+    	BufferedImage images[]=new BufferedImage[columnNum*rowNum];
     	
         //Divisor de imÃ¡genes
-    	for(int i=0;i<pieceHeight*pieceWidth;i++) {
-    		images[i]=image.getSubimage((i%pieceWidth)*imageSize, (i/pieceHeight)*imageSize, imageSize, imageSize);
+    	for(int i=0;i<columnNum*rowNum;i++) {
+    		images[i]=image.getSubimage((i%rowNum)*imageSize, (i/columnNum)*imageSize, imageSize, imageSize);
     		
     	}
         
@@ -180,7 +183,7 @@ public class BoardView extends JPanel implements Observer {
     		for(PieceView iconImage:iconArray){	
     			
     		SetDrawnCoordinates(iconImage,iconImage.getImageSize());
-    		System.err.println("PIEZAAAAAAAA"+iconImage);
+    		
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
         }
@@ -192,7 +195,7 @@ public class BoardView extends JPanel implements Observer {
 
     	for(int i=0;i<iconArray.size();i++) {
     		PieceView p=iconArray.get(i);
-    		System.err.println("Id "+p.getId()+" X "+p.getIndexRow()+" Y "+p.getIndexColumn());
+    	
     		//localizo la imagen sobre la que ha pulsado el puntero
     		if(posX>p.getDrawnRowIndex() && posX<p.getDrawnRowIndex()+p.getImageSize() && posY>p.getDrawnColumnIndex() && posY<p.getDrawnColumnIndex()+p.getImageSize()) {
     			
@@ -247,7 +250,7 @@ public class BoardView extends JPanel implements Observer {
     	public int checkMove(int pos) {
     	
     		int blankPos=-1;
-    		 pieceWidth=imageWidth/iconArray.get(0).getImageSize();
+    		 rowNum=imageWidth/iconArray.get(0).getImageSize();
     		
     		
     		
@@ -266,17 +269,17 @@ public class BoardView extends JPanel implements Observer {
     			}
     		}
     		
-    		if(pos-pieceWidth>=0) {
-    			if(iconArray.get(pos-pieceWidth).getId()==0) {
+    		if(pos-rowNum>=0) {
+    			if(iconArray.get(pos-rowNum).getId()==0) {
     				System.out.println("HIT3");
-    				return pos-pieceWidth;
+    				return pos-rowNum;
     				}    		
     			}
     		
-    		if(pos+pieceWidth<iconArray.size()) {
-    			if(iconArray.get(pos+pieceWidth).getId()==0) {
+    		if(pos+rowNum<iconArray.size()) {
+    			if(iconArray.get(pos+rowNum).getId()==0) {
     				System.out.println("HIT4");
-    				return pos+pieceWidth;
+    				return pos+rowNum;
     			}
     		}
     		return blankPos;
@@ -323,8 +326,8 @@ private void SetDrawnCoordinates(PieceView p,int imageSize) {
 
 
 
-public void setNew(File image,int rowNum) {
-	// TODO Auto-generated method stub
+@Override
+public void setNewBoard() {
 	iconArray.clear();
 	
 	BufferedImage img=resizeImage(image);
@@ -345,5 +348,19 @@ public void setNew(File image,int rowNum) {
     	
     }
 	this.update(getGraphics());
+}
+
+
+
+
+public File getImage() {
+	return image;
+}
+
+
+
+
+public void setImage(File image) {
+	this.image = image;
 }
 }

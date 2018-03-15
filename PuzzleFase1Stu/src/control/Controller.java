@@ -63,8 +63,7 @@ public class Controller extends AbstractController{
 				if(f!=null) {
 					PuzzleGUI.getInstance().updateBoard(f);
 				}
-				observerList.set(0, PuzzleGUI.getInstance().getBoardView());
-				
+				notifyObserversReset();
 				this.myView=PuzzleGUI.getInstance().getBoardView();
 				reset();
 
@@ -110,7 +109,7 @@ public class Controller extends AbstractController{
 		//TODO Auto-generated method stub
 		for(Observer o:observerList) {
 			
-			
+			o.setNewBoard();
 		}
 		
 	}
