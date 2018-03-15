@@ -89,5 +89,9 @@ public class Model extends AbstractModel<PieceModel>{
 		
 	}
 	
-	
+	public void loadNewBoard() {
+		
+		
+	}
 }
+

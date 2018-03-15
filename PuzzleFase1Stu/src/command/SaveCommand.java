@@ -42,7 +42,7 @@ public class SaveCommand implements Command {
 	public void execute() {
 		// TODO Auto-generated method stub
 		try {
-			controller.writeXML();
+			PuzzleGUI.getInstance().getBoardView().writeXML();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

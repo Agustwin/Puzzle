@@ -49,9 +49,10 @@ public class Controller extends AbstractController{
 		move=new MoveCommand(this);
 		solve=new SolveCommand(this);
 		random=new RandomCommand(this);
-		
 		save=new SaveCommand(this);
 		load=new LoadCommand(this);
+		
+		//myView=PuzzleGUI.getInstance().getBoardView();
 	}
 	
 	//Ejecutamos todas las acciones con su correspondiente command
@@ -171,93 +172,7 @@ public void reset() {
 }
 
 
-public void writeXML() throws IOException{
-	Element Model = new Element("Model");
-	Document doc = new Document(Model);
-	try {
-		doc.getRootElement().addContent(new Element("Image").setText(myView.getImage().getPath()));
 
-	}catch(Exception e) {
-		
-	}
-	
-	Element pieces=new Element("Pieces");
-	for(PieceView p:myView.getIconArray()) {
-		//System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
-		
-		Element pieceModel = new Element("pieceModel");
 
-		
-	
-		pieceModel.addContent(new Element("Id").setText(Integer.toString(p.getId())));
-		pieceModel.addContent(new Element("X").setText(Integer.toString(p.getIndexRow())));
-		pieceModel.addContent(new Element("Y").setText(Integer.toString(p.getIndexColumn())));
-		
-		pieceModel.addContent(new Element("Size").setText(Integer.toString(p.getImageSize())));
-		pieceModel.addContent(new Element("ImagePath").setText(p.getImagePath()));
-		
-		pieces.addContent(pieceModel);
-	}
-	
-	doc.getRootElement().addContent(pieces);
-	
-	// new XMLOutputter().output(doc, System.out);
-	XMLOutputter xmlOutput = new XMLOutputter();
 
-	// display nice 
-	xmlOutput.setFormat(Format.getPrettyFormat());
-	xmlOutput.output(doc, new FileWriter(System.getProperty("user.dir")+File.separator+"partida.xml"+File.separator));
-
-	System.out.println("File Saved!");
-}
-
-public void readXML(File file){
-	//Se crea un SAXBuilder para poder parsear el archivo
-    SAXBuilder builder = new SAXBuilder();
-	try{
-        //Se crea el documento a traves del archivo
-        Document document = (Document) builder.build(file);
-
-        //Obtener la raiz del documento
-        Element model = document.getRootElement();
-        
-        java.util.List<Element> pieceList = model.getChildren("pieceModel");		        
-        
-        
-       // this.setImage();
-        
-        for (int i = 0; i < pieceList.size(); i++) {
-        	 Element pieceModel = (Element) pieceList.get(i);
-		        
-		     System.out.println("Id: " + pieceModel.getChildText("Id"));
-		     System.out.println("IndexRow: " + pieceModel.getChildText("X"));
-		     System.out.println("IndexColumn: " + pieceModel.getChildText("Y"));
-		     System.out.println("Size: " + pieceModel.getChildText("Size"));
-		     System.out.println("Path: " + pieceModel.getChildText("Image"));
-		     
-		     int id = Integer.parseInt(pieceModel.getChildText("Id"));
-		     int row = Integer.parseInt(pieceModel.getChildText("X"));
-		     int col = Integer.parseInt(pieceModel.getChildText("Y"));
-		     int size = Integer.parseInt(pieceModel.getChildText("Size"));
-		     String image = pieceModel.getChildText("ImagePath");
-		     
-		     myView.getIconArray().get(i).setId(id);
-		     myView.getIconArray().get(i).setIndexColumn(col);
-		     myView.getIconArray().get(i).setIndexRow(row);
-		     myView.getIconArray().get(i).setImageSize(size);
-		     myView.getIconArray().get(i).setImagepath(image);
-		     
-        }
-        
-        //SetCoordinates();
-		//update(this.getGraphics());
-        
-        
-    }catch(IOException io){
-    	System.out.println(io.getMessage());
-    } catch (JDOMException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}		
-}
 }

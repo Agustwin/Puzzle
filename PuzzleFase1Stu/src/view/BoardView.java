@@ -336,9 +336,120 @@ public File getImage() {
 
 
 
+public void writeXML() throws IOException{
+	
+	
+	
+	Element Model = new Element("Model");
+	Document doc = new Document(Model);
+	try {
+		doc.getRootElement().addContent(new Element("Image").setText(getImage().getPath()));
 
+	}catch(Exception e) {
+		
+	}
+	
+	Element pieces=new Element("Pieces");
+	
+	
+	
+	for(PieceView p:iconArray) {
+		//System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
+		
+		Element pieceModel = new Element("pieceModel");
 
+		
+		
+	
+		pieceModel.addContent(new Element("Id").setText(Integer.toString(p.getId())));
+		pieceModel.addContent(new Element("X").setText(Integer.toString(p.getIndexRow())));
+		pieceModel.addContent(new Element("Y").setText(Integer.toString(p.getIndexColumn())));
+		
+		pieceModel.addContent(new Element("Size").setText(Integer.toString(p.getImageSize())));
+		pieceModel.addContent(new Element("ImagePath").setText(p.getImagePath()));
+		
+		pieces.addContent(pieceModel);
+	}
+	
+	doc.getRootElement().addContent(pieces);
+	
+	// new XMLOutputter().output(doc, System.out);
+	XMLOutputter xmlOutput = new XMLOutputter();
 
+	// display nice 
+	xmlOutput.setFormat(Format.getPrettyFormat());
+	xmlOutput.output(doc, new FileWriter(System.getProperty("user.dir")+File.separator+"partida.xml"+File.separator));
+
+	System.out.println("File Saved!");
+}
+
+public void readXML(File file){
+	//Se crea un SAXBuilder para poder parsear el archivo
+    SAXBuilder builder = new SAXBuilder();
+	try{
+        //Se crea el documento a traves del archivo
+        Document document = (Document) builder.build(file);
+
+       
+        //Obtener la raiz del documento
+       Element model = document.getRootElement();
+       Element pieces= model.getChild("Pieces");
+       Element Image=model.getChild("Image");
+        
+       BufferedImage img;
+       BufferedImage[] listImg=null;
+       
+       if(Image!=null) {
+    	   File f=new File(Image.getText());
+    	   img=resizeImage(f);
+   	       listImg=splitImage(img);
+       }
+       
+        java.util.List<Element> pieceList = pieces.getChildren("pieceModel");		        
+        
+        
+         ArrayList<PieceView> aux=new ArrayList();
+        
+        for (int i = 0; i < pieceList.size(); i++) {
+        	 Element pieceModel = (Element) pieceList.get(i);
+		        
+		     System.out.println("Id: " + pieceModel.getChildText("Id"));
+		     System.out.println("IndexRow: " + pieceModel.getChildText("X"));
+		     System.out.println("IndexColumn: " + pieceModel.getChildText("Y"));
+		     System.out.println("Size: " + pieceModel.getChildText("Size"));
+		     System.out.println("Path: " + pieceModel.getChildText("Image"));
+		     
+		     int id = Integer.parseInt(pieceModel.getChildText("Id"));
+		     int row = Integer.parseInt(pieceModel.getChildText("X"));
+		     int col = Integer.parseInt(pieceModel.getChildText("Y"));
+		     int size = Integer.parseInt(pieceModel.getChildText("Size"));
+		     
+		     if(Image==null) {
+		    	 String image = pieceModel.getChildText("ImagePath");
+			     PieceView p=new PieceView(id,row,col,imageSize,image);
+			     aux.add(p);
+		       }else {
+		    	  
+		    	   PieceView p=new PieceView(id,row,col,imageSize,listImg[id]);
+				     aux.add(p);
+		    	    
+		       }
+		     
+		     
+		     
+        }
+        iconArray=aux;
+        //SetCoordinates();
+		update(this.getGraphics());
+        
+        
+    }catch(IOException io){
+    	System.out.println(io.getMessage());
+    } catch (JDOMException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}		
+}
 
 public void setImage(File image) {
 	this.image = image;
@@ -366,6 +477,11 @@ public void setImage(File image) {
 		// TODO Auto-generated method stub
 		return iconArray;
 	}
-
+public void loadNewBoardint(int id,int rowNum,int columnNum,int imageSize,String image) {
+	
+	
+	
+	
+}
 
 }
