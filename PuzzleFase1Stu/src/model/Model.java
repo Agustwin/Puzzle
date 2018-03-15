@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -23,6 +24,8 @@ public class Model extends AbstractModel<PieceModel>{
     		addNewPiece( i, i%rowNum,i/columnNum,imageList[i]);	        		
         }	        
 	}
+	 
+	 																																																																											
 	 
 	@Override
 	public void update(int blankPos, int movedPos) {
@@ -60,7 +63,8 @@ public class Model extends AbstractModel<PieceModel>{
 	@Override
 	public void addNewPiece(int id, int indexRow, int indexCol) {
 		// TODO Auto-generated method stub
-		
+		PieceModel p=new PieceModel( id, indexRow,indexCol);
+		listP.add(p); 
 	}
 
 	@Override
@@ -74,5 +78,14 @@ public class Model extends AbstractModel<PieceModel>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void setNewBoard() {
+		 for(int i=0;i<rowNum*columnNum;i++) {
+	        		
+     		addNewPiece(i, i%rowNum,i/columnNum);
+     		
+ }
+		
+	}
+	}
 
-}

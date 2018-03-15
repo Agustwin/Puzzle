@@ -33,17 +33,26 @@ public class BoardView extends JPanel implements Observer {
     public static final int imageWidth= 96;
     public static final int imageHeight= 96;
     private ArrayList<PieceView> iconArray = null;
+    private File image;
+    private int rowNum;
+    private int columnNum;
     
     private int rowOff;
 	private int colOff;
+<<<<<<< HEAD
+
+=======
     private int pieceWidth;
 	
 	/*-----------------EL ID 0 SIEMPRE VA A CORRESPONDER A LA PIEZA BLANCA------------------------*/	
     private int pieceHeight;
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
     private int imageSize;
 
     public BoardView(int rowNum, int columnNum,int imageSize, String[] imageList){
         super();
+        this.rowNum=rowNum;
+        this.columnNum=columnNum;
         this.imageSize=imageSize;
         
         iconArray=new ArrayList<PieceView>();
@@ -53,16 +62,18 @@ public class BoardView extends JPanel implements Observer {
         
         for(int i=0;i<rowNum*columnNum;i++) {
        
+        		
         		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
         		
         		
         		iconArray.add(p);
-        		       		
-        		
+            	
+            	SetDrawnCoordinates(p,imageSize);
+            	
+
         }
         
-        pieceWidth= imageWidth/iconArray.get(0).getImageSize();
-        pieceHeight=imageHeight/iconArray.get(0).getImageSize();
+        
         //Por convenio inicializamos la pieza blanca en el 0
         
     }
@@ -74,8 +85,7 @@ public class BoardView extends JPanel implements Observer {
         super();
         this.imageSize=imageSize;
         iconArray=new ArrayList<PieceView>();
-        pieceWidth= imageWidth/imageSize;
-        pieceHeight=imageHeight/imageSize;
+        
         
         BufferedImage img=resizeImage(imageFile);
         BufferedImage[] listImg=splitImage(img);
@@ -90,6 +100,9 @@ public class BoardView extends JPanel implements Observer {
         		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
         		
         	}
+        	
+
+        	
         	iconArray.add(p);
         	
         }
@@ -126,11 +139,11 @@ public class BoardView extends JPanel implements Observer {
     //dividimos la imagen en el nÃºmero
     private BufferedImage[] splitImage(BufferedImage image){
     	
-    	BufferedImage images[]=new BufferedImage[pieceHeight*pieceWidth];
+    	BufferedImage images[]=new BufferedImage[columnNum*rowNum];
     	
         //Divisor de imÃ¡genes
-    	for(int i=0;i<pieceHeight*pieceWidth;i++) {
-    		images[i]=image.getSubimage((i%pieceWidth)*imageSize, (i/pieceHeight)*imageSize, imageSize, imageSize);
+    	for(int i=0;i<columnNum*rowNum;i++) {
+    		images[i]=image.getSubimage((i%rowNum)*imageSize, (i/columnNum)*imageSize, imageSize, imageSize);
     		
     	}
         
@@ -167,8 +180,13 @@ public class BoardView extends JPanel implements Observer {
 			System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
 		}
     	
+<<<<<<< HEAD
+    	update(this.getGraphics());
+    	
+=======
     	//update(this.getGraphics());
     	update(this.getGraphics());
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
     }
 
     public void update(Graphics g){
@@ -183,8 +201,9 @@ public class BoardView extends JPanel implements Observer {
     	
     	
     		for(PieceView iconImage:iconArray){	
-    			System.out.println("imagen: "+iconImage);
+    			
     		SetDrawnCoordinates(iconImage,iconImage.getImageSize());
+    		
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
         }
@@ -196,7 +215,7 @@ public class BoardView extends JPanel implements Observer {
 
     	for(int i=0;i<iconArray.size();i++) {
     		PieceView p=iconArray.get(i);
-    		
+    	
     		//localizo la imagen sobre la que ha pulsado el puntero
     		if(posX>p.getDrawnRowIndex() && posX<p.getDrawnRowIndex()+p.getImageSize() && posY>p.getDrawnColumnIndex() && posY<p.getDrawnColumnIndex()+p.getImageSize()) {
     			
@@ -228,6 +247,8 @@ public class BoardView extends JPanel implements Observer {
     	int pos=locatePiece(posX,posY);
     	int blankPos=checkMove(pos);		//Devuelve la pieza blanca solo si es adyacente a la pieza que se quiere mover
     	
+    	System.out.println("poooooooooooooos"+pos);
+    	System.out.println("blaaaaaaaaaaaaaank"+blankPos);
     	if(pos==-1 || blankPos==-1) {
     		return null;
     	}
@@ -249,13 +270,13 @@ public class BoardView extends JPanel implements Observer {
     	public int checkMove(int pos) {
     	
     		int blankPos=-1;
-    		 pieceWidth=imageWidth/iconArray.get(0).getImageSize();
+    		 rowNum=imageWidth/iconArray.get(0).getImageSize();
     		
     		
     		
     		if(pos-1>=0) {
     			if(iconArray.get(pos-1).getId()==0) {
-    				System.out.println("HIT");
+    				System.out.println("HIT1");
     				return pos-1;
     			}
     			
@@ -263,26 +284,29 @@ public class BoardView extends JPanel implements Observer {
     		
     		if(pos+1<iconArray.size()) {
     			if(iconArray.get(pos+1).getId()==0) {
-    				System.out.println("HIT");
+    				System.out.println("HIT2");
     				return pos+1;
     			}
     		}
     		
-    		if(pos-pieceWidth>=0) {
-    			if(iconArray.get(pos-pieceWidth).getId()==0) {
-    				System.out.println("HIT");
-    				return pos-pieceWidth;
+    		if(pos-rowNum>=0) {
+    			if(iconArray.get(pos-rowNum).getId()==0) {
+    				System.out.println("HIT3");
+    				return pos-rowNum;
     				}    		
     			}
     		
-    		if(pos+pieceWidth<iconArray.size()) {
-    			if(iconArray.get(pos+pieceWidth).getId()==0) {
-    				System.out.println("HIT");
-    				return pos+pieceWidth;
+    		if(pos+rowNum<iconArray.size()) {
+    			if(iconArray.get(pos+rowNum).getId()==0) {
+    				System.out.println("HIT4");
+    				return pos+rowNum;
     			}
     		}
     		return blankPos;
     	}
+<<<<<<< HEAD
+
+=======
     	
 		public void Solve() {
 			System.out.println("Resolver");
@@ -294,6 +318,7 @@ public class BoardView extends JPanel implements Observer {
 			SetCoordinates();
 			update(this.getGraphics());
 		}
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 
 		public void Clutter() {
 			
@@ -310,6 +335,11 @@ public class BoardView extends JPanel implements Observer {
 				
 				Element pieceModel = new Element("pieceModel");
 
+<<<<<<< HEAD
+/*public void SetCoordinates() {
+	
+for(int i=0;i<iconArray.size();i++) {
+=======
 				pieceModel.addContent(new Element("Id").setText(Integer.toString(p.getId())));
 				pieceModel.addContent(new Element("X").setText(Integer.toString(p.getIndexRow())));
 				pieceModel.addContent(new Element("Y").setText(Integer.toString(p.getIndexColumn())));
@@ -329,6 +359,7 @@ public class BoardView extends JPanel implements Observer {
 
 			System.out.println("File Saved!");
 		}
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 		
 		public void readXML(File file){
 			//Se crea un SAXBuilder para poder parsear el archivo
@@ -385,7 +416,71 @@ public class BoardView extends JPanel implements Observer {
 			System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());			
 		}		
 	}
+<<<<<<< HEAD
+	
+}*/
+private void SetDrawnCoordinates(PieceView p,int imageSize) {
+	
+	
+	rowOff=(this.getWidth()-this.imageWidth)/2;
+	colOff=(this.getHeight()-this.imageHeight)/2;
+	
+	int drawnRow;
+	int drawnColumn;
+	
+	 drawnRow=p.getIndexRow()*imageSize;
+	 drawnColumn=p.getIndexColumn()*imageSize;    	 
+	 p.setDrawnColumnIndex(drawnColumn+colOff);
+	 p.setDrawnRowIndex(drawnRow+rowOff);
+=======
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 
+<<<<<<< HEAD
+	
+}
+
+
+
+
+
+@Override
+public void setNewBoard() {
+	iconArray.clear();
+	
+	BufferedImage img=resizeImage(image);
+    BufferedImage[] listImg=splitImage(img);
+	
+
+    
+    for(int i=0;i< listImg.length;i++) {
+    	PieceView p;
+    	if(i==0) {
+    		p=new PieceView( i,i%rowNum,i/rowNum,imageSize,"resources/blank.gif");
+    	}else {
+    		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
+    		
+    	}
+
+    	iconArray.add(p);
+    	
+    }
+	this.update(getGraphics());
+}
+
+
+
+
+public File getImage() {
+	return image;
+}
+
+
+
+
+public void setImage(File image) {
+	this.image = image;
+}
+=======
 	private void SetDrawnCoordinates(PieceView p,int imageSize) {
 		
 		
@@ -401,4 +496,5 @@ public class BoardView extends JPanel implements Observer {
 		 p.setDrawnRowIndex(drawnRow+rowOff);
 	}
 
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 }

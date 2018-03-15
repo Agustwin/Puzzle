@@ -18,7 +18,25 @@ public class PieceModel {
 		this.columnNum=columnNum;
 		this.setImagePath(imagePath);		
 	}
+<<<<<<< HEAD
+	
+public PieceModel(int id,int rowNum,int columnNum){
+		
+		this.id=id;
+		this.rowNum=rowNum;
+		this.columnNum=columnNum;
+		this.setImagePath(null);
+		
+		
+		
+	}
+	
+	
+	
+	
+=======
 
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 	public int getId() {
 		return id;
 	}

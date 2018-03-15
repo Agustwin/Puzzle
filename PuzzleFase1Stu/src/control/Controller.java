@@ -13,6 +13,7 @@ import command.MoveCommand;
 import command.RandomCommand;
 import command.SaveCommand;
 import command.SolveCommand;
+import model.Model;
 import observer.Observer;
 import view.BoardView;
 import view.PuzzleGUI;
@@ -24,6 +25,7 @@ public class Controller extends AbstractController{
 	
 	/*No se si es correcto*/
 	private BoardView myView;
+	private Model myModel;
 	private int posX;
 	private int posY;
 	private MoveCommand move;
@@ -62,11 +64,12 @@ public class Controller extends AbstractController{
 				/*--------------------Meter en comando---------------------*/
 				File f=PuzzleGUI.getInstance().showFileSelector();
 				System.out.println("Path: "+f);
-				if(f!=null)
-				PuzzleGUI.getInstance().updateBoard(f);
-				
+				if(f!=null) {
+					PuzzleGUI.getInstance().updateBoard(f);
+				}
+				notifyObserversReset();
 				this.myView=PuzzleGUI.getInstance().getBoardView();
-				
+				reset();
 
 				//PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
 				System.out.println("Load Image");
@@ -101,17 +104,67 @@ public class Controller extends AbstractController{
 		
 	}
 
+<<<<<<< HEAD
+	public void notifyObserversReset() {
+		//TODO Auto-generated method stub
+		for(Observer o:observerList) {
+			
+			o.setNewBoard();
+		}
+		
+	}
+
+public void mouseClicked(MouseEvent e) {
+
+=======
 	public void mouseClicked(MouseEvent e) {		
 		posX=e.getX();
 		posY=e.getY();
 		
 		move.execute();
 	}
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 	
 	public BoardView getMyView() {
 		return myView;
 	}
 	
+<<<<<<< HEAD
+	move.execute();
+}
+
+public BoardView getMyView() {
+	return myView;
+}
+
+public void setMyView(BoardView myView) {
+	this.myView = myView;
+}
+
+public int getPosY() {
+	return posY;
+}
+
+public void setPosY(int posY) {
+	this.posY = posY;
+}
+
+public int getPosX() {
+	return posX;
+}
+
+public void setPosX(int posX) {
+	this.posX = posX;
+}
+public MoveCommand getCommandMove() {
+	return move;
+}
+public void reset() {
+	move=new MoveCommand(this);
+	solve=new SolveCommand(this);
+	random=new RandomCommand(this);
+}
+=======
 	public void setMyView(BoardView myView) {
 		this.myView = myView;
 	}
@@ -134,4 +187,5 @@ public class Controller extends AbstractController{
 	public MoveCommand getCommandMove() {
 		return move;
 	}
+>>>>>>> branch 'master' of https://github.com/Agustwin/Puzzle.git
 }
