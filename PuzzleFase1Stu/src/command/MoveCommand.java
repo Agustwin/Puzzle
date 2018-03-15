@@ -9,7 +9,7 @@ import view.PuzzleGUI;
 
 public class MoveCommand implements Command{
 
-	private List<int[]> list=new ArrayList();
+	private ArrayList<int[]> list=new ArrayList();
 	private Controller controller;
 	private int index=0;
 	
@@ -108,6 +108,14 @@ public class MoveCommand implements Command{
 		
 		controller.notifyObservers(pos[0],pos[1]);	
 	}
+	public List<int[]> getMoves() {
+		return this.list;
+	}
+	public void setMoves(ArrayList<int[]> a) {
+		this.list=a;
+	}
 	
-
+	public void setIndex(int a) {
+		this.index=a;
+	}
 }

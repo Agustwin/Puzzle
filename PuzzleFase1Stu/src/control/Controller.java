@@ -188,8 +188,19 @@ public void writeXML() throws IOException{
 	}
 	
 	Element pieces=new Element("Pieces");
+	Element index=new Element("Index").setText(String.valueOf(move.getIndex()));
+	
+	Element list=new Element("Moves");
 	
 	
+	for(int i[]:move.getMoves()) {
+		Element e=new Element("move");
+		e.addContent(new Element("Pos0").setText(String.valueOf(i[0])));
+		e.addContent(new Element("Pos1").setText(String.valueOf(i[1])));
+		list.addContent(e);
+
+	}
+
 	
 	for(PieceView p:PuzzleGUI.getInstance().getBoardView().getIconArray()) {
 		//System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
@@ -210,7 +221,9 @@ public void writeXML() throws IOException{
 	}
 	
 	doc.getRootElement().addContent(pieces);
-	
+	doc.getRootElement().addContent(index);
+	doc.getRootElement().addContent(list);
+
 	// new XMLOutputter().output(doc, System.out);
 	XMLOutputter xmlOutput = new XMLOutputter();
 
@@ -234,10 +247,25 @@ public void readXML(File file){
        Element pieces= model.getChild("Pieces");
        Element Image=model.getChild("Image");
         
+       Element index=model.getChild("Index");
        
+       int aux=Integer.parseInt(index.getText());
+       move.setIndex(aux);
        
+       Element Moves=model.getChild("Moves");
+       java.util.List<Element> list = Moves.getChildren("move");
+       java.util.ArrayList<int[]> pos = new ArrayList();	
 
        
+       for(Element e:list) {
+    	   int p[]=new int[2];
+    	   p[0]=Integer.parseInt(e.getChild("Pos0").getText());
+    	   p[1]=Integer.parseInt(e.getChild("Pos1").getText());
+    	   
+    	   pos.add(p);
+       }
+       
+       move.setMoves(pos);
         java.util.List<Element> pieceList = pieces.getChildren("pieceModel");		        
         
         
