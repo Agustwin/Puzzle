@@ -30,6 +30,7 @@ import control.Controller;
  * @version 1.0
  */
 public class PuzzleApp {
+	//public static AbstractModel myModel;
 
     public static void main(String args[]){
         int imageSize = 32;

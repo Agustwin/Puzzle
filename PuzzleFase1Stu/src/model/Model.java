@@ -2,30 +2,27 @@ package model;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 public class Model extends AbstractModel<PieceModel>{
-
-	protected ArrayList<PieceModel> listP=null;
+	
+	protected ArrayList<PieceModel> listP=null;	
 
 	public Model(int rowNum, int columnNum, int pieceSize) {
 		super(rowNum, columnNum, pieceSize);
-		
-		
-		
+	
 	}
 
-	 public Model(int rowNum, int columnNum,int pieceSize, String[] imageList) {
-	        super(rowNum,columnNum,pieceSize,imageList);
-	        listP=new ArrayList<PieceModel>();
+	public Model(int rowNum, int columnNum,int pieceSize, String[] imageList) {
+		super(rowNum,columnNum,pieceSize,imageList);
+	    listP=new ArrayList<PieceModel>();
 	        
-	        for(int i=0;i<rowNum*columnNum;i++) {
-	        	
-	        	
-	        		addNewPiece( i, i%rowNum,i/columnNum,imageList[i]);
-	        		
-	    }
-	        
-	 }
+        for(int i=0;i<rowNum*columnNum;i++) {  	
+    		addNewPiece( i, i%rowNum,i/columnNum,imageList[i]);	        		
+        }	        
+	}
 	 
 	@Override
 	public void update(int blankPos, int movedPos) {

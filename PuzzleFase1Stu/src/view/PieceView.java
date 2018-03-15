@@ -21,7 +21,9 @@ public class PieceView extends ImageIcon implements Cloneable{
     //Índice de fila dibujada
     private int drawnRowIndex;
   //Índice de columna dibujada
-    private int drawnColumnIndex;
+    private int drawnColumnIndex;    
+
+	private String imagepath;
     
     /**
      * Constructor de una clase
@@ -36,9 +38,14 @@ public class PieceView extends ImageIcon implements Cloneable{
         this.indexRow=indexRow;
         this.imageSize=imageSize;
         
+        this.imagepath=imagePath;
     }
 
     public PieceView(int id, int indexRow, int indexColumn,int imageSize,Image image){
+        super();
+    }
+    
+    public PieceView(int id, int indexRow, int indexColumn){
         super();
     }
 
@@ -71,6 +78,10 @@ public class PieceView extends ImageIcon implements Cloneable{
     public int getId(){
         return this.id;
     }
+    
+    public void setId(int id){
+    	this.id = id;
+    }
 
     public String toString(){
         return("id:"+id);
@@ -94,6 +105,12 @@ public class PieceView extends ImageIcon implements Cloneable{
 
 	
 
-	
+    public String getImagepath() {
+		return imagepath;
+	}
+
+	public void setImagepath(String imagepath) {
+		this.imagepath = imagepath;
+	}
 
 }

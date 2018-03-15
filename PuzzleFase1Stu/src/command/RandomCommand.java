@@ -5,7 +5,7 @@ import view.PuzzleGUI;
 
 public class RandomCommand implements Command {
 
-private Controller controller;
+	private Controller controller;
 	public RandomCommand(Controller c) {
 		controller=c;
 	}

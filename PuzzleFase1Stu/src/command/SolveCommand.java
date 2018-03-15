@@ -9,6 +9,7 @@ public class SolveCommand implements Command {
 		this.controller=c;
 		
 	}
+	
 	@Override
 	public void undoCommand() {
 		// TODO Auto-generated method stub
@@ -23,12 +24,9 @@ public class SolveCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 		while((controller.getCommandMove()).getIndex()>0) {
 			controller.getCommandMove().undoCommand();
-		}
-		
+		}		
 	}
-
 }
