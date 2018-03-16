@@ -15,47 +15,35 @@ public class MoveCommand implements Command{
 	
 	
 	public MoveCommand(Controller c) {
-	this.controller=c;	
+		this.controller=c;	
 	}
 	
 	@Override
-	public void undoCommand() {
+	public void undoCommand() {		
 		
-		
-			// TODO Auto-generated method stub
-			
-				
-				int pos[]=list.get(index-1);
-				System.err.println(index);
-				index--;
-				if(pos==null) {
-					return;
-				}
-				
-				controller.notifyObservers(pos[1],pos[0]);
-				
-			
+		// TODO Auto-generated method stub
+						
+		int pos[]=list.get(index-1);
+		System.err.println(index);
+		index--;
+		if(pos==null) {
+			return;
 		}
 		
-		
-	
-
+		controller.notifyObservers(pos[1],pos[0]);
+							
+	}		
+			
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	
+	//Metodo para hacer el movimiento de las piezas
 	public void execute() {
 		
-		
-		
-		
-		
 		int[] pos=PuzzleGUI.getInstance().getBoardView().movePiece(controller.getPosX(), controller.getPosY());
-
-
 		
 		if(pos==null) {
 			return;
@@ -85,16 +73,14 @@ public class MoveCommand implements Command{
 		this.controller = controller;
 	}
 
-	
+	//Metodo invocado en el RandomCommand para que las piezas se coloquen de manera aleatoria
 	public void Random(int blankPos, int movedPos) {
 		
 		int pos[]=new int[2];
-		
-		
+				
 		
 		pos[0]=blankPos;
 		pos[1]=movedPos;
-
 		
 		
 		try {
@@ -108,9 +94,11 @@ public class MoveCommand implements Command{
 		
 		controller.notifyObservers(pos[0],pos[1]);	
 	}
+	
 	public List<int[]> getMoves() {
 		return this.list;
 	}
+	
 	public void setMoves(ArrayList<int[]> a) {
 		this.list=a;
 	}

@@ -41,8 +41,7 @@ public class RandomCommand implements Command {
 			
 			controller.getCommandMove().Random(pos[0],pos[1]);
 		}
-		
-		
+				
 	}
 
 }

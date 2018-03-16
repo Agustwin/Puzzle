@@ -42,7 +42,7 @@ public class SaveCommand implements Command {
 	public void execute() {
 		// TODO Auto-generated method stub
 		try {
-				controller.writeXML();
+			controller.writeXML();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

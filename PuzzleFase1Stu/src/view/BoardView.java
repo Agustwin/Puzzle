@@ -51,29 +51,19 @@ public class BoardView extends JPanel implements Observer {
         
         iconArray=new ArrayList<PieceView>();
        
-        
-       
-        
-        for(int i=0;i<rowNum*columnNum;i++) {
-       
+                       
+        for(int i=0;i<rowNum*columnNum;i++) {      
         		
         		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
-        		
-        		
+        		        		
         		iconArray.add(p);
             	
             	SetDrawnCoordinates(p,imageSize);
             	
-
         }
-        
-        
-        //Por convenio inicializamos la pieza blanca en el 0
-        
-    }
-    
 
-    
+    }
+        
 
     public BoardView(int rowNum, int columnNum, int imageSize, File imageFile){
         super();
@@ -84,49 +74,37 @@ public class BoardView extends JPanel implements Observer {
         BufferedImage img=resizeImage(imageFile);
         BufferedImage[] listImg=splitImage(img);
     	
-
         
         for(int i=0;i< listImg.length;i++) {
         	PieceView p;
         	if(i==0) {
         		p=new PieceView( i,i%rowNum,i/rowNum,imageSize,"resources/blank.gif");
         	}else {
-        		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
-        		
+        		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]);        		
         	}
         	
-
-        	
-        	iconArray.add(p);
-        	
-        }
-        
+        	iconArray.add(p);       	
+        }      
     }
 
     //redimensionamos la imagen para 96*96
     public BufferedImage resizeImage(File fileImage){
     	BufferedImage resizedImage=null;
-		try {
-			
-			
-				Image img=ImageIO.read(fileImage);
-			
-			    Image tmp = img.getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_SMOOTH);
-			    resizedImage = new BufferedImage(this.imageWidth, this.imageHeight, BufferedImage.TYPE_INT_ARGB);
+		try {						
+			Image img=ImageIO.read(fileImage);
+		
+		    Image tmp = img.getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_SMOOTH);
+		    resizedImage = new BufferedImage(this.imageWidth, this.imageHeight, BufferedImage.TYPE_INT_ARGB);
 
-			    Graphics2D g2d = resizedImage.createGraphics();
-			    g2d.drawImage(tmp, 0, 0, null);
-			    g2d.dispose();
-
-			    
+		    Graphics2D g2d = resizedImage.createGraphics();
+		    g2d.drawImage(tmp, 0, 0, null);
+		    g2d.dispose();			    
 			 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-        
-        
+       
         return(resizedImage);
     }
 
@@ -137,16 +115,43 @@ public class BoardView extends JPanel implements Observer {
     	
         //Divisor de imÃ¡genes
     	for(int i=0;i<columnNum*rowNum;i++) {
-    		images[i]=image.getSubimage((i%rowNum)*imageSize, (i/columnNum)*imageSize, imageSize, imageSize);
-    		
+    		images[i]=image.getSubimage((i%rowNum)*imageSize, (i/columnNum)*imageSize, imageSize, imageSize);    		
     	}
         
         return(images);
-    }
+    }   
 
-    public void update(int blankPos, int movedPos){
-    	
-    	
+    public int getRowNum() {
+		return rowNum;
+	}
+
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
+
+
+	public int getColumnNum() {
+		return columnNum;
+	}
+
+
+	public void setColumnNum(int columnNum) {
+		this.columnNum = columnNum;
+	}
+
+
+	public int getImageSize() {
+		return imageSize;
+	}
+
+
+	public void setImageSize(int imageSize) {
+		this.imageSize = imageSize;
+	}
+
+
+	public void update(int blankPos, int movedPos){   	
     	PieceView blank=iconArray.get(blankPos);
 
     	iconArray.set(blankPos,iconArray.get(movedPos));
@@ -182,13 +187,8 @@ public class BoardView extends JPanel implements Observer {
     }
 
     public void paint(Graphics g){
-    		
-    		//g.clearRect(0, 0,this.getWidth(), this.getHeight());
 
-    		
-    	
-    	
-    		for(PieceView iconImage:iconArray){	
+		for(PieceView iconImage:iconArray){	
     			
     		SetDrawnCoordinates(iconImage,iconImage.getImageSize());
     		
@@ -210,7 +210,6 @@ public class BoardView extends JPanel implements Observer {
     				System.out.println("id: "+p.getId());
     				
     				return i;
-
     		}
     		
     	}
@@ -228,7 +227,7 @@ public class BoardView extends JPanel implements Observer {
      * actual de la pieza que tiene que ser movida.
      */
      
-     //Método que devuelve la posicion en el array 
+    //Método que devuelve la posicion en el array 
     public int[] movePiece(int posX,int posY){
     	//Array de 2 posiciones para devolver
     	int[] move =new int[2];
@@ -241,115 +240,95 @@ public class BoardView extends JPanel implements Observer {
     		return null;
     	}
     	
-    	
-    		
-    		
-    	
+ 	
     	//Intercambio las posiciones de las piezas
     	move[0]=pos;
     	move[1]=blankPos;
-    	
-    	
-    	
-    	
+ 	
+   	
         return(move);
     }
-    	//Comprueba si el movimiento es valido devuelve los ids 
-    	public int checkMove(int pos) {
+    
+	//Comprueba si el movimiento es valido devuelve los ids 
+	public int checkMove(int pos) {
     	
-    		int blankPos=-1;
-    		 rowNum=imageWidth/iconArray.get(0).getImageSize();
-    		
-    		
-    		
-    		if(pos-1>=0) {
-    			if(iconArray.get(pos-1).getId()==0) {
-    				System.out.println("HIT1");
-    				return pos-1;
-    			}
-    			
-    		}
-    		
-    		if(pos+1<iconArray.size()) {
-    			if(iconArray.get(pos+1).getId()==0) {
-    				System.out.println("HIT2");
-    				return pos+1;
-    			}
-    		}
-    		
-    		if(pos-rowNum>=0) {
-    			if(iconArray.get(pos-rowNum).getId()==0) {
-    				System.out.println("HIT3");
-    				return pos-rowNum;
-    				}    		
-    			}
-    		
-    		if(pos+rowNum<iconArray.size()) {
-    			if(iconArray.get(pos+rowNum).getId()==0) {
-    				System.out.println("HIT4");
-    				return pos+rowNum;
-    			}
-    		}
-    		return blankPos;
-    	}
-
-
-		public void Clutter() {
-			
-			Collections.shuffle(iconArray);	
+		int blankPos=-1;
+		 rowNum=imageWidth/iconArray.get(0).getImageSize();
+		
+		
+		
+		if(pos-1>=0) {
+			if(iconArray.get(pos-1).getId()==0) {
+				System.out.println("HIT1");
+				return pos-1;
+			}
 			
 		}
 		
-	
+		if(pos+1<iconArray.size()) {
+			if(iconArray.get(pos+1).getId()==0) {
+				System.out.println("HIT2");
+				return pos+1;
+			}
+		}
 		
+		if(pos-rowNum>=0) {
+			if(iconArray.get(pos-rowNum).getId()==0) {
+				System.out.println("HIT3");
+				return pos-rowNum;
+				}    		
+			}
+		
+		if(pos+rowNum<iconArray.size()) {
+			if(iconArray.get(pos+rowNum).getId()==0) {
+				System.out.println("HIT4");
+				return pos+rowNum;
+			}
+		}
+		return blankPos;
+	}
 
 
+	public void Clutter() {			
+		Collections.shuffle(iconArray);				
+	}
 
 
-@Override
-public void setNewBoard() {
-	iconArray.clear();
+	@Override
+	public void setNewBoard() {
+		iconArray.clear();
+		
+		BufferedImage img=resizeImage(image);
+	    BufferedImage[] listImg=splitImage(img);
+			
+	    
+	    for(int i=0;i< listImg.length;i++) {
+	    	PieceView p;
+	    	if(i==0) {
+	    		p=new PieceView( i,i%rowNum,i/rowNum,imageSize,"resources/blank.gif");
+	    	}else {
+	    		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
+	    		
+	    	}
 	
-	BufferedImage img=resizeImage(image);
-    BufferedImage[] listImg=splitImage(img);
+	    	iconArray.add(p);
+	    	
+	    }
+		this.update(getGraphics());
+	}		
 	
-
-    
-    for(int i=0;i< listImg.length;i++) {
-    	PieceView p;
-    	if(i==0) {
-    		p=new PieceView( i,i%rowNum,i/rowNum,imageSize,"resources/blank.gif");
-    	}else {
-    		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
-    		
-    	}
-
-    	iconArray.add(p);
-    	
-    }
-	this.update(getGraphics());
-}
+	
+	public File getImage() {
+		return image;
+	}
 
 
-
-
-public File getImage() {
-	return image;
-}
-
-
-
-
-
-
-
-public void setImage(File image) {
-	this.image = image;
-}
+	public void setImage(File image) {
+		this.image = image;
+	}
 
 	private void SetDrawnCoordinates(PieceView p,int imageSize) {
-		
-		
+				
 		rowOff=(this.getWidth()-this.imageWidth)/2;
 		colOff=(this.getHeight()-this.imageHeight)/2;
 		
@@ -363,56 +342,50 @@ public void setImage(File image) {
 	}
 
 
-
-
 	public ArrayList<PieceView> getIconArray() {
 		// TODO Auto-generated method stub
 		return iconArray;
 	}
+	
 	@Override
 	public void loadBoard(List<Element> list,Element img) {
 		 
-ArrayList<PieceView> aux=new ArrayList();
-BufferedImage[] listImg=null;
-if(img!=null) {
-	File f=new File(img.getText());
-	BufferedImage tmp=resizeImage(image);
-     listImg=splitImage(tmp);
-}
+		ArrayList<PieceView> aux=new ArrayList();
+		BufferedImage[] listImg=null;
+		
+		if(img!=null) {
+			File f=new File(img.getText());
+			BufferedImage tmp=resizeImage(image);
+		    listImg=splitImage(tmp);
+		}
 		for(int i=0;i<list.size();i++) {
 			Element pieceModel=(Element)list.get(i);
-			
+					
 			int id = Integer.parseInt(pieceModel.getChildText("Id"));
-		     int row = Integer.parseInt(pieceModel.getChildText("X"));
-		     int col = Integer.parseInt(pieceModel.getChildText("Y"));
-		     int size = Integer.parseInt(pieceModel.getChildText("Size"));
-		     String image=pieceModel.getChildText("ImagePath");
+			int row = Integer.parseInt(pieceModel.getChildText("X"));
+		    int col = Integer.parseInt(pieceModel.getChildText("Y"));
+		    int size = Integer.parseInt(pieceModel.getChildText("Size"));
+		    String image=pieceModel.getChildText("ImagePath");
 		     
-		     if(img==null) {
-		    	 PieceView p=new PieceView(id,row,col,size,image);
-			     aux.add(p);
-		     }else {
-		    	 
-		    	 if(id==0) {
-		    		 PieceView p=new PieceView(id,row,col,size,"blank.gif");
-				     aux.add(p); 
-		    	 }else {
-		    	 PieceView p=new PieceView(id,row,col,size,listImg[id]);
-			     aux.add(p);
-		    	 }
-		     }
-		    
+		    if(img==null) {
+		    	PieceView p=new PieceView(id,row,col,size,image);
+			    aux.add(p);
+		    }else {		    	 
+		    	if(id==0) {
+		    		PieceView p=new PieceView(id,row,col,size,"blank.gif");
+				    aux.add(p); 
+		    	}else {
+		    		PieceView p=new PieceView(id,row,col,size,listImg[id]);
+		    		aux.add(p);
+		    	}
+		    }		    
 		}
-		this.iconArray=aux;
-		
-	 }
+		this.iconArray=aux;		
+	}
 
 
-
-
-public void setIconArray(ArrayList<PieceView> aux) {
-	// TODO Auto-generated method stub
-	iconArray=aux;
-}
-
+	public void setIconArray(ArrayList<PieceView> aux) {
+		// TODO Auto-generated method stub
+		iconArray=aux;
+	}
 }

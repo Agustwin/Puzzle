@@ -68,10 +68,7 @@ public class PuzzleGUI extends JFrame{
         PuzzleGUI.rowNum = rowNum;
         PuzzleGUI.columnNum = columnNum;
         PuzzleGUI.imageSize = imageSize;
-        PuzzleGUI.imageList = imageList;
-        
-        
-        
+        PuzzleGUI.imageList = imageList;       
     }
 
     //MÃ©todo que crea el panel inferior
@@ -98,6 +95,8 @@ public class PuzzleGUI extends JFrame{
     private JMenuBar createMenuBar(){
         JMenuBar menu = new JMenuBar();
         JMenu archive = new JMenu("Archive");
+        //Para cambiar los parametros de manera dinamica
+        JMenu parameter = new JMenu("Parameters");
         JMenu help = new JMenu("Help");
 
         JMenuItem load = new JMenuItem("Load");
@@ -112,14 +111,19 @@ public class PuzzleGUI extends JFrame{
         saveGame.setActionCommand("saveGame");
         JMenuItem loadGame = new JMenuItem("loadGame");
         loadGame.setActionCommand("loadGame");
+        
+        JMenuItem changePara = new JMenuItem("changeParameters");
+        changePara.setActionCommand("changeParameters");
 
         archive.add(load);
         archive.add(saveGame);
         archive.add(loadGame);       
         archive.add(exit);
+        parameter.add(changePara);
         help.add(info);
 
         menu.add(archive);
+        menu.add(parameter);
         menu.add(help);
 
         load.addActionListener(controller);
@@ -127,6 +131,8 @@ public class PuzzleGUI extends JFrame{
         //Paso 4 para guardar y cargar partidas
         saveGame.addActionListener(controller);
         loadGame.addActionListener(controller);
+        
+        changePara.addActionListener(controller);
         
         exit.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent ev) {
@@ -163,9 +169,7 @@ public class PuzzleGUI extends JFrame{
     //MÃ©todo para actualizar la imagen del tablero
     public void updateBoard(File imageFile){
     	
-    	boardView.setImage(imageFile);
-    	
-        
+    	boardView.setImage(imageFile);    	       
         
     }
 

@@ -38,16 +38,13 @@ import control.Controller;
  * @version 1.0
  */
 public class PuzzleApp {
-	//public static AbstractModel myModel;
-
 	static int imageSize;
     static int rowNum;
     static int columnNum;
     static String imagePath=null;
     
     public static void main(String args[]){
-        
-        
+               
         
         readXML();
         
@@ -73,40 +70,30 @@ public class PuzzleApp {
         BoardView view=PuzzleGUI.getInstance().getBoardView();
      
         // AÃ±adimos un nuevo observador al controlador
-
         myController.addObserver(view);
         myController.addObserver(myModel);
         
 
-
-
         // Visualizamos la aplicaciÃ³n.
         PuzzleGUI.getInstance().setVisible(true);
-        
-       
-      
-        
+                    
     }
     
     
-    public static void readXML()  {
-    	
+    public static void readXML()  {   	
     	SAXBuilder builder = new SAXBuilder();
     	File xmlFile = new File( "./resources/Parameters.xml" );
     	System.out.println(xmlFile);
     	try {
     		Document document = (Document) builder.build( xmlFile );
     		Element rootNode = document.getRootElement();
-    		 imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
-    		 rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));;
-    		 columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
-    		 imagePath=rootNode.getChildTextTrim("imagePath");
+    		imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
+    		rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));;
+    		columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
+    		imagePath=rootNode.getChildTextTrim("imagePath");
     		System.out.println(imagePath);
     	}catch(Exception e) {
     		System.err.println(e);
-    	}
-    	
-    	
-    	
+    	}   	
     }
 }

@@ -14,11 +14,9 @@ import org.jdom2.Element;
 public class Model extends AbstractModel<PieceModel>{
 	
 	protected ArrayList<PieceModel> listP=null;	
-	
-	
+		
 	public Model(int rowNum, int columnNum, int pieceSize) {
-		super(rowNum, columnNum, pieceSize);
-	
+		super(rowNum, columnNum, pieceSize);	
 	}
 
 	public Model(int rowNum, int columnNum,int pieceSize, String[] imageList) {
@@ -28,9 +26,7 @@ public class Model extends AbstractModel<PieceModel>{
         for(int i=0;i<rowNum*columnNum;i++) {  	
     		addNewPiece( i, i%rowNum,i/columnNum,imageList[i]);	        		
         }	        
-	}
-	 
-	 																																																																											
+	}	 	 																																																																											
 	 
 	@Override
 	public void update(int blankPos, int movedPos) {
@@ -83,16 +79,16 @@ public class Model extends AbstractModel<PieceModel>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	//Metodo creado para poner una nueva tabla
 	@Override
 	public void setNewBoard() {
-		 for(int i=0;i<rowNum*columnNum;i++) {
-	        		
-     		addNewPiece(i, i%rowNum,i/columnNum);
-     		
- }
-		
+		 for(int i=0;i<rowNum*columnNum;i++) {	        		
+     		addNewPiece(i, i%rowNum, i/columnNum);    		
+		 }		
 	}
 	
+	// Metodo para cargar una tabla
 	@Override
 	public void loadBoard(List<Element> list,Element img) {
 		 
