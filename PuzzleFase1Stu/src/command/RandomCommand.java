@@ -34,8 +34,8 @@ public class RandomCommand implements Command {
 		
 		for(int i=0;i<10;i++) {
 			
-			pos[0]=(int)(Math.random()*9);
-			pos[1]=(int)(Math.random()*9);
+			pos[0]=(int)(Math.random()*(controller.getRowNum()*controller.getColNum()));
+			pos[1]=(int)(Math.random()*(controller.getRowNum()*controller.getColNum()));
 			
 			System.out.println(pos[0]+" "+pos[1]);
 			

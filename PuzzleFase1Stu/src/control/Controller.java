@@ -344,4 +344,11 @@ public class Controller extends AbstractController{
 		for(Observer o:observerList) {
 			o.Parameters(rowNum, columnNum, imageSize);
 		}	}
+	
+	public int getRowNum() {
+		return this.rowNum;
+	}
+	public int getColNum() {
+		return this.rowNum;
+	}
 }
