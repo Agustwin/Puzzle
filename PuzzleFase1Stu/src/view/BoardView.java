@@ -115,6 +115,7 @@ public class BoardView extends JPanel implements Observer {
     	
         //Divisor de imÃ¡genes
     	for(int i=0;i<columnNum*rowNum;i++) {
+    		System.out.println("Row: "+rowNum+" Col: "+columnNum+" imageSize: "+imageSize);
     		images[i]=image.getSubimage((i%rowNum)*imageSize, (i/columnNum)*imageSize, imageSize, imageSize);    		
     	}
         

@@ -3,8 +3,8 @@
 <Parameters>
 
 <imageSize>32</imageSize>
-<rowNum>4</rowNum>
-<columnNum>4</columnNum>
+<rowNum>3</rowNum>
+<columnNum>3</columnNum>
 <imagePath></imagePath>
 
 </Parameters>
