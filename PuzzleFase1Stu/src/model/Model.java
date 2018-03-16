@@ -48,6 +48,10 @@ public class Model extends AbstractModel<PieceModel>{
     	listP.set(blankPos,listP.get(movedPos));
     	listP.set(movedPos, blank);
 		
+    	if(this.isPuzzleSolve()) {
+    		System.out.println("PUZZLE RESUELTO");
+    	}
+    	
     	System.out.println("Model: ");
 		for(PieceModel p:listP) {
 			System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
@@ -71,7 +75,14 @@ public class Model extends AbstractModel<PieceModel>{
 	@Override
 	public boolean isPuzzleSolve() {
 		// TODO Auto-generated method stub
-		return false;
+		
+		for(int i=0;i<listP.size()-1;i++) {
+			if(listP.get(i).getId()+1!=listP.get(i+1).getId()) {
+				return false;
+			}
+			
+		}
+		return true;
 	}
 
 	@Override
