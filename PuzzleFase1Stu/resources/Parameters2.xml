@@ -2,9 +2,9 @@
 
 <Parameters>
 
-<imageSize>32</imageSize>
-<rowNum>3</rowNum>
-<columnNum>3</columnNum>
+<imageSize>16</imageSize>
+<rowNum>6</rowNum>
+<columnNum>6</columnNum>
 <imagePath></imagePath>
 
 </Parameters>

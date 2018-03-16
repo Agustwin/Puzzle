@@ -50,6 +50,7 @@ public class Controller extends AbstractController{
 	private Command save;
 	private Command load;
 	
+	//Datos para el cambio de parametros
 	static int imageSize;
     static int rowNum;
     static int columnNum;
@@ -113,7 +114,7 @@ public class Controller extends AbstractController{
 				PuzzleGUI.getInstance().getBoardView().setColumnNum(columnNum);
 				PuzzleGUI.getInstance().getBoardView().setImageSize(imageSize);
 		
-				//notifyObserversReset();
+				notifyObserversReset();
 				this.myView=PuzzleGUI.getInstance().getBoardView();	
 				reset();
 				System.out.println("Change Parameters XML");
@@ -343,7 +344,8 @@ public class Controller extends AbstractController{
 		// TODO Auto-generated method stub
 		for(Observer o:observerList) {
 			o.Parameters(rowNum, columnNum, imageSize);
-		}	}
+		}	
+	}
 	
 	public int getRowNum() {
 		return this.rowNum;
