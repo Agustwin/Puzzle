@@ -1,296 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Model>
-  <Image>D:\Images\Concept\Lucina_Heroes_3.png</Image>
+  <Image>C:\Users\Agustín\Desktop\a.jpg</Image>
   <Pieces>
     <pieceModel>
-      <Id>1</Id>
+      <Id>5</Id>
       <X>0</X>
       <Y>0</Y>
       <Size>32</Size>
-      <ImagePath>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\Puzzle\PuzzleFase1Stu\resources\one.gif</ImagePath>
-    </pieceModel>
-    <pieceModel>
-      <Id>0</Id>
-      <X>1</X>
-      <Y>0</Y>
-      <Size>32</Size>
-      <ImagePath>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\Puzzle\PuzzleFase1Stu\resources\blank.gif</ImagePath>
-    </pieceModel>
-    <pieceModel>
-      <Id>7</Id>
-      <X>2</X>
-      <Y>0</Y>
-      <Size>32</Size>
-      <ImagePath>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\Puzzle\PuzzleFase1Stu\resources\seven.gif</ImagePath>
-    </pieceModel>
-    <pieceModel>
-      <Id>2</Id>
-      <X>0</X>
-      <Y>1</Y>
-      <Size>32</Size>
-      <ImagePath>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\Puzzle\PuzzleFase1Stu\resources\two.gif</ImagePath>
+      <ImagePath />
     </pieceModel>
     <pieceModel>
       <Id>4</Id>
       <X>1</X>
-      <Y>1</Y>
+      <Y>0</Y>
       <Size>32</Size>
-      <ImagePath>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\Puzzle\PuzzleFase1Stu\resources\four.gif</ImagePath>
-    </pieceModel>
-    <pieceModel>
-      <Id>5</Id>
-      <X>2</X>
-      <Y>1</Y>
-      <Size>32</Size>
-      <ImagePath>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\Puzzle\PuzzleFase1Stu\resources\five.gif</ImagePath>
-    </pieceModel>
-    <pieceModel>
-      <Id>8</Id>
-      <X>0</X>
-      <Y>2</Y>
-      <Size>32</Size>
-      <ImagePath>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\Puzzle\PuzzleFase1Stu\resources\eight.gif</ImagePath>
-    </pieceModel>
-    <pieceModel>
-      <Id>3</Id>
-      <X>1</X>
-      <Y>2</Y>
-      <Size>32</Size>
-      <ImagePath>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\Puzzle\PuzzleFase1Stu\resources\three.gif</ImagePath>
+      <ImagePath />
     </pieceModel>
     <pieceModel>
       <Id>6</Id>
       <X>2</X>
+      <Y>0</Y>
+      <Size>32</Size>
+      <ImagePath />
+    </pieceModel>
+    <pieceModel>
+      <Id>3</Id>
+      <X>0</X>
+      <Y>1</Y>
+      <Size>32</Size>
+      <ImagePath />
+    </pieceModel>
+    <pieceModel>
+      <Id>7</Id>
+      <X>1</X>
+      <Y>1</Y>
+      <Size>32</Size>
+      <ImagePath />
+    </pieceModel>
+    <pieceModel>
+      <Id>1</Id>
+      <X>2</X>
+      <Y>1</Y>
+      <Size>32</Size>
+      <ImagePath />
+    </pieceModel>
+    <pieceModel>
+      <Id>2</Id>
+      <X>0</X>
       <Y>2</Y>
       <Size>32</Size>
-      <ImagePath>D:\Downloads\URJC\Cuarto\2 cuatrimestre\GDED\Practicas\Puzzle\Puzzle\PuzzleFase1Stu\resources\six.gif</ImagePath>
+      <ImagePath />
+    </pieceModel>
+    <pieceModel>
+      <Id>0</Id>
+      <X>1</X>
+      <Y>2</Y>
+      <Size>32</Size>
+      <ImagePath>resources/blank.gif</ImagePath>
+    </pieceModel>
+    <pieceModel>
+      <Id>8</Id>
+      <X>2</X>
+      <Y>2</Y>
+      <Size>32</Size>
+      <ImagePath />
     </pieceModel>
   </Pieces>
-  <Index>40</Index>
+  <Index>13</Index>
   <Moves>
     <move>
-      <Pos0>3</Pos0>
+      <Pos0>1</Pos0>
       <Pos1>0</Pos1>
     </move>
     <move>
       <Pos0>4</Pos0>
-      <Pos1>0</Pos1>
-    </move>
-    <move>
-      <Pos0>0</Pos0>
-      <Pos1>0</Pos1>
-    </move>
-    <move>
-      <Pos0>1</Pos0>
-      <Pos1>6</Pos1>
-    </move>
-    <move>
-      <Pos0>2</Pos0>
-      <Pos1>2</Pos1>
-    </move>
-    <move>
-      <Pos0>3</Pos0>
-      <Pos1>6</Pos1>
-    </move>
-    <move>
-      <Pos0>7</Pos0>
-      <Pos1>4</Pos1>
-    </move>
-    <move>
-      <Pos0>8</Pos0>
-      <Pos1>3</Pos1>
-    </move>
-    <move>
-      <Pos0>6</Pos0>
-      <Pos1>0</Pos1>
-    </move>
-    <move>
-      <Pos0>6</Pos0>
       <Pos1>1</Pos1>
     </move>
     <move>
-      <Pos0>0</Pos0>
-      <Pos1>0</Pos1>
-    </move>
-    <move>
-      <Pos0>4</Pos0>
-      <Pos1>2</Pos1>
-    </move>
-    <move>
-      <Pos0>2</Pos0>
-      <Pos1>4</Pos1>
-    </move>
-    <move>
-      <Pos0>4</Pos0>
-      <Pos1>2</Pos1>
-    </move>
-    <move>
-      <Pos0>8</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>1</Pos0>
-      <Pos1>6</Pos1>
-    </move>
-    <move>
-      <Pos0>4</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>2</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>7</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>2</Pos0>
-      <Pos1>7</Pos1>
-    </move>
-    <move>
-      <Pos0>7</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>0</Pos0>
-      <Pos1>0</Pos1>
-    </move>
-    <move>
-      <Pos0>4</Pos0>
-      <Pos1>7</Pos1>
-    </move>
-    <move>
-      <Pos0>7</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>8</Pos0>
-      <Pos1>8</Pos1>
-    </move>
-    <move>
-      <Pos0>4</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>6</Pos0>
-      <Pos1>3</Pos1>
-    </move>
-    <move>
-      <Pos0>3</Pos0>
-      <Pos1>3</Pos1>
-    </move>
-    <move>
-      <Pos0>3</Pos0>
-      <Pos1>8</Pos1>
-    </move>
-    <move>
-      <Pos0>8</Pos0>
-      <Pos1>4</Pos1>
-    </move>
-    <move>
       <Pos0>7</Pos0>
       <Pos1>4</Pos1>
     </move>
     <move>
       <Pos0>4</Pos0>
-      <Pos1>3</Pos1>
-    </move>
-    <move>
-      <Pos0>3</Pos0>
-      <Pos1>4</Pos1>
-    </move>
-    <move>
-      <Pos0>5</Pos0>
       <Pos1>3</Pos1>
     </move>
     <move>
       <Pos0>6</Pos0>
-      <Pos1>6</Pos1>
-    </move>
-    <move>
-      <Pos0>7</Pos0>
-      <Pos1>7</Pos1>
-    </move>
-    <move>
-      <Pos0>8</Pos0>
-      <Pos1>0</Pos1>
-    </move>
-    <move>
-      <Pos0>7</Pos0>
-      <Pos1>4</Pos1>
-    </move>
-    <move>
-      <Pos0>7</Pos0>
-      <Pos1>3</Pos1>
-    </move>
-    <move>
-      <Pos0>1</Pos0>
-      <Pos1>8</Pos1>
-    </move>
-    <move>
-      <Pos0>5</Pos0>
       <Pos1>4</Pos1>
     </move>
     <move>
       <Pos0>8</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>5</Pos0>
-      <Pos1>8</Pos1>
-    </move>
-    <move>
-      <Pos0>4</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>1</Pos0>
-      <Pos1>4</Pos1>
-    </move>
-    <move>
-      <Pos0>2</Pos0>
       <Pos1>1</Pos1>
     </move>
     <move>
-      <Pos0>8</Pos0>
-      <Pos1>4</Pos1>
-    </move>
-    <move>
-      <Pos0>6</Pos0>
-      <Pos1>3</Pos1>
-    </move>
-    <move>
-      <Pos0>3</Pos0>
-      <Pos1>8</Pos1>
-    </move>
-    <move>
-      <Pos0>7</Pos0>
-      <Pos1>5</Pos1>
-    </move>
-    <move>
-      <Pos0>1</Pos0>
-      <Pos1>4</Pos1>
-    </move>
-    <move>
-      <Pos0>1</Pos0>
-      <Pos1>2</Pos1>
-    </move>
-    <move>
-      <Pos0>3</Pos0>
+      <Pos0>2</Pos0>
       <Pos1>6</Pos1>
     </move>
     <move>
-      <Pos0>8</Pos0>
-      <Pos1>8</Pos1>
+      <Pos0>3</Pos0>
+      <Pos1>3</Pos1>
+    </move>
+    <move>
+      <Pos0>7</Pos0>
+      <Pos1>7</Pos1>
+    </move>
+    <move>
+      <Pos0>0</Pos0>
+      <Pos1>5</Pos1>
     </move>
     <move>
       <Pos0>3</Pos0>
-      <Pos1>1</Pos1>
+      <Pos1>2</Pos1>
     </move>
     <move>
-      <Pos0>8</Pos0>
-      <Pos1>7</Pos1>
+      <Pos0>2</Pos0>
+      <Pos1>4</Pos1>
+    </move>
+    <move>
+      <Pos0>1</Pos0>
+      <Pos1>8</Pos1>
     </move>
   </Moves>
 </Model>

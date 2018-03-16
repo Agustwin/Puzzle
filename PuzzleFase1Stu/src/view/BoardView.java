@@ -388,4 +388,11 @@ public class BoardView extends JPanel implements Observer {
 		// TODO Auto-generated method stub
 		iconArray=aux;
 	}
+	@Override
+	public void Parameters(int rowNum,int columnNum,int imageSize) {
+		this.rowNum=rowNum;
+		this.columnNum=columnNum;
+		this.imageSize=imageSize;
+		
+	}
 }

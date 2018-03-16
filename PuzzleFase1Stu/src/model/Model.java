@@ -109,5 +109,14 @@ public class Model extends AbstractModel<PieceModel>{
 		this.listP=aux;
 		
 	 }
+
+	@Override
+	public void Parameters(int rowNum, int columnNum, int imageSize) {
+		// TODO Auto-generated method stub
+		this.rowNum=rowNum;
+		this.columnNum=columnNum;
+		
+		
+	}
 }
 

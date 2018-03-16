@@ -84,8 +84,11 @@ public class Controller extends AbstractController{
 				File f=PuzzleGUI.getInstance().showFileSelector();
 				System.out.println("Path: "+f);
 				if(f!=null) {
+					readParam();
+					notifyParameters(rowNum,columnNum,imageSize);
 					PuzzleGUI.getInstance().updateBoard(f);
 				}
+				
 				notifyObserversReset();
 				this.myView=PuzzleGUI.getInstance().getBoardView();
 				reset();
@@ -334,4 +337,11 @@ public class Controller extends AbstractController{
 			o.update(blankPos, movedPos);
 		}
 	}
+
+	@Override
+	public void notifyParameters(int rowNum, int columnNum, int imageSize) {
+		// TODO Auto-generated method stub
+		for(Observer o:observerList) {
+			o.Parameters(rowNum, columnNum, imageSize);
+		}	}
 }
