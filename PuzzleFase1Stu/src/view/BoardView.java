@@ -126,18 +126,18 @@ public class BoardView extends JPanel implements Observer {
 		return rowNum;
 	}
 
-
+  
 	public void setRowNum(int rowNum) {
 		this.rowNum = rowNum;
 	}
-
+ 
 
 	public int getColumnNum() {
 		return columnNum;
 	}
 
 
-	public void setColumnNum(int columnNum) {
+	 public void setColumnNum(int columnNum) {
 		this.columnNum = columnNum;
 	}
 
