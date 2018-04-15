@@ -1,0 +1,8 @@
+<!DOCTYPE Parameters
+[
+<!ELEMENT Parameters (imageSize,rowNum,columnNum,imagePath)>
+<!ELEMENT imageSize (#PCDATA)>
+<!ELEMENT rowNum (#PCDATA)>
+<!ELEMENT columnNum (#PCDATA)>
+<!ELEMENT imagePath (#PCDATA)>
+]>

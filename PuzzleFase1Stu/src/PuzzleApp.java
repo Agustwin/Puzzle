@@ -12,6 +12,9 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.input.sax.XMLReaderJDOMFactory;
+import org.jdom2.input.sax.XMLReaderXSDFactory;
+import org.jdom2.input.sax.XMLReaders;
 
 import control.AbstractController;
 import control.Controller;
@@ -91,10 +94,13 @@ public class PuzzleApp {
     
     public static void readXML()  {
     	
-    	SAXBuilder builder = new SAXBuilder();
+    	SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
     	File xmlFile = new File( "./resources/Parameters.xml" );
-    	System.out.println(xmlFile);
+    	
+    	
     	try {
+    		
+    		System.out.println(xmlFile.getPath());
     		Document document = (Document) builder.build( xmlFile );
     		Element rootNode = document.getRootElement();
     		 imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
@@ -103,7 +109,7 @@ public class PuzzleApp {
     		 imagePath=rootNode.getChildTextTrim("imagePath");
     		System.out.println(imagePath);
     	}catch(Exception e) {
-    		System.err.println(e);
+    		e.printStackTrace();
     	}
     	
     	
