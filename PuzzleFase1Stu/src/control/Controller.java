@@ -38,7 +38,6 @@ public class Controller extends AbstractController{
 	
 	/*No se si es correcto*/
 	private BoardView myView;
-	private Model myModel;
 	private int posX;
 	private int posY;
 	private MoveCommand move;

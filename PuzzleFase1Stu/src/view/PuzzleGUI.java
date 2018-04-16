@@ -28,7 +28,7 @@ public class PuzzleGUI extends JFrame{
     //Array de imagenes
     public static String[] imageList = null;
     
-    public static File i;
+    public static File f=null;
     //Panel de juego
     private BoardView boardView;
     //ancho y alto de la ventana
@@ -41,7 +41,12 @@ public class PuzzleGUI extends JFrame{
      */
     private PuzzleGUI(){
         super("GMD PuzzleGUI");
-        boardView = new BoardView(rowNum,columnNum,imageSize,imageList);
+        if(this.imageList==null) {
+        	boardView = new BoardView(rowNum,columnNum,imageSize,f);
+        }else {
+        	boardView = new BoardView(rowNum,columnNum,imageSize,imageList);
+        }
+        
         boardView.addMouseListener(controller);
         this.getContentPane().setLayout(new BorderLayout());
         this.setJMenuBar(createMenuBar());
@@ -54,6 +59,8 @@ public class PuzzleGUI extends JFrame{
         this.setLocation(centerFrame());
        
     }
+    
+    
 
     //Singleton
     public static PuzzleGUI getInstance(){
@@ -69,6 +76,17 @@ public class PuzzleGUI extends JFrame{
         PuzzleGUI.columnNum = columnNum;
         PuzzleGUI.imageSize = imageSize;
         PuzzleGUI.imageList = imageList;
+        
+        
+        
+    }
+    
+    public static void initialize(AbstractController controller, int rowNum,int columnNum,int imageSize,File f){
+        PuzzleGUI.controller = controller;
+        PuzzleGUI.rowNum = rowNum;
+        PuzzleGUI.columnNum = columnNum;
+        PuzzleGUI.imageSize = imageSize;
+        PuzzleGUI.f = f;
         
         
         

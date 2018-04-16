@@ -34,8 +34,8 @@ public class RandomCommand implements Command {
 		
 		for(int i=0;i<10;i++) {
 			
-			pos[0]=(int)(Math.random()*9);
-			pos[1]=(int)(Math.random()*9);
+			pos[0]=(int)(Math.random()*PuzzleGUI.getInstance().getBoardView().getRowNum()*PuzzleGUI.getInstance().getBoardView().getRowNum());
+			pos[1]=(int)(Math.random()*PuzzleGUI.getInstance().getBoardView().getColumnNum()*PuzzleGUI.getInstance().getBoardView().getColumnNum());
 			
 			System.out.println(pos[0]+" "+pos[1]);
 			

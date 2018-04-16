@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Parameters SYSTEM "./DTD.dtd">
 <Parameters>
-<imageSize>32</imageSize>
-<rowNum>3</rowNum>
-<columnNum>3</columnNum>
-<imagePath></imagePath>
+<imageSize>24</imageSize>
+<rowNum>4</rowNum>
+<columnNum>4</columnNum>
+<imagePath>.\resources\Prueba.jpg</imagePath>
 </Parameters>

@@ -18,6 +18,11 @@ public class Model extends AbstractModel<PieceModel>{
 	
 	public Model(int rowNum, int columnNum, int pieceSize) {
 		super(rowNum, columnNum, pieceSize);
+		 listP=new ArrayList<PieceModel>();
+	        
+	        for(int i=0;i<rowNum*columnNum;i++) {  	
+	    		addNewPiece( i, i%rowNum,i/columnNum);	        		
+	        }	
 	
 	}
 
@@ -38,7 +43,7 @@ public class Model extends AbstractModel<PieceModel>{
 		
 		//muevo las coordenadas de las piezas
 		int auxX=listP.get(movedPos).getIndexRow();
-		int auxY=listP.get(movedPos).getIndexColumn();;
+		int auxY=listP.get(movedPos).getIndexColumn();
 	
 		listP.get(movedPos).setIndexRow(listP.get(blankPos).getIndexRow());
 		listP.get(movedPos).setIndexColumn(listP.get(blankPos).getIndexColumn());

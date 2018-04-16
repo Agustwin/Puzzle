@@ -77,6 +77,8 @@ public class BoardView extends JPanel implements Observer {
 
     public BoardView(int rowNum, int columnNum, int imageSize, File imageFile){
         super();
+        this.rowNum=rowNum;
+        this.columnNum=columnNum;
         this.imageSize=imageSize;
         iconArray=new ArrayList<PieceView>();
         
@@ -408,7 +410,12 @@ if(img!=null) {
 	 }
 
 
-
+public int getRowNum() {
+	return rowNum;
+}
+public int getColumnNum() {
+	return columnNum;
+}
 
 public void setIconArray(ArrayList<PieceView> aux) {
 	// TODO Auto-generated method stub

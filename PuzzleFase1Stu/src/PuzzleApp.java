@@ -12,8 +12,6 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.input.sax.XMLReaderJDOMFactory;
-import org.jdom2.input.sax.XMLReaderXSDFactory;
 import org.jdom2.input.sax.XMLReaders;
 
 import control.AbstractController;
@@ -41,58 +39,82 @@ import control.Controller;
  * @version 1.0
  */
 public class PuzzleApp {
-	//public static AbstractModel myModel;
-
 	static int imageSize;
     static int rowNum;
     static int columnNum;
     static String imagePath=null;
     
     public static void main(String args[]){
-        
-        
+               
         
         readXML();
         
-        String fileSeparator = System.getProperty("file.separator");
-         imagePath=System.getProperty("user.dir")+fileSeparator+"resources"+fileSeparator;
+       if(imagePath!=null && imagePath.length()!=0) {
+    	   
+    	   File f=new File(imagePath);
+    	   
+    	// Creamos el modelo
+           AbstractModel myModel=new Model(rowNum, columnNum,imageSize);
 
-        String[] imageList={imagePath+"blank.gif",imagePath+"one.gif",imagePath+"two.gif",imagePath+"three.gif",imagePath+ "four.gif",
-                imagePath+"five.gif",imagePath+"six.gif",imagePath+"seven.gif",imagePath+"eight.gif"};
+           // Creamos el controlador
+           Controller myController=new Controller();
+           
+
+           // Inicializamos la GUI
+           PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, f);
+           
+           // Obtenemos la vista del tablero
+           BoardView view=PuzzleGUI.getInstance().getBoardView();
+        
+           // AÃ±adimos un nuevo observador al controlador
+           myController.addObserver(view);
+           myController.addObserver(myModel);
+           
+
+           // Visualizamos la aplicaciÃ³n.
+           PuzzleGUI.getInstance().setVisible(true);
+    	   
+       }else {
+    	   String fileSeparator = System.getProperty("file.separator");
+           imagePath=System.getProperty("user.dir")+fileSeparator+"resources"+fileSeparator;
+
+           
+           
+          String[] imageList={imagePath+"blank.gif",imagePath+"one.gif",imagePath+"two.gif",imagePath+"three.gif",imagePath+ "four.gif",
+                  imagePath+"five.gif",imagePath+"six.gif",imagePath+"seven.gif",imagePath+"eight.gif"};
+          
+          // Creamos el modelo
+          AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
+
+          // Creamos el controlador
+          Controller myController=new Controller();
+          
+
+          // Inicializamos la GUI
+          PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, imageList);
+          
+          // Obtenemos la vista del tablero
+          BoardView view=PuzzleGUI.getInstance().getBoardView();
+       
+          // AÃ±adimos un nuevo observador al controlador
+          myController.addObserver(view);
+          myController.addObserver(myModel);
+          
+
+          // Visualizamos la aplicaciÃ³n.
+          PuzzleGUI.getInstance().setVisible(true);
+       }
+        
+        
 
        
          
-        // Creamos el modelo
-        AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
-
-        // Creamos el controlador
-        Controller myController=new Controller();
-        
-
-        // Inicializamos la GUI
-        PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, imageList);
-        
-        // Obtenemos la vista del tablero
-        BoardView view=PuzzleGUI.getInstance().getBoardView();
-     
-        // AÃ±adimos un nuevo observador al controlador
-
-        myController.addObserver(view);
-        myController.addObserver(myModel);
-        
-
-
-
-        // Visualizamos la aplicaciÃ³n.
-        PuzzleGUI.getInstance().setVisible(true);
-        
        
-      
-        
+                    
     }
     
     
-    public static void readXML()  {
+ public static void readXML()  {
     	
     	SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
     	File xmlFile = new File( "./resources/Parameters.xml" );
@@ -104,10 +126,10 @@ public class PuzzleApp {
     		Document document = (Document) builder.build( xmlFile );
     		Element rootNode = document.getRootElement();
     		 imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
-    		 rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));;
+    		 rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));
     		 columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
     		 imagePath=rootNode.getChildTextTrim("imagePath");
-    		System.out.println(imagePath);
+    		
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
