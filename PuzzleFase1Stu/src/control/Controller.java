@@ -186,24 +186,25 @@ public void writeXML() throws IOException{
 	
 	
 	try {
-
+		
 		File file = new File("Save.xml");
 		JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
 		// output pretty printed
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		
-		Stack<MoveCommand> aux=(Stack<MoveCommand>) moveCommands.clone();
-		
-		SaveGame s=new SaveGame();
-		s.setStack(aux);
-		jaxbMarshaller.marshal(s, file);
-		//while(!aux.isEmpty()) {
 
-			//MoveCommand m=aux.pop();
+		SaveGame s=new SaveGame();
+		s.setStack(moveCommands);
+		System.err.println("ESCRITURA");
+		for(int i=0;i<moveCommands.size();i++) {
+		
+			System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+		}
+		
+		jaxbMarshaller.marshal(s, file);
 			jaxbMarshaller.marshal(s, System.out);
-		//}
+		
 		
 
 	      } catch (JAXBException e) {
@@ -216,29 +217,31 @@ public void writeXML() throws IOException{
 
 public void readXML(){
 	try {
-
+		
+		while(!moveCommands.isEmpty()) {
+			moveCommands.pop().execute();
+		}
+		
 		File file = new File("Save.xml");
 		JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
-
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
 		Stack aux=s.getStack();
 		
-		
+		moveCommands.clear();
 		moveCommands=(Stack<MoveCommand>) aux.clone();
+		System.err.println("Lectura");
+		for(int i=0;i<moveCommands.size();i++) {
+			
+			System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+		}
 		
 		for(int i=0;i<moveCommands.size();i++) {
 			moveCommands.get(i).setController(this);
-			
+			moveCommands.get(i).execute();
 		}
 		
-		if(aux!=null)
-		for(int i=0;i<moveCommands.size();i++) {
-			MoveCommand m=(MoveCommand)aux.get(i);
-			m.setController(this);
-			//moveCommands.push(m);
-			m.execute();
-		}
+		
 		
 	  } catch (JAXBException e) {
 		e.printStackTrace();
