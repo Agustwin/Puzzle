@@ -12,10 +12,12 @@ public class MoveCommand implements Command{
 	private ArrayList<int[]> list=new ArrayList();
 	private Controller controller;
 	private int index=0;
+	private int pos0, pos1;
 	
-	
-	public MoveCommand(Controller c) {
+	public MoveCommand(Controller c, int posX, int posY) {
 	this.controller=c;	
+	this.pos0=posX;
+	this.pos1=posY;
 	}
 	
 	@Override
@@ -23,7 +25,7 @@ public class MoveCommand implements Command{
 		
 		
 			// TODO Auto-generated method stub
-			
+				
 				
 				int pos[]=list.get(index-1);
 				System.err.println(index);
@@ -39,7 +41,7 @@ public class MoveCommand implements Command{
 		
 		
 	
-
+		
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub
@@ -52,24 +54,7 @@ public class MoveCommand implements Command{
 		
 		
 		
-		
-		int[] pos=PuzzleGUI.getInstance().getBoardView().movePiece(controller.getPosX(), controller.getPosY());
-
-
-		
-		if(pos==null) {
-			return;
-		}
-		
-		try {
-			list.set(index,pos);
-		}catch (Exception e) {
-			list.add(index,pos);
-
-		}
-		index++;
-		
-		controller.notifyObservers(pos[0],pos[1]);
+		controller.notifyObservers(pos0,pos1);
 	}
 
 	public int getIndex() {

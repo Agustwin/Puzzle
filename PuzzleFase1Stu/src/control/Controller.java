@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import javax.swing.JFileChooser;
 
@@ -40,14 +41,14 @@ public class Controller extends AbstractController{
 	private BoardView myView;
 	private int posX;
 	private int posY;
-	private MoveCommand move;
+	private Stack<Command> moveCommands;
 	private Command solve;
 	private Command random;
 	private Command save;
 	private Command load;
 	
 	public Controller() {
-		move=new MoveCommand(this);
+		moveCommands=new Stack();
 		solve=new SolveCommand(this);
 		random=new RandomCommand(this);
 		save=new SaveCommand(this);
@@ -129,8 +130,11 @@ public class Controller extends AbstractController{
 	public void mouseClicked(MouseEvent e) {		
 		posX=e.getX();
 		posY=e.getY();
-		
-		move.execute();
+		System.out.println("X: "+posX+" Y: "+posY);
+		int pos[]=PuzzleGUI.getInstance().getBoardView().movePiece(posX, posY);
+		MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
+		this.moveCommands.push(m);
+		m.execute();
 	}
 
 	
@@ -163,11 +167,9 @@ public int getPosX() {
 public void setPosX(int posX) {
 	this.posX = posX;
 }
-public MoveCommand getCommandMove() {
-	return move;
-}
+
 public void reset() {
-	move=new MoveCommand(this);
+
 	solve=new SolveCommand(this);
 	random=new RandomCommand(this);
 }
@@ -311,4 +313,9 @@ public void notifyObservers(int blankPos, int movedPos) {
 		o.update(blankPos, movedPos);
 	}
 }
+public void addCommand(Command c) {
+	this.moveCommands.push(c);
+	
+}
+
 }

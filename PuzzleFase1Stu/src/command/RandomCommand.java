@@ -39,7 +39,10 @@ public class RandomCommand implements Command {
 			
 			System.out.println(pos[0]+" "+pos[1]);
 			
-			controller.getCommandMove().Random(pos[0],pos[1]);
+			MoveCommand m=new MoveCommand(controller,pos[0],pos[1]);
+			
+			controller.addCommand(m);
+			m.execute();
 		}
 		
 		
