@@ -8,6 +8,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.basex.core.Context;
+import org.basex.core.cmd.Add;
+import org.basex.core.cmd.CreateDB;
+import org.basex.core.cmd.InfoDB;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -44,16 +48,28 @@ public class PuzzleApp {
     static int columnNum;
     static String imagePath=null;
     
-    public static void main(String args[]){
-               
+    public static void main(String args[]){      
+    	
+    	XQueryController XQ = new XQueryController();
+    	
+    	//Paso1
+        Context context = new Context();
+        String col1 = "col1";
+        
+        XQ.createCollection(col1, context);
+        
+        //Paso2
+        String query1 = "/Model";
+        XQ.queryCatalog(query1,context); 
+        
         
         readXML();
         
-       if(imagePath!=null && imagePath.length()!=0) {
+        if(imagePath!=null && imagePath.length()!=0) {
     	   
     	   File f=new File(imagePath);
     	   
-    	// Creamos el modelo
+    	   // Creamos el modelo
            AbstractModel myModel=new Model(rowNum, columnNum,imageSize);
 
            // Creamos el controlador
@@ -77,49 +93,37 @@ public class PuzzleApp {
        }else {
     	   String fileSeparator = System.getProperty("file.separator");
            imagePath=System.getProperty("user.dir")+fileSeparator+"resources"+fileSeparator;
-
+          
            
-           
-          String[] imageList={imagePath+"blank.gif",imagePath+"one.gif",imagePath+"two.gif",imagePath+"three.gif",imagePath+ "four.gif",
+           String[] imageList={imagePath+"blank.gif",imagePath+"one.gif",imagePath+"two.gif",imagePath+"three.gif",imagePath+ "four.gif",
                   imagePath+"five.gif",imagePath+"six.gif",imagePath+"seven.gif",imagePath+"eight.gif"};
           
-          // Creamos el modelo
-          AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
+           // Creamos el modelo
+           AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
 
-          // Creamos el controlador
-          Controller myController=new Controller();
-          
+           // Creamos el controlador
+           Controller myController=new Controller();        
 
-          // Inicializamos la GUI
-          PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, imageList);
+           // Inicializamos la GUI
+           PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, imageList);
           
-          // Obtenemos la vista del tablero
-          BoardView view=PuzzleGUI.getInstance().getBoardView();
+           // Obtenemos la vista del tablero
+           BoardView view=PuzzleGUI.getInstance().getBoardView();
        
-          // AÃ±adimos un nuevo observador al controlador
-          myController.addObserver(view);
-          myController.addObserver(myModel);
-          
+           // AÃ±adimos un nuevo observador al controlador
+           myController.addObserver(view);
+           myController.addObserver(myModel);         
 
-          // Visualizamos la aplicaciÃ³n.
-          PuzzleGUI.getInstance().setVisible(true);
+           // Visualizamos la aplicaciÃ³n.
+           PuzzleGUI.getInstance().setVisible(true);
        }
-        
-        
-
-       
-         
-       
-                    
+                           
     }
-    
-    
- public static void readXML()  {
-    	
+       
+    public static void readXML()  {	    	
     	SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
     	File xmlFile = new File( "./resources/Parameters.xml" );
-    	
-    	
+    		    	
     	try {
     		
     		System.out.println(xmlFile.getPath());
@@ -132,9 +136,7 @@ public class PuzzleApp {
     		
     	}catch(Exception e) {
     		e.printStackTrace();
-    	}
-    	
-    	
-    	
+    	}	
     }
+    
 }

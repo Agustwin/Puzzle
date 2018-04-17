@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -99,7 +100,8 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "info":
-				System.out.println("Information");
+				JOptionPane.showMessageDialog(null,"Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
+				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
 				break;
 				
 			default:
