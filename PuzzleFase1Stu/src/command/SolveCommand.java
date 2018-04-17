@@ -1,5 +1,7 @@
 package command;
 
+import java.util.Stack;
+
 import javax.swing.JOptionPane;
 
 import control.Controller;
@@ -27,8 +29,11 @@ public class SolveCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub		
-		while((controller.getCommandMove()).getIndex()>0) {
-			controller.getCommandMove().undoCommand();
+		Stack<MoveCommand> aux=controller.getMoves();
+		while(!aux.isEmpty()) {
+			System.out.println("holaaaaaaaaaaa");
+			MoveCommand m=aux.pop();
+			m.undoCommand();
 		}
 		//Mensaje de que se ha solucionado el puzzle
 		JOptionPane.showMessageDialog(null,"Puzzle is solved");

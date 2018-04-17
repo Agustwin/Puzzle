@@ -3,7 +3,7 @@ package model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+
 public class PieceModel {
 	private int id;
 	private int rowNum;
@@ -37,7 +37,7 @@ public PieceModel(int id,int rowNum,int columnNum){
 		return id;
 	}
 	
-	@XmlElement
+	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -46,7 +46,6 @@ public PieceModel(int id,int rowNum,int columnNum){
 		return rowNum;
 	}
 	
-	@XmlElement
 	public void setIndexRow(int rowNum) {
 		this.rowNum = rowNum;
 	}
@@ -55,7 +54,7 @@ public PieceModel(int id,int rowNum,int columnNum){
 		return columnNum;
 	}
 	
-	@XmlElement
+	
 	public void setIndexColumn(int columnNum) {
 		this.columnNum = columnNum;
 	}
@@ -64,7 +63,7 @@ public PieceModel(int id,int rowNum,int columnNum){
 		return imagePath;
 	}
 	
-	@XmlElement
+	
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}

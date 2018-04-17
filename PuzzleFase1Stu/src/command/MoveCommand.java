@@ -4,16 +4,24 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import control.Controller;
 import view.PuzzleGUI;
 
+@XmlRootElement
 public class MoveCommand implements Command{
 
-	private ArrayList<int[]> list=new ArrayList();
-	private Controller controller;
-	private int index=0;
-	private int pos0, pos1;
 	
+	private Controller controller;
+
+	private int pos0;
+	private int pos1;
+	
+	public MoveCommand() {
+		
+	}
 	public MoveCommand(Controller c, int posX, int posY) {
 	this.controller=c;	
 	this.pos0=posX;
@@ -22,19 +30,9 @@ public class MoveCommand implements Command{
 	
 	@Override
 	public void undoCommand() {
-		
-		
-			// TODO Auto-generated method stub
-				
-				
-				int pos[]=list.get(index-1);
-				System.err.println(index);
-				index--;
-				if(pos==null) {
-					return;
-				}
-				
-				controller.notifyObservers(pos[1],pos[0]);
+		// TODO Auto-generated method stub
+
+			controller.notifyObservers(pos1,pos0);
 				
 			
 		}
@@ -50,57 +48,32 @@ public class MoveCommand implements Command{
 	
 	
 	public void execute() {
-		
-		
-		
-		
-		controller.notifyObservers(pos0,pos1);
+	controller.notifyObservers(pos0,pos1);
 	}
 
-	public int getIndex() {
-		return index;
-	}
 
+	@XmlElement
+	public void setPos0(int p) {
+		pos0=p;
+	}
+	public int getPos0() {
+		return pos0;
+	}
 	
+	
+	@XmlElement
+	public void setPos1(int p) {
+		pos1=p;
+	}
+	public int getPos1() {
+		return pos1;
+	}
+	/*
 	public Controller getController() {
-		return controller;
+		return this.controller;
 	}
-
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
-
-	
-	public void Random(int blankPos, int movedPos) {
-		
-		int pos[]=new int[2];
-		
-		
-		
-		pos[0]=blankPos;
-		pos[1]=movedPos;
-
-		
-		
-		try {
-			list.set(index,pos);
-		}catch (Exception e) {
-			list.add(index,pos);
-
-		}
-		index++;
-		
-		
-		controller.notifyObservers(pos[0],pos[1]);	
-	}
-	public List<int[]> getMoves() {
-		return this.list;
-	}
-	public void setMoves(ArrayList<int[]> a) {
-		this.list=a;
-	}
-	
-	public void setIndex(int a) {
-		this.index=a;
+	*/
+	public void setController(Controller c) {
+		this.controller=c;
 	}
 }

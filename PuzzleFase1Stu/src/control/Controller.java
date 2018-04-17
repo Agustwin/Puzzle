@@ -13,6 +13,10 @@ import java.util.Stack;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -42,16 +46,12 @@ public class Controller extends AbstractController{
 	private BoardView myView;
 	private int posX;
 	private int posY;
-	private Stack<Command> moveCommands;
-	private Command solve;
-	private Command random;
+	private Stack<MoveCommand> moveCommands;
 	private Command save;
 	private Command load;
 	
 	public Controller() {
 		moveCommands=new Stack();
-		solve=new SolveCommand(this);
-		random=new RandomCommand(this);
 		save=new SaveCommand(this);
 		load=new LoadCommand(this);
 		
@@ -67,10 +67,12 @@ public class Controller extends AbstractController{
 
 		switch (action) {
 			case "clutter": 
+				RandomCommand random=new RandomCommand(this);
 				random.execute();
 				break;
 				
 			case "solve":
+				Command solve=new SolveCommand(this);
 				solve.execute();				
 				break;
 				
@@ -84,14 +86,19 @@ public class Controller extends AbstractController{
 				}
 				notifyObserversReset();
 				this.myView=PuzzleGUI.getInstance().getBoardView();
-				reset();
+				
 
 				//PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
 				System.out.println("Load Image");
 				break;
 				
 			case "saveGame":
-				save.execute();
+			try {
+				writeXML();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				System.out.println("Save data");
 				break;
 				
@@ -134,9 +141,12 @@ public class Controller extends AbstractController{
 		posY=e.getY();
 		System.out.println("X: "+posX+" Y: "+posY);
 		int pos[]=PuzzleGUI.getInstance().getBoardView().movePiece(posX, posY);
-		MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
-		this.moveCommands.push(m);
-		m.execute();
+		if(pos!=null) {
+			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
+			this.moveCommands.push(m);
+			m.execute();
+		}
+		
 	}
 
 	
@@ -170,135 +180,71 @@ public void setPosX(int posX) {
 	this.posX = posX;
 }
 
-public void reset() {
-
-	solve=new SolveCommand(this);
-	random=new RandomCommand(this);
-}
 
 
 public void writeXML() throws IOException{
 	
 	
-	
-	Element Model = new Element("Model");
-	Document doc = new Document(Model);
 	try {
-		doc.getRootElement().addContent(new Element("Image").setText(PuzzleGUI.getInstance().getBoardView().getImage().getPath()));
 
-	}catch(Exception e) {
+		File file = new File("Save.xml");
+		JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
+		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+		// output pretty printed
+		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		
-	}
-	
-	Element pieces=new Element("Pieces");
-	Element index=new Element("Index").setText(String.valueOf(move.getIndex()));
-	
-	Element list=new Element("Moves");
-	
-	
-	for(int i[]:move.getMoves()) {
-		Element e=new Element("move");
-		e.addContent(new Element("Pos0").setText(String.valueOf(i[0])));
-		e.addContent(new Element("Pos1").setText(String.valueOf(i[1])));
-		list.addContent(e);
-
-	}
-
-	
-	for(PieceView p:PuzzleGUI.getInstance().getBoardView().getIconArray()) {
-		//System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
+		Stack<MoveCommand> aux=(Stack<MoveCommand>) moveCommands.clone();
 		
-		Element pieceModel = new Element("pieceModel");
+		SaveGame s=new SaveGame();
+		s.setStack(aux);
+		jaxbMarshaller.marshal(s, file);
+		//while(!aux.isEmpty()) {
 
+			//MoveCommand m=aux.pop();
+			jaxbMarshaller.marshal(s, System.out);
+		//}
 		
-		
+
+	      } catch (JAXBException e) {
+		e.printStackTrace();
+	      }
+
 	
-		pieceModel.addContent(new Element("Id").setText(Integer.toString(p.getId())));
-		pieceModel.addContent(new Element("X").setText(Integer.toString(p.getIndexRow())));
-		pieceModel.addContent(new Element("Y").setText(Integer.toString(p.getIndexColumn())));
-		
-		pieceModel.addContent(new Element("Size").setText(Integer.toString(p.getImageSize())));
-		pieceModel.addContent(new Element("ImagePath").setText(p.getImagePath()));
-		
-		pieces.addContent(pieceModel);
-	}
-	
-	doc.getRootElement().addContent(pieces);
-	doc.getRootElement().addContent(index);
-	doc.getRootElement().addContent(list);
-
-	// new XMLOutputter().output(doc, System.out);
-	XMLOutputter xmlOutput = new XMLOutputter();
-
-	// display nice 
-	xmlOutput.setFormat(Format.getPrettyFormat());
-	xmlOutput.output(doc, new FileWriter(System.getProperty("user.dir")+File.separator+"partida.xml"+File.separator));
-
 	System.out.println("File Saved!");
 }
 
-public void readXML(File file){
-	//Se crea un SAXBuilder para poder parsear el archivo
-	SAXBuilder builder = new SAXBuilder();
-	try{
-        //Se crea el documento a traves del archivo
-        Document document = (Document) builder.build(file);
+public void readXML(){
+	try {
 
-       
-        //Obtener la raiz del documento
-       Element model = document.getRootElement();
-       Element pieces= model.getChild("Pieces");
-       Element Image=model.getChild("Image");
-        
-       Element index=model.getChild("Index");
-       
-       int aux=Integer.parseInt(index.getText());
-       move.setIndex(aux);
-       
-       Element Moves=model.getChild("Moves");
-       java.util.List<Element> list = Moves.getChildren("move");
-       java.util.ArrayList<int[]> pos = new ArrayList();	
+		File file = new File("Save.xml");
+		JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
 
-       
-       for(Element e:list) {
-    	   int p[]=new int[2];
-    	   p[0]=Integer.parseInt(e.getChild("Pos0").getText());
-    	   p[1]=Integer.parseInt(e.getChild("Pos1").getText());
-    	   
-    	   pos.add(p);
-       }
-       
-       move.setMoves(pos);
-        java.util.List<Element> pieceList = pieces.getChildren("pieceModel");		        
-        
-        
-        
-        for (int i = 0; i < pieceList.size(); i++) {
-        	 Element pieceModel = (Element) pieceList.get(i);
-		        
-		     System.out.println("Id: " + pieceModel.getChildText("Id"));
-		     System.out.println("IndexRow: " + pieceModel.getChildText("X"));
-		     System.out.println("IndexColumn: " + pieceModel.getChildText("Y"));
-		     System.out.println("Size: " + pieceModel.getChildText("Size"));
-		     System.out.println("Path: " + pieceModel.getChildText("Image"));
-		     
-		    // Elements.add(pieces);
-		    
-   
-        }
-        notifyObservers(pieceList,Image);
-        
-        //PuzzleGUI.getInstance().getBoardView().setIconArray(aux);
-        //SetCoordinates();
-        PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
-        
-        
-    }catch(IOException io){
-    	System.out.println(io.getMessage());
-    } catch (JDOMException e) {
-		// TODO Auto-generated catch block
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
+		Stack aux=s.getStack();
+		
+		
+		moveCommands=(Stack<MoveCommand>) aux.clone();
+		
+		for(int i=0;i<moveCommands.size();i++) {
+			moveCommands.get(i).setController(this);
+			
+		}
+		
+		if(aux!=null)
+		for(int i=0;i<moveCommands.size();i++) {
+			MoveCommand m=(MoveCommand)aux.get(i);
+			m.setController(this);
+			//moveCommands.push(m);
+			m.execute();
+		}
+		
+	  } catch (JAXBException e) {
 		e.printStackTrace();
-	}		
+	  }	
+	
+	
 }
 
 private void notifyObservers(ArrayList<Element> elements, Element image) {
@@ -315,9 +261,14 @@ public void notifyObservers(int blankPos, int movedPos) {
 		o.update(blankPos, movedPos);
 	}
 }
-public void addCommand(Command c) {
+public void addCommand(MoveCommand c) {
 	this.moveCommands.push(c);
 	
+}
+
+public Stack getMoves() {
+	// TODO Auto-generated method stub
+	return this.moveCommands;
 }
 
 }

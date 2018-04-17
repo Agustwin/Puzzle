@@ -36,7 +36,7 @@ public class LoadCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub	
-		File file = new File("partida.xml");
+		
 		/*
 		JFileChooser fc2 = new JFileChooser();
 		int returnVal2 = fc2.showOpenDialog(null);
@@ -46,7 +46,7 @@ public class LoadCommand implements Command {
 		*/	
 		
 
-		controller.readXML(file);		
+		controller.readXML();		
 
 	}
 }
