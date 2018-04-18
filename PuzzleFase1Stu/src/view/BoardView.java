@@ -371,43 +371,7 @@ public void setImage(File image) {
 		// TODO Auto-generated method stub
 		return iconArray;
 	}
-	@Override
-	public void loadBoard(List<Element> list,Element img) {
-		 
-ArrayList<PieceView> aux=new ArrayList();
-BufferedImage[] listImg=null;
-if(img!=null) {
-	File f=new File(img.getText());
-	BufferedImage tmp=resizeImage(image);
-     listImg=splitImage(tmp);
-}
-		for(int i=0;i<list.size();i++) {
-			Element pieceModel=(Element)list.get(i);
-			
-			int id = Integer.parseInt(pieceModel.getChildText("Id"));
-		     int row = Integer.parseInt(pieceModel.getChildText("X"));
-		     int col = Integer.parseInt(pieceModel.getChildText("Y"));
-		     int size = Integer.parseInt(pieceModel.getChildText("Size"));
-		     String image=pieceModel.getChildText("ImagePath");
-		     
-		     if(img==null) {
-		    	 PieceView p=new PieceView(id,row,col,size,image);
-			     aux.add(p);
-		     }else {
-		    	 
-		    	 if(id==0) {
-		    		 PieceView p=new PieceView(id,row,col,size,"blank.gif");
-				     aux.add(p); 
-		    	 }else {
-		    	 PieceView p=new PieceView(id,row,col,size,listImg[id]);
-			     aux.add(p);
-		    	 }
-		     }
-		    
-		}
-		this.iconArray=aux;
-		
-	 }
+	
 
 
 public int getRowNum() {
@@ -421,5 +385,9 @@ public void setIconArray(ArrayList<PieceView> aux) {
 	// TODO Auto-generated method stub
 	iconArray=aux;
 }
+
+
+
+
 
 }

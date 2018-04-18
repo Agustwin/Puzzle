@@ -20,5 +20,5 @@ public interface Observer {
      */
     public void update(int blankPos,int movedPos);
     public void setNewBoard();
-    public void loadBoard(List<Element> list,Element img);
+
 }

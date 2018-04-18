@@ -14,6 +14,6 @@ public interface Observable {
     public void removeObserver(Observer observer);
     public void addObserver(Observer observer);
     public void notifyObservers(int blankPos,int movedPos);
-	void notifyObservers(List<Element> pieceList, Element image);
+
 
 }

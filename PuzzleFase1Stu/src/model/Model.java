@@ -98,25 +98,6 @@ public class Model extends AbstractModel<PieceModel>{
 		
 	}
 	
-	@Override
-	public void loadBoard(List<Element> list,Element img) {
-		 
-		ArrayList<PieceModel> aux=new ArrayList();
-		
-		for(int i=0;i<list.size();i++) {
-			Element pieceModel=list.get(i);
-			
-			int id = Integer.parseInt(pieceModel.getChildText("Id"));
-		     int row = Integer.parseInt(pieceModel.getChildText("X"));
-		     int col = Integer.parseInt(pieceModel.getChildText("Y"));
-		     int size = Integer.parseInt(pieceModel.getChildText("Size"));
-		     String image=pieceModel.getChildText("ImagePath");
-		     
-		     PieceModel p=new PieceModel(id,row,col,image);
-		     aux.add(p);
-		}
-		this.listP=aux;
-		
-	 }
+	
 }
 

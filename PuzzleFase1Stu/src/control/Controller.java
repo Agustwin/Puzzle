@@ -85,13 +85,14 @@ public class Controller extends AbstractController{
 				System.out.println("Path: "+f);
 				if(f!=null) {
 					PuzzleGUI.getInstance().updateBoard(f);
+					notifyObserversReset();
+					this.myView=PuzzleGUI.getInstance().getBoardView();
+					
+					this.getMoves().clear();
+					//PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
+					System.out.println("Load Image");
 				}
-				notifyObserversReset();
-				this.myView=PuzzleGUI.getInstance().getBoardView();
 				
-
-				//PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
-				System.out.println("Load Image");
 				break;
 				
 			case "saveGame":
@@ -119,15 +120,9 @@ public class Controller extends AbstractController{
 		}
 	}
 
-	@Override
-	public void notifyObservers(List<Element> pieceList, Element image) {
-		//TODO Auto-generated method stub
-		for(Observer o:observerList) {
-			
-			o.loadBoard(pieceList, image);
-		}
+	
 		
-	}
+	
 	public void notifyObserversReset() {
 		//TODO Auto-generated method stub
 		for(Observer o:observerList) {
@@ -267,12 +262,6 @@ public void readXML(){
 	
 }
 
-private void notifyObservers(ArrayList<Element> elements, Element image) {
-	// TODO Auto-generated method stub
-	for(Observer o:observerList) {
-		o.loadBoard(elements, image);
-	}
-}
 
 @Override
 public void notifyObservers(int blankPos, int movedPos) {
@@ -290,5 +279,7 @@ public Stack getMoves() {
 	// TODO Auto-generated method stub
 	return this.moveCommands;
 }
+
+
 
 }
