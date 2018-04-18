@@ -43,8 +43,7 @@ public class LoadCommand implements Command {
 		if(returnVal2==JFileChooser.APPROVE_OPTION){
 			file = fc2.getSelectedFile();
 		}	
-		*/	
-		
+		*/			
 
 		controller.readXML();		
 

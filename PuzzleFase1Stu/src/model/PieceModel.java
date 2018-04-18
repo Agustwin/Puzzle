@@ -20,18 +20,15 @@ public class PieceModel {
 	}
 
 	
-public PieceModel(int id,int rowNum,int columnNum){
+	public PieceModel(int id,int rowNum,int columnNum){
 		
 		this.id=id;
 		this.rowNum=rowNum;
 		this.columnNum=columnNum;
 		this.setImagePath(null);
-		
-		
-		
+	
 	}
-	
-	
+		
 
 	public int getId() {
 		return id;

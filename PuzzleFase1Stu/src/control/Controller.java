@@ -26,6 +26,11 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+
 import command.Command;
 import command.LoadCommand;
 import command.MoveCommand;
@@ -96,12 +101,14 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "saveGame":
-			try {
-				writeXML();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				//save.execute();
+				try {
+					writeXML();
+					//writeMongo();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.out.println("Save data");
 				break;
 				
@@ -144,8 +151,7 @@ public class Controller extends AbstractController{
 			
 			/////////////
 			//addcommand xquery
-			//////////////
-			
+			//////////////			
 			
 			m.execute();
 		}
@@ -227,39 +233,91 @@ public void writeXML() throws IOException{
 	System.out.println("File Saved!");
 }
 
-public void readXML(){
-	try {
-		
-		while(!moveCommands.isEmpty()) {
-			moveCommands.pop().execute();
-		}
-		
-		File file = new File("Save.xml");
-		JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
-		Stack aux=s.getStack();
-		
-		moveCommands.clear();
-		moveCommands=(Stack<MoveCommand>) aux.clone();
-		System.err.println("Lectura");
-		for(int i=0;i<moveCommands.size();i++) {
+	public void writeMongo(){
+	
+			SaveGame s=new SaveGame();
+			s.setStack(moveCommands);
+			System.err.println("ESCRITURA");
+
+			MongoClient mongoClient = new MongoClient("localhost",27017);
+			DB db = mongoClient.getDB("saveGame");
+			DBCollection collection = db.getCollection("Partidas");
 			
-			System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
-		}
+			for(int i=0;i<moveCommands.size();i++) {
+			
+				System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+				
+				MoveCommand m=new MoveCommand(this,moveCommands.get(i).getPos0(),moveCommands.get(i).getPos1());								
+				BasicDBObject document = m.toDBObjectCommand();
+				collection.insert(document);
+			}		      
+	}
+
+	public void readXML(){
+		try {
+			
+			while(!moveCommands.isEmpty()) {
+				moveCommands.pop().execute();
+			}
+			
+			File file = new File("Save.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
+			Stack aux=s.getStack();
+			
+			moveCommands.clear();
+			moveCommands=(Stack<MoveCommand>) aux.clone();
+			System.err.println("Lectura");
+			for(int i=0;i<moveCommands.size();i++) {
+				
+				System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+			}
+			
+			for(int i=0;i<moveCommands.size();i++) {
+				moveCommands.get(i).setController(this);
+				moveCommands.get(i).execute();
+			}
+			
+			
+			
+		  } catch (JAXBException e) {
+			e.printStackTrace();
+		  }	
 		
-		for(int i=0;i<moveCommands.size();i++) {
-			moveCommands.get(i).setController(this);
-			moveCommands.get(i).execute();
-		}
 		
-		
-		
-	  } catch (JAXBException e) {
-		e.printStackTrace();
-	  }	
+	}
 	
-	
+	public void readMongo(){					
+			while(!moveCommands.isEmpty()) {
+				moveCommands.pop().execute();
+			}
+			
+			/*
+			File file = new File("Save.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
+			Stack aux=s.getStack();
+			*/
+			
+			MongoClient mongoClient = new MongoClient("localhost",27017);
+			DB db = mongoClient.getDB("saveGame");
+			DBCollection collection = db.getCollection("Partidas");
+			
+			moveCommands.clear();
+			//moveCommands=(Stack<MoveCommand>) aux.clone();
+			System.err.println("Lectura");
+			//for(int i=0;i<moveCommands.size();i++) {
+				
+			//	System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+			//}
+			
+			for(int i=0;i<moveCommands.size();i++) {
+				moveCommands.get(i).setController(this);
+				moveCommands.get(i).execute();
+			}
+				      
 }
 
 

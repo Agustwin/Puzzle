@@ -20,6 +20,7 @@ import org.jdom2.input.sax.XMLReaders;
 
 import control.AbstractController;
 import control.Controller;
+import db.MongoController;
 import db.XQueryController;
 
 /*
@@ -78,6 +79,14 @@ public class PuzzleApp {
 
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);
+           
+           /*
+           if(db=="baseX"){
+        	   
+           }else if (db=="mongo"){
+        	   MongoController mongoC = new MongoController();
+           }
+           */
     	   
        }else {
     	   String fileSeparator = System.getProperty("file.separator");
@@ -105,6 +114,14 @@ public class PuzzleApp {
 
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);
+           
+           /*
+           if(db=="baseX"){
+        	   
+           }else if (db=="mongo"){
+        	   MongoController mongoC = new MongoController();
+           }
+           */
        }
                            
     }
