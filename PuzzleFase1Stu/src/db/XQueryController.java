@@ -5,6 +5,8 @@ import org.basex.core.cmd.CreateDB;
 import org.basex.core.cmd.InfoDB;
 import org.basex.core.cmd.XQuery;
 
+import command.MoveCommand;
+
 public class XQueryController {
 	
 	public XQueryController(){
@@ -43,7 +45,7 @@ public class XQueryController {
 	}
   	
   	//Paso3 agrega un comando al xml actual
-  	public static void addCommandPartida(CommandPartida commandPartida, Context context){
+  	public static void addCommandPartida(MoveCommand commandPartida, Context context){
   		try{
   			System.out.println("Insertamos el comando a la partida: " + commandPartida);
   			XQuery insertQuery = new XQuery("insert node "+commandPartida+ " into /saveGame");

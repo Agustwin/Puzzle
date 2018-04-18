@@ -7,6 +7,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.mongodb.BasicDBObject;
+
 import control.Controller;
 import view.PuzzleGUI;
 
@@ -23,9 +25,9 @@ public class MoveCommand implements Command{
 		
 	}
 	public MoveCommand(Controller c, int posX, int posY) {
-	this.controller=c;	
-	this.pos0=posX;
-	this.pos1=posY;
+		this.controller=c;	
+		this.pos0=posX;
+		this.pos1=posY;
 	}
 	
 	@Override
@@ -76,4 +78,23 @@ public class MoveCommand implements Command{
 	public void setController(Controller c) {
 		this.controller=c;
 	}
+	
+	/*
+	// Transformo un objecto que me da MongoDB a un Objecto Java
+	public CommandPartida(BasicDBObject dBObjectCommand) {
+		this.pos0 = dBObjectCommand.getString("pos0");
+		this.pos1 = dBObjectCommand.getString("pos1");
+	}
+	
+	public BasicDBObject toDBObjectCommand() {
+
+	    // Creamos una instancia BasicDBObject
+	    BasicDBObject dBObjectCommand = new BasicDBObject();
+
+	    dBObjectCommand.append("pos0", this.getPos0());
+	    dBObjectCommand.append("pos1", this.getPos1());
+	    
+	    return dBObjectCommand;
+	}
+	*/
 }
