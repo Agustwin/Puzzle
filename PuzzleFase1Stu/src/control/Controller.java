@@ -18,6 +18,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.basex.core.Context;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -31,6 +32,7 @@ import command.MoveCommand;
 import command.RandomCommand;
 import command.SaveCommand;
 import command.SolveCommand;
+import db.XQueryController;
 import model.Model;
 import observer.Observer;
 import view.BoardView;
@@ -144,6 +146,12 @@ public class Controller extends AbstractController{
 		if(pos!=null) {
 			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
 			this.moveCommands.push(m);
+			
+			/////////////
+			//addcommand xquery
+			//////////////
+			
+			
 			m.execute();
 		}
 		
@@ -200,12 +208,21 @@ public void writeXML() throws IOException{
 		for(int i=0;i<moveCommands.size();i++) {
 		
 			System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+			
 		}
 		
 		jaxbMarshaller.marshal(s, file);
 			jaxbMarshaller.marshal(s, System.out);
 		
-		
+			/////////////////////
+			//XQueryController XQ = new XQueryController();
+	    	
+	    	//Paso1
+	        //Context context = new Context();
+	        //String collection = "saveGame";
+	        
+	        //XQ.createCollection(collection, context);
+		//////////////////
 
 	      } catch (JAXBException e) {
 		e.printStackTrace();

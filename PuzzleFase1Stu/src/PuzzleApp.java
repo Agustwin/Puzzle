@@ -20,6 +20,7 @@ import org.jdom2.input.sax.XMLReaders;
 
 import control.AbstractController;
 import control.Controller;
+import db.XQueryController;
 
 /*
  * Copyright 2016 Miguel Ã�ngel RodrÃ­guez-GarcÃ­a (miguel.rodriguez@urjc.es).
@@ -47,22 +48,10 @@ public class PuzzleApp {
     static int rowNum;
     static int columnNum;
     static String imagePath=null;
+    static String db=null;
     
     public static void main(String args[]){      
-    	
-    	XQueryController XQ = new XQueryController();
-    	
-    	//Paso1
-        Context context = new Context();
-        String col1 = "col1";
-        
-        XQ.createCollection(col1, context);
-        
-        //Paso2
-        String query1 = "/Model";
-        XQ.queryCatalog(query1,context); 
-        
-        
+            
         readXML();
         
         if(imagePath!=null && imagePath.length()!=0) {
@@ -133,6 +122,7 @@ public class PuzzleApp {
     		 rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));
     		 columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
     		 imagePath=rootNode.getChildTextTrim("imagePath");
+    		 db=rootNode.getChildTextTrim("db");
     		
     	}catch(Exception e) {
     		e.printStackTrace();

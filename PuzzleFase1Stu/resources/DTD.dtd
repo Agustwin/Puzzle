@@ -1,6 +1,7 @@
 
-<!ELEMENT Parameters (imageSize,rowNum,columnNum,imagePath)>
+<!ELEMENT Parameters (imageSize,rowNum,columnNum,imagePath,db)>
 <!ELEMENT imageSize (#PCDATA)>
 <!ELEMENT rowNum (#PCDATA)>
 <!ELEMENT columnNum (#PCDATA)>
 <!ELEMENT imagePath (#PCDATA)>
+<!ELEMENT db (#PCDATA)>
