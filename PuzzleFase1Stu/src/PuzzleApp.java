@@ -56,7 +56,6 @@ public class PuzzleApp {
     public static void main(String args[]) throws JAXBException, IOException{      
             
     	readXML();
-    	Context context = new Context();
         
         if(imagePath!=null && imagePath.length()!=0) {
     	   

@@ -72,13 +72,10 @@ public class SolveCommand implements Command {
 			MongoClient mongoClient = new MongoClient("localhost",27017);
 			DB db = mongoClient.getDB("saveGame");
 			DBCollection collection = db.getCollection("Partidas");
-			
-			
+						
 			//Esto lo que hace es al resolver elminiar todos los comandos guardados en mongo
 			DBCursor cursor = collection.find();
 			while (cursor.hasNext()) {
-				//System.out.println(cursor.next().toString());				
-				//MoveCommand m= new MoveCommand((BasicDBObject) cursor.next());
 				collection.remove(cursor.next());
 			}
 		}

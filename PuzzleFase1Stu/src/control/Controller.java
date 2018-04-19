@@ -50,7 +50,6 @@ public class Controller extends AbstractController{
 	//Variable para recibir del PuzzleGUI la accion realizada
 	private String action;
 	
-	/*No se si es correcto*/
 	private BoardView myView;
 	private int posX;
 	private int posY;
@@ -58,12 +57,15 @@ public class Controller extends AbstractController{
 	
     private String db=null;
     
+    //Parametros para las bases de datos
     private MongoClient mongoClient;
     private XQueryController XQ;	
+    Context context = new Context();
     
 	public Controller() throws IOException {
 		moveCommands=new Stack();
 		
+		//Lee el fichero de parametros para saber en que base de datos vamos a trabajar
 		SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
     	File xmlFile = new File( "./resources/Parameters.xml" );   		    	
     	try {   		
@@ -75,10 +77,10 @@ public class Controller extends AbstractController{
     		e.printStackTrace();
     	}			
     	
+    	//Comprobacion de la base de datos
     	if(db.equals("baseX")){
     		//Paso1	        
-            String collection = "saveGame";
-            Context context = new Context();
+            String collection = "saveGame";           
             this.XQ.createCollection(collection, context);	
             
             this.XQ.queryPartidas("/saveGame", context);
@@ -110,7 +112,9 @@ public class Controller extends AbstractController{
 			double millis = duration / 1000000.0; // conversion a milisegundos.
 	
 			System.out.println("Tiempo en cargar Mongo y los documentos de comandos: " + millis + "ms.");    									
-    	}    	
+    	}else{
+    		System.out.println("Vuestro documento XML de configuracion tiene mal la base de datos.");
+    	}
 	}
 	
 	//Ejecutamos todas las acciones con su correspondiente command
@@ -143,8 +147,7 @@ public class Controller extends AbstractController{
 					this.getMoves().clear();
 					//PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
 					System.out.println("Load Image");
-				}
-				
+				}				
 				break;
 				
 			case "info":
@@ -173,16 +176,20 @@ public class Controller extends AbstractController{
 			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
 			this.moveCommands.push(m);
 			
-			/////////////
+			//////////////////////////
 			if(db.equals("baseX")){		
 				// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo 
 	            long startTime = System.nanoTime(); 
 	            
+	            //Agregamos un comando de paretida a la base de datos
 		        this.XQ.addCommandPartida(m);
 		        
 		        long endTime = System.nanoTime();
 	    		long duration = (endTime - startTime);
 	    		double millis = duration / 1000000.0; // conversion a milisegundos.
+	    		
+	    		//Mostramos todos los movimientos con el nuevo incluido
+	    		this.XQ.queryPartidas("/saveGame", context);
 	    		
 	    		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");  
 	    		
@@ -191,7 +198,7 @@ public class Controller extends AbstractController{
 	        	// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo 
 	            long startTime = System.nanoTime(); 
 	            
-
+	            //Obtenemos la coleccion donde guardaremos los movimientos como documentos
 	    		DB db = this.mongoClient.getDB("saveGame");
 	    		DBCollection collection = db.getCollection("Partidas");	    		
 	    								
@@ -205,12 +212,11 @@ public class Controller extends AbstractController{
 	    		
 	    		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");   
 	        }
-			//////////////			
+			/////////////////////			
 			
 			m.execute();
 		}		
 	}
-
 	
 	public BoardView getMyView() {
 		return myView;
@@ -235,7 +241,6 @@ public class Controller extends AbstractController{
 	public void setPosX(int posX) {
 		this.posX = posX;
 	}
-
 
 	/*
 	public void writeXML() throws IOException{	
@@ -265,8 +270,7 @@ public class Controller extends AbstractController{
 	    }
 			
 		System.out.println("File Saved!");
-	}
-	
+	}	
 
 	public void writeMongo(){
 	
@@ -291,8 +295,7 @@ public class Controller extends AbstractController{
 	*/
 
 	public void readXML(){
-		try {
-			
+		try {			
 			while(!moveCommands.isEmpty()) {
 				moveCommands.pop().execute();
 			}
@@ -320,6 +323,7 @@ public class Controller extends AbstractController{
 		}		
 	}
 	
+	/*
 	public void readMongo(){					
 		while(!moveCommands.isEmpty()) {
 			moveCommands.pop().execute();
@@ -349,7 +353,7 @@ public class Controller extends AbstractController{
 			moveCommands.get(i).setController(this);
 			moveCommands.get(i).execute();
 		}				      
-	}
+	}*/
 
 	@Override
 	public void notifyObservers(int blankPos, int movedPos) {
@@ -385,6 +389,7 @@ public class Controller extends AbstractController{
 		return this.moveCommands;
 	}
 	
+	//Para inicializar la aplicacion ya con los movimientos cargados de la base de datos persistente
 	public void getDBMoves(){
     	for(int i=0;i<moveCommands.size();i++) {
 			System.out.println(moveCommands.get(i).toString());
