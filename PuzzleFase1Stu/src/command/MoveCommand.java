@@ -33,22 +33,17 @@ public class MoveCommand implements Command{
 	@Override
 	public void undoCommand() {
 		// TODO Auto-generated method stub
-
-			controller.notifyObservers(pos1,pos0);				
-			
-	}		
-	
+		controller.notifyObservers(pos1,pos0);							
+	}			
 		
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub		
-	}
-	
+	}	
 	
 	public void execute() {
-	controller.notifyObservers(pos0,pos1);
-	}
-	
+		controller.notifyObservers(pos0,pos1);
+	}	
 
 	@XmlElement
 	public void setPos0(int p) {
@@ -66,16 +61,14 @@ public class MoveCommand implements Command{
 	public int getPos1() {
 		return pos1;
 	}
-	
-	
+		
 	public Controller getController() {
 		return this.controller;
 	}
 	
 	public void setController(Controller c) {
 		this.controller=c;
-	}
-	
+	}	
 	
 	// Transformo un objecto que me da MongoDB a un Objecto Java
 	public MoveCommand(BasicDBObject dBObjectCommand) {
@@ -93,5 +86,9 @@ public class MoveCommand implements Command{
 	    
 	    return dBObjectCommand;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "MoveCommand [controller=" + controller + ", pos0=" + pos0 + ", pos1=" + pos1 + "]";
+	}	
 }

@@ -25,10 +25,8 @@ public class RandomCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
-		int random=(int) (Math.random()*10);
-		
+		// TODO Auto-generated method stub		
+		int random=(int) (Math.random()*10);		
 		
 		int[]pos = new int[2];
 		

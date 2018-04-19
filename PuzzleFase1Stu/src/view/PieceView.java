@@ -56,7 +56,6 @@ public class PieceView extends ImageIcon implements Cloneable{
         super();
     }
 
-
     public int getIndexRow() {
         return indexRow;
     }
@@ -108,9 +107,7 @@ public class PieceView extends ImageIcon implements Cloneable{
 
 	public void setDrawnColumnIndex(int drawnColumnIndex) {
 		this.drawnColumnIndex = drawnColumnIndex;
-	}
-
-	
+	}	
 
     public String getImagePath() {
 		return imagepath;

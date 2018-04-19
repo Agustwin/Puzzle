@@ -75,10 +75,7 @@ public class PuzzleGUI extends JFrame{
         PuzzleGUI.rowNum = rowNum;
         PuzzleGUI.columnNum = columnNum;
         PuzzleGUI.imageSize = imageSize;
-        PuzzleGUI.imageList = imageList;
-        
-        
-        
+        PuzzleGUI.imageList = imageList;    
     }
     
     public static void initialize(AbstractController controller, int rowNum,int columnNum,int imageSize,File f){
@@ -86,10 +83,7 @@ public class PuzzleGUI extends JFrame{
         PuzzleGUI.rowNum = rowNum;
         PuzzleGUI.columnNum = columnNum;
         PuzzleGUI.imageSize = imageSize;
-        PuzzleGUI.f = f;
-        
-        
-        
+        PuzzleGUI.f = f;   
     }
 
     //MÃ©todo que crea el panel inferior
@@ -125,26 +119,15 @@ public class PuzzleGUI extends JFrame{
         JMenuItem info = new JMenuItem("Info");
         info.setActionCommand("info");
         
-        //Paso 4 para guardar y cargar partidas
-        JMenuItem saveGame = new JMenuItem("saveGame");
-        saveGame.setActionCommand("saveGame");
-        JMenuItem loadGame = new JMenuItem("loadGame");
-        loadGame.setActionCommand("loadGame");
 
-        archive.add(load);
-        archive.add(saveGame);
-        archive.add(loadGame);       
+        archive.add(load);    
         archive.add(exit);
         help.add(info);
 
         menu.add(archive);
         menu.add(help);
 
-        load.addActionListener(controller);
-        
-        //Paso 4 para guardar y cargar partidas
-        saveGame.addActionListener(controller);
-        loadGame.addActionListener(controller);
+        load.addActionListener(controller);       
         
         exit.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent ev) {
@@ -179,14 +162,9 @@ public class PuzzleGUI extends JFrame{
     }
 
     //MÃ©todo para actualizar la imagen del tablero
-    public void updateBoard(File imageFile){
-    	
-    	boardView.setImage(imageFile);
-    	
-        
-        
+    public void updateBoard(File imageFile){    	
+    	boardView.setImage(imageFile);       
     }
-
 
     public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();

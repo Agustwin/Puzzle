@@ -19,10 +19,12 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.basex.core.Context;
+import org.basex.core.cmd.XQuery;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -34,10 +36,8 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
 import command.Command;
-import command.LoadCommand;
 import command.MoveCommand;
 import command.RandomCommand;
-import command.SaveCommand;
 import command.SolveCommand;
 import db.XQueryController;
 import model.Model;
@@ -45,7 +45,6 @@ import observer.Observer;
 import view.BoardView;
 import view.PieceView;
 import view.PuzzleGUI;
-
 
 public class Controller extends AbstractController{
 	//Variable para recibir del PuzzleGUI la accion realizada
@@ -55,16 +54,63 @@ public class Controller extends AbstractController{
 	private BoardView myView;
 	private int posX;
 	private int posY;
-	private Stack<MoveCommand> moveCommands;
-	private Command save;
-	private Command load;
+	public Stack<MoveCommand> moveCommands;
 	
-	public Controller() {
+    private String db=null;
+    
+    private MongoClient mongoClient;
+    private XQueryController XQ;	
+    
+	public Controller() throws IOException {
 		moveCommands=new Stack();
-		save=new SaveCommand(this);
-		load=new LoadCommand(this);
 		
-		//myView=PuzzleGUI.getInstance().getBoardView();
+		SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
+    	File xmlFile = new File( "./resources/Parameters.xml" );   		    	
+    	try {   		
+    		System.out.println(xmlFile.getPath());
+    		Document document = (Document) builder.build( xmlFile );
+    		Element rootNode = document.getRootElement();
+    		db=rootNode.getChildTextTrim("db");  		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}			
+    	
+    	if(db.equals("baseX")){
+    		//Paso1	        
+            String collection = "saveGame";
+            Context context = new Context();
+            this.XQ.createCollection(collection, context);	
+            
+            this.XQ.queryPartidas("/saveGame", context);
+
+            
+            
+    	}else if(db.equals("mongo")){
+	    	// Ponemos un contador para saber cuanto tiempo tarda iniciar y leer la base de datos de mongo 
+	        long startTime = System.nanoTime();      	
+	        
+	    	this.mongoClient = new MongoClient("localhost",27017);
+			DB db = this.mongoClient.getDB("saveGame");
+			DBCollection collection = db.getCollection("Partidas");
+			
+			DBCursor cursor = collection.find();
+			try {
+				while (cursor.hasNext()) {
+					//System.out.println(cursor.next().toString());
+					
+					MoveCommand m= new MoveCommand((BasicDBObject) cursor.next());
+					this.moveCommands.push(m);
+				}
+			} finally {
+				cursor.close();
+			}
+	    	   		
+			long endTime = System.nanoTime();
+			long duration = (endTime - startTime);
+			double millis = duration / 1000000.0; // conversion a milisegundos.
+	
+			System.out.println("Tiempo en cargar Mongo y los documentos de comandos: " + millis + "ms.");    									
+    	}    	
 	}
 	
 	//Ejecutamos todas las acciones con su correspondiente command
@@ -85,8 +131,7 @@ public class Controller extends AbstractController{
 				solve.execute();				
 				break;
 				
-			case "load":
-				
+			case "load":				
 				/*--------------------Meter en comando---------------------*/
 				File f=PuzzleGUI.getInstance().showFileSelector();
 				System.out.println("Path: "+f);
@@ -102,48 +147,22 @@ public class Controller extends AbstractController{
 				
 				break;
 				
-			case "saveGame":
-				//save.execute();
-				//writeMongo();
-				
-				try {
-					writeXML();					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				System.out.println("Save data");
-				break;
-				
-			case "loadGame":
-				load.execute();	
-				//readMongo();
-				System.out.println("Load data");
-				break;
-				
 			case "info":
 				JOptionPane.showMessageDialog(null,"Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
-				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
+				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");								
 				break;
 				
 			default:
 				break;
 		}
-	}
-
-	
-		
+	}			
 	
 	public void notifyObserversReset() {
 		//TODO Auto-generated method stub
-		for(Observer o:observerList) {
-			
+		for(Observer o:observerList) {			
 			o.setNewBoard();
-		}
-		
+		}		
 	}
-
 
 	public void mouseClicked(MouseEvent e) {		
 		posX=e.getX();
@@ -155,12 +174,41 @@ public class Controller extends AbstractController{
 			this.moveCommands.push(m);
 			
 			/////////////
-			//addcommand xquery
+			if(db.equals("baseX")){		
+				// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo 
+	            long startTime = System.nanoTime(); 
+	            
+		        this.XQ.addCommandPartida(m);
+		        
+		        long endTime = System.nanoTime();
+	    		long duration = (endTime - startTime);
+	    		double millis = duration / 1000000.0; // conversion a milisegundos.
+	    		
+	    		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");  
+	    		
+	        }else if (db.equals("mongo")){
+	        	
+	        	// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo 
+	            long startTime = System.nanoTime(); 
+	            
+
+	    		DB db = this.mongoClient.getDB("saveGame");
+	    		DBCollection collection = db.getCollection("Partidas");	    		
+	    								
+				BasicDBObject document = m.toDBObjectCommand();
+				collection.insert(document);
+				
+				
+				long endTime = System.nanoTime();
+	    		long duration = (endTime - startTime);
+	    		double millis = duration / 1000000.0; // conversion a milisegundos.
+	    		
+	    		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");   
+	        }
 			//////////////			
 			
 			m.execute();
-		}
-		
+		}		
 	}
 
 	
@@ -168,75 +216,57 @@ public class Controller extends AbstractController{
 		return myView;
 	}
 	
-
+	public void setMyView(BoardView myView) {
+		this.myView = myView;
+	}
 	
-
-
-
-
-public void setMyView(BoardView myView) {
-	this.myView = myView;
-}
-
-public int getPosY() {
-	return posY;
-}
-
-public void setPosY(int posY) {
-	this.posY = posY;
-}
-
-public int getPosX() {
-	return posX;
-}
-
-public void setPosX(int posX) {
-	this.posX = posX;
-}
-
-
-
-public void writeXML() throws IOException{
+	public int getPosY() {
+		return posY;
+	}
 	
+	public void setPosY(int posY) {
+		this.posY = posY;
+	}
 	
-	try {
-		
-		File file = new File("Save.xml");
-		JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
-		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+	public int getPosX() {
+		return posX;
+	}
+	
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
 
-		// output pretty printed
-		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-		SaveGame s=new SaveGame();
-		s.setStack(moveCommands);
-		System.err.println("ESCRITURA");
-		for(int i=0;i<moveCommands.size();i++) {
-		
-			System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+	/*
+	public void writeXML() throws IOException{	
+		try {
 			
-		}
-		
-		jaxbMarshaller.marshal(s, file);
-			jaxbMarshaller.marshal(s, System.out);
-		
-			/////////////////////
-			//XQueryController XQ = new XQueryController();
-	    	
-	    	//Paso1
-	        //Context context = new Context();
-	        //String collection = "saveGame";
-	        
-	        //XQ.createCollection(collection, context);
-		//////////////////
-
-	      } catch (JAXBException e) {
-		e.printStackTrace();
-	      }
-
+			File file = new File("Save.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 	
-	System.out.println("File Saved!");
-}
+			// output pretty printed
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	
+			SaveGame s=new SaveGame();
+			s.setStack(moveCommands);
+			System.err.println("ESCRITURA");
+			for(int i=0;i<moveCommands.size();i++) {
+			
+				System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+				
+			}
+			
+			jaxbMarshaller.marshal(s, file);
+			jaxbMarshaller.marshal(s, System.out);
+	
+		} catch (JAXBException e) {
+	    	  e.printStackTrace();
+	    }
+			
+		System.out.println("File Saved!");
+	}
+	
 
 	public void writeMongo(){
 	
@@ -258,6 +288,8 @@ public void writeXML() throws IOException{
 			}		      
 	}
 
+	*/
+
 	public void readXML(){
 		try {
 			
@@ -274,8 +306,7 @@ public void writeXML() throws IOException{
 			moveCommands.clear();
 			moveCommands=(Stack<MoveCommand>) aux.clone();
 			System.err.println("Lectura");
-			for(int i=0;i<moveCommands.size();i++) {
-				
+			for(int i=0;i<moveCommands.size();i++) {				
 				System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
 			}
 			
@@ -283,14 +314,10 @@ public void writeXML() throws IOException{
 				moveCommands.get(i).setController(this);
 				moveCommands.get(i).execute();
 			}
-			
-			
-			
-		  } catch (JAXBException e) {
+	
+		} catch (JAXBException e) {
 			e.printStackTrace();
-		  }	
-		
-		
+		}		
 	}
 	
 	public void readMongo(){					
@@ -307,7 +334,7 @@ public void writeXML() throws IOException{
 		DBCursor cursor = collection.find();
 		try {
 			while (cursor.hasNext()) {
-				System.out.println(cursor.next().toString());
+				//System.out.println(cursor.next().toString());
           
 				MoveCommand m= new MoveCommand((BasicDBObject) cursor.next());
 				this.moveCommands.push(m);
@@ -324,24 +351,45 @@ public void writeXML() throws IOException{
 		}				      
 	}
 
-
-@Override
-public void notifyObservers(int blankPos, int movedPos) {
-	// TODO Auto-generated method stub
-	for(Observer o:observerList) {
-		o.update(blankPos, movedPos);
+	@Override
+	public void notifyObservers(int blankPos, int movedPos) {
+		// TODO Auto-generated method stub
+		for(Observer o:observerList) {
+			o.update(blankPos, movedPos);
+		}
 	}
-}
-public void addCommand(MoveCommand c) {
-	this.moveCommands.push(c);
 	
-}
+	public void addCommand(MoveCommand c) {
+		this.moveCommands.push(c);		
+		
+		// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo 
+        long startTime = System.nanoTime(); 
+        
 
-public Stack getMoves() {
-	// TODO Auto-generated method stub
-	return this.moveCommands;
-}
-
-
-
+		DB db = this.mongoClient.getDB("saveGame");
+		DBCollection collection = db.getCollection("Partidas");	    		
+								
+		BasicDBObject document = c.toDBObjectCommand();
+		collection.insert(document);
+		
+		
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime);
+		double millis = duration / 1000000.0; // conversion a milisegundos.
+		
+		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");   
+	}
+	
+	public Stack getMoves() {
+		// TODO Auto-generated method stub
+		return this.moveCommands;
+	}
+	
+	public void getDBMoves(){
+    	for(int i=0;i<moveCommands.size();i++) {
+			System.out.println(moveCommands.get(i).toString());
+			moveCommands.get(i).setController(this);
+			moveCommands.get(i).execute();
+		}	
+	}
 }

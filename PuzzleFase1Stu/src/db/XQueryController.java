@@ -1,4 +1,5 @@
 package db;
+import org.basex.core.BaseXException;
 import org.basex.core.Context;
 import org.basex.core.cmd.Add;
 import org.basex.core.cmd.CreateDB;
@@ -19,17 +20,17 @@ public class XQueryController {
   			System.out.println("\n* Create a collection.");
   			
   			String collectionPath = System.getProperty("user.dir");
-  			String xmlPartida = "Save.xml";
+  			//String xmlPartida = "Save.xml";
   			
   			//Creamos una colecion anadimos los ficheros uno a uno
-  			new CreateDB(nameCollection).execute(context);
-  			new Add(xmlPartida, collectionPath).execute(context);
+  			new CreateDB(nameCollection,collectionPath).execute(context);
+  			//new Add(xmlPartida, collectionPath).execute(context);
   			
   			//Mostrar informacion de base de datos
   			System.out.println("\n* Show database information:");
   			System.out.println(new InfoDB().execute(context));
   			
-  		}catch(Exception e){
+  		}catch(BaseXException e){
   			System.out.println("No se ha podido generar coleccion: " + e.getMessage());
   		}
   	}
@@ -45,11 +46,11 @@ public class XQueryController {
 	}
   	
   	//Paso3 agrega un comando al xml actual
-  	public static void addCommandPartida(MoveCommand commandPartida, Context context){
+  	public static void addCommandPartida(MoveCommand commandPartida){
   		try{
   			System.out.println("Insertamos el comando a la partida: " + commandPartida);
   			XQuery insertQuery = new XQuery("insert node "+commandPartida+ " into /saveGame");
-  			System.out.println(insertQuery.execute(context));
+  			//System.out.println(insertQuery.execute(context));
   			//this.updatePartida(context);
   		}catch(Exception e){
   			System.out.println("No se ha podido insertar " + e.getMessage());
@@ -67,11 +68,9 @@ public class XQueryController {
   			System.out.println("No se ha podido borrar " + e.getMessage());
   			e.printStackTrace();
   		}
-  	}
-  	
+  	}  	
   	
   	private void updatePartida(Context context){
-  		XQuery serializeQuery = new XQuery("for $item in / saveGame \n"+"return " );
-  		
+  		XQuery serializeQuery = new XQuery("for $item in / saveGame \n"+"return " ); 		
   	}
 }

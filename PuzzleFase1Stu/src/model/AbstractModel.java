@@ -19,19 +19,14 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     protected int pieceSize=0;
     //lista de images
     protected String[] imageList=null;
-    //Lista de piezas
-    
-    
+    //Lista de piezas        
     
     //constructor de la clase.
     public AbstractModel(int rowNum, int columnNum,int pieceSize, String[] imageList) {
         this.rowNum = rowNum;
         this.columnNum = columnNum;
         this.pieceSize = pieceSize;
-        this.imageList = imageList;
-        
-        
-        
+        this.imageList = imageList; 
     }
 
     //constructor de la clase.

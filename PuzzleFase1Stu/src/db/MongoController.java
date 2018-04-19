@@ -25,7 +25,5 @@ public class MongoController {
 		}catch(Exception e){
 	    	System.out.println("Exception al conectar al server de Mongo: " + e.getMessage());
 	    }
-	}
-	
-	
+	}	
 }

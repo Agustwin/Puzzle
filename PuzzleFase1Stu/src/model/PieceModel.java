@@ -20,20 +20,16 @@ public class PieceModel {
 	}
 
 	
-	public PieceModel(int id,int rowNum,int columnNum){
-		
+	public PieceModel(int id,int rowNum,int columnNum){		
 		this.id=id;
 		this.rowNum=rowNum;
 		this.columnNum=columnNum;
-		this.setImagePath(null);
-	
-	}
-		
+		this.setImagePath(null);	
+	}		
 
 	public int getId() {
 		return id;
-	}
-	
+	}	
 	
 	public void setId(int id) {
 		this.id = id;
@@ -49,8 +45,7 @@ public class PieceModel {
 	
 	public int getIndexColumn() {
 		return columnNum;
-	}
-	
+	}	
 	
 	public void setIndexColumn(int columnNum) {
 		this.columnNum = columnNum;
@@ -58,8 +53,7 @@ public class PieceModel {
 	
 	public String getImagePath() {
 		return imagePath;
-	}
-	
+	}	
 	
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;

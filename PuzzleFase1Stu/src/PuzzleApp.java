@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+
 import org.basex.core.Context;
 import org.basex.core.cmd.Add;
 import org.basex.core.cmd.CreateDB;
@@ -50,80 +52,65 @@ public class PuzzleApp {
     static int columnNum;
     static String imagePath=null;
     static String db=null;
-    
-    public static void main(String args[]){      
+       
+    public static void main(String args[]) throws JAXBException, IOException{      
             
-        readXML();
+    	readXML();
+    	Context context = new Context();
         
         if(imagePath!=null && imagePath.length()!=0) {
     	   
-    	   File f=new File(imagePath);
+        	File f=new File(imagePath);
     	   
-    	   // Creamos el modelo
-           AbstractModel myModel=new Model(rowNum, columnNum,imageSize);
-
-           // Creamos el controlador
-           Controller myController=new Controller();
+        	// Creamos el modelo
+        	AbstractModel myModel=new Model(rowNum, columnNum,imageSize);
+        	
+        	// Creamos el controlador
+        	Controller myController=new Controller();        	
            
-
-           // Inicializamos la GUI
-           PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, f);
-           
-           // Obtenemos la vista del tablero
-           BoardView view=PuzzleGUI.getInstance().getBoardView();
+        	// Inicializamos la GUI
+        	PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, f);                 
+        	
+        	// Obtenemos la vista del tablero
+        	BoardView view=PuzzleGUI.getInstance().getBoardView();       	
         
-           // AÃ±adimos un nuevo observador al controlador
-           myController.addObserver(view);
-           myController.addObserver(myModel);
-           
+        	// AÃ±adimos un nuevo observador al controlador
+        	myController.addObserver(view);
+        	myController.addObserver(myModel);          
 
-           // Visualizamos la aplicaciÃ³n.
-           PuzzleGUI.getInstance().setVisible(true);
-           
-           /*
-           if(db=="baseX"){
-        	   
-           }else if (db=="mongo"){
-        	   MongoController mongoC = new MongoController();
-           }
-           */
-    	   
+        	// Visualizamos la aplicaciÃ³n.
+        	PuzzleGUI.getInstance().setVisible(true);
+        	
+        	//Carga movimientos realizados en la base de datos
+        	myController.getDBMoves(); 
+     	   
        }else {
-    	   String fileSeparator = System.getProperty("file.separator");
-           imagePath=System.getProperty("user.dir")+fileSeparator+"resources"+fileSeparator;
+    	   	String fileSeparator = System.getProperty("file.separator");
+    	   	imagePath=System.getProperty("user.dir")+fileSeparator+"resources"+fileSeparator;
           
            
-           String[] imageList={imagePath+"blank.gif",imagePath+"one.gif",imagePath+"two.gif",imagePath+"three.gif",imagePath+ "four.gif",
+    	   	String[] imageList={imagePath+"blank.gif",imagePath+"one.gif",imagePath+"two.gif",imagePath+"three.gif",imagePath+ "four.gif",
                   imagePath+"five.gif",imagePath+"six.gif",imagePath+"seven.gif",imagePath+"eight.gif"};
           
-           // Creamos el modelo
-           AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
+    	   	// Creamos el modelo
+    	   	AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
 
-           // Creamos el controlador
-           Controller myController=new Controller();        
+    	   	// Creamos el controlador
+        	Controller myController=new Controller(); 
 
-           // Inicializamos la GUI
-           PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, imageList);
+    	   	// Inicializamos la GUI
+    	   	PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, imageList);
           
-           // Obtenemos la vista del tablero
-           BoardView view=PuzzleGUI.getInstance().getBoardView();
+    	   	// Obtenemos la vista del tablero
+    	   	BoardView view=PuzzleGUI.getInstance().getBoardView();
        
-           // AÃ±adimos un nuevo observador al controlador
-           myController.addObserver(view);
-           myController.addObserver(myModel);         
+    	   	// AÃ±adimos un nuevo observador al controlador
+    	   	myController.addObserver(view);
+    	   	myController.addObserver(myModel);         
 
-           // Visualizamos la aplicaciÃ³n.
-           PuzzleGUI.getInstance().setVisible(true);
-           
-           /*
-           if(db=="baseX"){
-        	   
-           }else if (db=="mongo"){
-        	   MongoController mongoC = new MongoController();
-           }
-           */
-       }
-                           
+    	   	// Visualizamos la aplicaciÃ³n.
+    	   	PuzzleGUI.getInstance().setVisible(true);          
+       }                          
     }
        
     public static void readXML()  {	    	
@@ -135,11 +122,11 @@ public class PuzzleApp {
     		System.out.println(xmlFile.getPath());
     		Document document = (Document) builder.build( xmlFile );
     		Element rootNode = document.getRootElement();
-    		 imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
-    		 rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));
-    		 columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
-    		 imagePath=rootNode.getChildTextTrim("imagePath");
-    		 db=rootNode.getChildTextTrim("db");
+    		imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
+    		rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));
+    		columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
+    		imagePath=rootNode.getChildTextTrim("imagePath");
+    		db=rootNode.getChildTextTrim("db");
     		
     	}catch(Exception e) {
     		e.printStackTrace();

@@ -20,5 +20,4 @@ public interface Observer {
      */
     public void update(int blankPos,int movedPos);
     public void setNewBoard();
-
 }
