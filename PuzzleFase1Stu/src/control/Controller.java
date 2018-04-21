@@ -26,25 +26,29 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+
 import command.Command;
 import command.LoadCommand;
 import command.MoveCommand;
 import command.RandomCommand;
 import command.SaveCommand;
 import command.SolveCommand;
-import db.XQueryController;
 import model.Model;
 import observer.Observer;
 import view.BoardView;
 import view.PieceView;
 import view.PuzzleGUI;
 
-
 public class Controller extends AbstractController{
 	//Variable para recibir del PuzzleGUI la accion realizada
 	private String action;
 	
-	/*No se si es correcto*/
 	private BoardView myView;
 	private int posX;
 	private int posY;
@@ -56,8 +60,6 @@ public class Controller extends AbstractController{
 		moveCommands=new Stack();
 		save=new SaveCommand(this);
 		load=new LoadCommand(this);
-		
-		//myView=PuzzleGUI.getInstance().getBoardView();
 	}
 	
 	//Ejecutamos todas las acciones con su correspondiente command
@@ -89,19 +91,23 @@ public class Controller extends AbstractController{
 					this.myView=PuzzleGUI.getInstance().getBoardView();
 					
 					this.getMoves().clear();
-					//PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
+
 					System.out.println("Load Image");
 				}
 				
 				break;
 				
 			case "saveGame":
-			try {
-				writeXML();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				save.execute();
+				/*
+				try {
+					writeXML();					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				*/
+				
 				System.out.println("Save data");
 				break;
 				
@@ -118,20 +124,14 @@ public class Controller extends AbstractController{
 			default:
 				break;
 		}
-	}
-
-	
-		
+	}	
 	
 	public void notifyObserversReset() {
 		//TODO Auto-generated method stub
-		for(Observer o:observerList) {
-			
+		for(Observer o:observerList) {			
 			o.setNewBoard();
-		}
-		
+		}		
 	}
-
 
 	public void mouseClicked(MouseEvent e) {		
 		posX=e.getX();
@@ -141,145 +141,105 @@ public class Controller extends AbstractController{
 		if(pos!=null) {
 			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
 			this.moveCommands.push(m);
-			
-			/////////////
-			//addcommand xquery
-			//////////////
-			
-			
 			m.execute();
 		}
 		
 	}
-
 	
 	public BoardView getMyView() {
 		return myView;
 	}
+
+	public void setMyView(BoardView myView) {
+		this.myView = myView;
+	}
 	
-
+	public int getPosY() {
+		return posY;
+	}
 	
-
-
-
-
-public void setMyView(BoardView myView) {
-	this.myView = myView;
-}
-
-public int getPosY() {
-	return posY;
-}
-
-public void setPosY(int posY) {
-	this.posY = posY;
-}
-
-public int getPosX() {
-	return posX;
-}
-
-public void setPosX(int posX) {
-	this.posX = posX;
-}
-
-
-
-public void writeXML() throws IOException{
+	public void setPosY(int posY) {
+		this.posY = posY;
+	}
 	
+	public int getPosX() {
+		return posX;
+	}
 	
-	try {
-		
-		File file = new File("Save.xml");
-		JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
-		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
 
-		// output pretty printed
-		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-		SaveGame s=new SaveGame();
-		s.setStack(moveCommands);
-		System.err.println("ESCRITURA");
-		for(int i=0;i<moveCommands.size();i++) {
-		
-			System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+	public void writeXML() throws IOException{		
+		try {
 			
-		}
-		
-		jaxbMarshaller.marshal(s, file);
+			File file = new File("Save.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+	
+			// output pretty printed
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	
+			SaveGame s=new SaveGame();
+			s.setStack(moveCommands);
+			System.err.println("ESCRITURA");
+			for(int i=0;i<moveCommands.size();i++) {			
+				System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());				
+			}
+			
+			jaxbMarshaller.marshal(s, file);
 			jaxbMarshaller.marshal(s, System.out);
 		
-			/////////////////////
-			//XQueryController XQ = new XQueryController();
-	    	
-	    	//Paso1
-	        //Context context = new Context();
-	        //String collection = "saveGame";
-	        
-	        //XQ.createCollection(collection, context);
-		//////////////////
-
-	      } catch (JAXBException e) {
-		e.printStackTrace();
-	      }
-
-	
-	System.out.println("File Saved!");
-}
-
-public void readXML(){
-	try {
-		
-		while(!moveCommands.isEmpty()) {
-			moveCommands.pop().execute();
-		}
-		
-		File file = new File("Save.xml");
-		JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
-		Stack aux=s.getStack();
-		
-		moveCommands.clear();
-		moveCommands=(Stack<MoveCommand>) aux.clone();
-		System.err.println("Lectura");
-		for(int i=0;i<moveCommands.size();i++) {
-			
-			System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
-		}
-		
-		for(int i=0;i<moveCommands.size();i++) {
-			moveCommands.get(i).setController(this);
-			moveCommands.get(i).execute();
-		}
-		
-		
-		
-	  } catch (JAXBException e) {
-		e.printStackTrace();
-	  }	
-	
-	
-}
-
-
-@Override
-public void notifyObservers(int blankPos, int movedPos) {
-	// TODO Auto-generated method stub
-	for(Observer o:observerList) {
-		o.update(blankPos, movedPos);
+        } catch (JAXBException e) {
+			e.printStackTrace();
+        }	
+		System.out.println("File Saved!");
 	}
-}
-public void addCommand(MoveCommand c) {
-	this.moveCommands.push(c);
+
+	public void readXML(){
+		try {
+			
+			while(!moveCommands.isEmpty()) {
+				moveCommands.pop().execute();
+			}
+			
+			File file = new File("Save.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
+			Stack aux=s.getStack();
+			
+			moveCommands.clear();
+			moveCommands=(Stack<MoveCommand>) aux.clone();
+			System.err.println("Lectura");
+			for(int i=0;i<moveCommands.size();i++) {
+				
+				System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+			}
+			
+			for(int i=0;i<moveCommands.size();i++) {
+				moveCommands.get(i).setController(this);
+				moveCommands.get(i).execute();
+			}
+			
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}			
+	}
+
+	@Override
+	public void notifyObservers(int blankPos, int movedPos) {
+		// TODO Auto-generated method stub
+		for(Observer o:observerList) {
+			o.update(blankPos, movedPos);
+		}
+	}
+	public void addCommand(MoveCommand c) {
+		this.moveCommands.push(c);		
+	}
 	
-}
-
-public Stack getMoves() {
-	// TODO Auto-generated method stub
-	return this.moveCommands;
-}
-
-
-
+	public Stack getMoves() {
+		// TODO Auto-generated method stub
+		return this.moveCommands;
+	}
 }

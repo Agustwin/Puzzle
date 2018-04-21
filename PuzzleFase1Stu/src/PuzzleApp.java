@@ -20,7 +20,6 @@ import org.jdom2.input.sax.XMLReaders;
 
 import control.AbstractController;
 import control.Controller;
-import db.XQueryController;
 
 /*
  * Copyright 2016 Miguel Ã�ngel RodrÃ­guez-GarcÃ­a (miguel.rodriguez@urjc.es).
@@ -104,7 +103,7 @@ public class PuzzleApp {
            myController.addObserver(myModel);         
 
            // Visualizamos la aplicaciÃ³n.
-           PuzzleGUI.getInstance().setVisible(true);
+           PuzzleGUI.getInstance().setVisible(true);       
        }
                            
     }

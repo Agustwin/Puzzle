@@ -22,8 +22,7 @@ public class Model extends AbstractModel<PieceModel>{
 	        
 	        for(int i=0;i<rowNum*columnNum;i++) {  	
 	    		addNewPiece( i, i%rowNum,i/columnNum);	        		
-	        }	
-	
+	        }		
 	}
 
 	public Model(int rowNum, int columnNum,int pieceSize, String[] imageList) {
@@ -33,9 +32,7 @@ public class Model extends AbstractModel<PieceModel>{
         for(int i=0;i<rowNum*columnNum;i++) {  	
     		addNewPiece( i, i%rowNum,i/columnNum,imageList[i]);	        		
         }	        
-	}
-	 
-	 																																																																											
+	}	 																																																																											
 	 
 	@Override
 	public void update(int blankPos, int movedPos) {
@@ -90,14 +87,9 @@ public class Model extends AbstractModel<PieceModel>{
 	}
 	@Override
 	public void setNewBoard() {
-		 for(int i=0;i<rowNum*columnNum;i++) {
-	        		
-     		addNewPiece(i, i%rowNum,i/columnNum);
-     		
- }
-		
-	}
-	
-	
+		for(int i=0;i<rowNum*columnNum;i++) {	        		
+			addNewPiece(i, i%rowNum,i/columnNum);    		
+		}		
+	}	
 }
 
