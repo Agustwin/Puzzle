@@ -18,10 +18,15 @@ import com.mongodb.MongoClient;
 
 import control.Controller;
 import control.SaveGame;
+import db.MongoController;
+import db.XQueryController;
 
 public class SolveCommand implements Command {
 	private Controller controller;
 	private String db=null;
+	
+	private MongoController Mongo;
+    private XQueryController XQ;
 	
 	public SolveCommand(Controller c) {
 		this.controller=c;		
@@ -66,12 +71,10 @@ public class SolveCommand implements Command {
 				
 				
 			}else if(db.equals("mongo")){		
-				MongoClient mongoClient = new MongoClient("localhost",27017);
-				DB db = mongoClient.getDB("saveGame");
-				DBCollection collection = db.getCollection("Partidas");
-							
+				Mongo = new MongoController();
+				
 				BasicDBObject document = m.toDBObjectCommand();
-				collection.insert(document);
+				Mongo.getPartidas().insert(document);
 			}
 			///////////////////////////
 			

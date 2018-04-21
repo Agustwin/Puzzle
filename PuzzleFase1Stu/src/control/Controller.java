@@ -39,6 +39,7 @@ import command.Command;
 import command.MoveCommand;
 import command.RandomCommand;
 import command.SolveCommand;
+import db.MongoController;
 import db.XQueryController;
 import model.Model;
 import observer.Observer;
@@ -58,7 +59,7 @@ public class Controller extends AbstractController{
     private String db=null;
     
     //Parametros para las bases de datos
-    private MongoClient mongoClient;
+    private MongoController Mongo;
     private XQueryController XQ;	
     Context context = new Context();
     
@@ -92,15 +93,11 @@ public class Controller extends AbstractController{
             
     	}else if(db.equals("mongo")){
     		
-	    	this.mongoClient = new MongoClient("localhost",27017);
-			DB db = this.mongoClient.getDB("saveGame");
-			DBCollection collection = db.getCollection("Partidas");
-			
-			DBCursor cursor = collection.find();
+    		Mongo = new MongoController();
+    		DBCursor cursor = Mongo.getPartidas().find();
+    		
 			try {
 				while (cursor.hasNext()) {
-					//System.out.println(cursor.next().toString());
-					
 					MoveCommand m= new MoveCommand((BasicDBObject) cursor.next());
 					this.moveCommands.push(m);
 				}
@@ -169,16 +166,16 @@ public class Controller extends AbstractController{
 				}else if (db.equals("mongo")){				
 					SaveGame s=new SaveGame();
 					s.setStack(this.moveCommands);
-			
-					mongoClient = new MongoClient("localhost",27017);
-					DB db = mongoClient.getDB("saveGame");
-					DBCollection collection = db.getCollection("Partidas");
 								
-					//Esto lo que hace es al resolver elminiar todos los comandos guardados en mongo
-					DBCursor cursor = collection.find();
-					while (cursor.hasNext()) {
-						collection.remove(cursor.next());
-					}
+					DBCursor cursor = Mongo.getPartidas().find();
+					
+					try{
+						while (cursor.hasNext()) {
+							Mongo.getPartidas().remove(cursor.next());
+						}
+					} finally {
+						cursor.close();
+					}	
 				}
 				
 				long endTime = System.nanoTime();
@@ -228,13 +225,9 @@ public class Controller extends AbstractController{
 	    		this.XQ.queryPartidas("/saveGame", context);
 	    		
 	        }else if (db.equals("mongo")){
-            
-	            //Obtenemos la coleccion donde guardaremos los movimientos como documentos
-	    		DB db = this.mongoClient.getDB("saveGame");
-	    		DBCollection collection = db.getCollection("Partidas");	    		
-	    								
+                			    								
 				BasicDBObject document = m.toDBObjectCommand();
-				collection.insert(document);
+				Mongo.getPartidas().insert(document);
 
 	        }
 			/////////////////////		
@@ -325,6 +318,7 @@ public class Controller extends AbstractController{
 
 	*/
 
+	/*
 	public void readXML(){
 		try {			
 			while(!moveCommands.isEmpty()) {
@@ -353,6 +347,7 @@ public class Controller extends AbstractController{
 			e.printStackTrace();
 		}		
 	}
+	*/
 	
 	/*
 	public void readMongo(){					
@@ -398,15 +393,10 @@ public class Controller extends AbstractController{
 		this.moveCommands.push(c);		
 		
 		// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo 
-        long startTime = System.nanoTime(); 
-        
-
-		DB db = this.mongoClient.getDB("saveGame");
-		DBCollection collection = db.getCollection("Partidas");	    		
+        long startTime = System.nanoTime();    		
 								
 		BasicDBObject document = c.toDBObjectCommand();
-		collection.insert(document);
-		
+		Mongo.getPartidas().insert(document);
 		
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime);
