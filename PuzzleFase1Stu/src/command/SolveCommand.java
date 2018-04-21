@@ -67,8 +67,10 @@ public class SolveCommand implements Command {
 			///////////////////////////
 			//Metemos todos los comandos para llegar a la solucion a la coleccion
 			if(db.equals("baseX")){
+				XQ = new XQueryController();
 				
-				
+				XQ.addCommandPartida(m);
+				XQ.updateSaveGame();
 				
 			}else if(db.equals("mongo")){		
 				Mongo = new MongoController();

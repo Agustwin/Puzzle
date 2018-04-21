@@ -24,13 +24,8 @@ public class MoveCommand implements Command{
 		
 	}
 	
-	public MoveCommand(Controller c, int posX, int posY) {
+	public MoveCommand(Controller c,int posX, int posY) {
 		this.controller=c;	
-		this.pos0=posX;
-		this.pos1=posY;
-	}
-	
-	public MoveCommand(int posX, int posY) {	
 		this.pos0=posX;
 		this.pos1=posY;
 	}

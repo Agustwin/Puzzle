@@ -85,10 +85,9 @@ public class Controller extends AbstractController{
     		//Paso1	        
             String collection = "saveGame"; 
             XQ = new XQueryController();
-            this.XQ.createCollection(collection);	                      
+            this.XQ.createCollection(collection);	           
             
             this.XQ.queryPartidas("/saveGame/Command");
-
                        
     	}else if(db.equals("mongo")){
     		
@@ -159,7 +158,10 @@ public class Controller extends AbstractController{
 		        long startTime = System.nanoTime();  
 				
 				if(db.equals("baseX")){		
-					this.XQ.removePartida();
+					
+					XQ.removePartida();
+					
+					this.XQ.updateSaveGame();
 					this.XQ.queryPartidas("/saveGame");
 					
 				}else if (db.equals("mongo")){				
@@ -187,7 +189,8 @@ public class Controller extends AbstractController{
 				
 			case "info":
 				JOptionPane.showMessageDialog(null,"Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
-				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");			
+				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");		
+
 				break;
 				
 			default:
@@ -319,7 +322,8 @@ public class Controller extends AbstractController{
 
 	*/
 
-	/*
+	//----------------Esto no funciona-------------------
+  	/////////////////////////////////////////////////////
 	public void readXML(){
 		try {			
 			while(!moveCommands.isEmpty()) {
@@ -348,7 +352,7 @@ public class Controller extends AbstractController{
 			e.printStackTrace();
 		}		
 	}
-	*/
+	/////////////////////////////////////////////////
 	
 	/*
 	public void readMongo(){					
@@ -401,6 +405,8 @@ public class Controller extends AbstractController{
 		
 			//Agregamos un comando de paretida a la base de datos
 			this.XQ.addCommandPartida(c);
+			
+			this.XQ.updateSaveGame();
 			
 			//Mostramos todos los movimientos con el nuevo incluido
 			this.XQ.queryPartidas("/saveGame/Command");

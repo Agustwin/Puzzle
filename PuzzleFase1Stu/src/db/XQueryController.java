@@ -48,7 +48,7 @@ public class XQueryController {
   	}
   	
   	//Paso2 consulta todos los commands de una partida
-  	public static void queryPartidas(String query){
+  	public void queryPartidas(String query){
   		try{
   			XQuery xQuery = new XQuery(query);
   			System.out.println(xQuery.execute(context));
@@ -58,7 +58,7 @@ public class XQueryController {
 	}
   	
   	//Paso3 agrega un comando al xml actual
-  	public static void addCommandPartida(MoveCommand commandPartida){
+  	public void addCommandPartida(MoveCommand commandPartida){
   		try{
   			System.out.println("Insertamos el comando a la partida: " + commandPartida);
   			XQuery insertQuery = new XQuery("insert node "+commandPartida+ " into /saveGame");
@@ -69,11 +69,16 @@ public class XQueryController {
   		}
   	}
   	
+  	
+  	
+  	//----------------Esto no funciona-------------------
+  	/////////////////////////////////////////////////////
   	//Paso4 elimina un nodo comando
-  	public static void removeCommandPartida(MoveCommand commandPartida){
+  	public void removeCommandPartida(MoveCommand commandPartida){
   		try{
   			System.out.println("Eliminamos el comando partida: " + commandPartida);
-  			XQuery eliminarQuery = new XQuery("delete node /saveGame/" + commandPartida +"/.");
+  			//XQuery eliminarQuery = new XQuery("delete node /saveGame/" + commandPartida +"/.");
+  			XQuery eliminarQuery = new XQuery("delete /saveGame/Command[matches(pos0,"+ commandPartida.getPos0()+")");
   			System.out.println(eliminarQuery.execute(context));
   		}catch(Exception e){
   			System.out.println("No se ha podido borrar " + e.getMessage());
@@ -82,16 +87,21 @@ public class XQueryController {
   	}
   	
     //Paso5 elimina todos los nodos command de una partida
-  	public static void removePartida(){
+  	public void removePartida(){
   		try{
   			System.out.println("Eliminamos los commandos de una partida.");
-  			XQuery eliminarQuery = new XQuery("delete node /saveGame/.");
+  			XQuery eliminarQuery = new XQuery("for $Command in /saveGame \n"+
+  					"return delete node /saveGame/Command/., $Command)" );
   			System.out.println(eliminarQuery.execute(context));
   		}catch(Exception e){
-  			System.out.println("No se ha podido borrar " + e.getMessage());
+  			System.out.println("No se ha podido borrar partida" + e.getMessage());
   			e.printStackTrace();
   		}
-  	}  	
+  	} 
+  	/////////////////////////////////////////////////////
+  	
+  	
+  	
   	
   	public void updateSaveGame(){
   		try {

@@ -81,8 +81,11 @@ public class PuzzleApp {
         	PuzzleGUI.getInstance().setVisible(true);
         	
         	//Carga movimientos realizados en la base de datos
-        	myController.getDBMoves(); 
-     	   
+        	if(db.equals("baseX")){
+        		myController.readXML();
+        	}else if(db.equals("mongo")){
+        		myController.getDBMoves(); 
+        	}
        }else {
     	   	String fileSeparator = System.getProperty("file.separator");
     	   	imagePath=System.getProperty("user.dir")+fileSeparator+"resources"+fileSeparator;
@@ -108,7 +111,14 @@ public class PuzzleApp {
     	   	myController.addObserver(myModel);         
 
     	   	// Visualizamos la aplicaciÃ³n.
-    	   	PuzzleGUI.getInstance().setVisible(true);          
+    	   	PuzzleGUI.getInstance().setVisible(true);    
+    	   	
+    	  //Carga movimientos realizados en la base de datos
+        	if(db.equals("baseX")){
+        		myController.readXML();
+        	}else if(db.equals("mongo")){
+        		myController.getDBMoves(); 
+        	}
        }                          
     }
        
