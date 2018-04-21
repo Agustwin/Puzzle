@@ -60,10 +60,9 @@ public class Controller extends AbstractController{
     
     //Parametros para las bases de datos
     private MongoController Mongo;
-    private XQueryController XQ;	
-    Context context = new Context();
+    private XQueryController XQ;	   
     
-	public Controller() throws IOException {
+	public Controller() throws IOException{
 		moveCommands=new Stack();
 		
 		//Lee el fichero de parametros para saber en que base de datos vamos a trabajar
@@ -84,13 +83,13 @@ public class Controller extends AbstractController{
     	//Comprobacion de la base de datos
     	if(db.equals("baseX")){
     		//Paso1	        
-            String collection = "saveGame";           
-            this.XQ.createCollection(collection, context);	
+            String collection = "saveGame"; 
+            XQ = new XQueryController();
+            this.XQ.createCollection(collection);	                      
             
-            this.XQ.queryPartidas("/saveGame", context);
+            this.XQ.queryPartidas("/saveGame/Command");
 
-            
-            
+                       
     	}else if(db.equals("mongo")){
     		
     		Mongo = new MongoController();
@@ -144,7 +143,6 @@ public class Controller extends AbstractController{
 					this.myView=PuzzleGUI.getInstance().getBoardView();
 					
 					this.getMoves().clear();
-					//PuzzleGUI.getInstance().getBoardView().update(PuzzleGUI.getInstance().getBoardView().getGraphics());
 					System.out.println("Load Image");
 				}				
 				break;
@@ -161,7 +159,8 @@ public class Controller extends AbstractController{
 		        long startTime = System.nanoTime();  
 				
 				if(db.equals("baseX")){		
-					
+					this.XQ.removePartida();
+					this.XQ.queryPartidas("/saveGame");
 					
 				}else if (db.equals("mongo")){				
 					SaveGame s=new SaveGame();
@@ -188,7 +187,7 @@ public class Controller extends AbstractController{
 				
 			case "info":
 				JOptionPane.showMessageDialog(null,"Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
-				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");								
+				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");			
 				break;
 				
 			default:
@@ -220,9 +219,11 @@ public class Controller extends AbstractController{
             
 	            //Agregamos un comando de paretida a la base de datos
 		        this.XQ.addCommandPartida(m);
+		        
+		        this.XQ.updateSaveGame();
     		
 	    		//Mostramos todos los movimientos con el nuevo incluido
-	    		this.XQ.queryPartidas("/saveGame", context);
+	    		this.XQ.queryPartidas("/saveGame/Command");
 	    		
 	        }else if (db.equals("mongo")){
                 			    								
@@ -393,10 +394,24 @@ public class Controller extends AbstractController{
 		this.moveCommands.push(c);		
 		
 		// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo 
-        long startTime = System.nanoTime();    		
-								
-		BasicDBObject document = c.toDBObjectCommand();
-		Mongo.getPartidas().insert(document);
+        long startTime = System.nanoTime();  
+							
+		//////////////////////////
+		if(db.equals("baseX")){		
+		
+			//Agregamos un comando de paretida a la base de datos
+			this.XQ.addCommandPartida(c);
+			
+			//Mostramos todos los movimientos con el nuevo incluido
+			this.XQ.queryPartidas("/saveGame/Command");
+		
+		}else if (db.equals("mongo")){
+					    								
+			BasicDBObject document = c.toDBObjectCommand();
+			Mongo.getPartidas().insert(document);
+
+		}
+		/////////////////////	
 		
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime);

@@ -1,4 +1,6 @@
 package db;
+import java.io.File;
+
 import org.basex.core.BaseXException;
 import org.basex.core.Context;
 import org.basex.core.cmd.Add;
@@ -10,21 +12,31 @@ import command.MoveCommand;
 
 public class XQueryController {
 	
+	private static Context context;
+	private String collectionPath;
+	private String xmlPartida = "/Save.xml";
+	
 	public XQueryController(){
-		
+		this.collectionPath = System.getProperty("user.dir");
 	}
 
     //Creamos la coleccion de XML que en Basex es unica como si fuera la db
-  	public static void createCollection(String nameCollection, Context context){
+  	public static void createCollection(String nameCollection){
   		try{
-  			System.out.println("\n* Create a collection.");
-  			
+  			context = new Context();
   			String collectionPath = System.getProperty("user.dir");
-  			//String xmlPartida = "Save.xml";
+  			System.out.println(collectionPath);  		
   			
+  		    //-----------1---------------------------
+  			System.out.println("\n* Create a collection.");  			  			  			 			
   			//Creamos una colecion anadimos los ficheros uno a uno
-  			new CreateDB(nameCollection,collectionPath).execute(context);
+  			new CreateDB(nameCollection,collectionPath).execute(context); 			
+  			
+  			//------------2----------------------
+  			//System.out.println("\n* Create an empty collection and add documents.");
+  			//new CreateDB(nameCollection).execute(context);
   			//new Add(xmlPartida, collectionPath).execute(context);
+  			
   			
   			//Mostrar informacion de base de datos
   			System.out.println("\n* Show database information:");
@@ -36,7 +48,7 @@ public class XQueryController {
   	}
   	
   	//Paso2 consulta todos los commands de una partida
-  	public static void queryPartidas(String query, Context context){
+  	public static void queryPartidas(String query){
   		try{
   			XQuery xQuery = new XQuery(query);
   			System.out.println(xQuery.execute(context));
@@ -50,16 +62,27 @@ public class XQueryController {
   		try{
   			System.out.println("Insertamos el comando a la partida: " + commandPartida);
   			XQuery insertQuery = new XQuery("insert node "+commandPartida+ " into /saveGame");
-  			//System.out.println(insertQuery.execute(context));
-  			//this.updatePartida(context);
+  			System.out.println(insertQuery.execute(context));
   		}catch(Exception e){
   			System.out.println("No se ha podido insertar " + e.getMessage());
   			e.printStackTrace();
   		}
   	}
   	
-    //Paso4 elimina todos los nodos command de una partida
-  	public static void removePartida(Context context){
+  	//Paso4 elimina un nodo comando
+  	public static void removeCommandPartida(MoveCommand commandPartida){
+  		try{
+  			System.out.println("Eliminamos el comando partida: " + commandPartida);
+  			XQuery eliminarQuery = new XQuery("delete node /saveGame/" + commandPartida +"/.");
+  			System.out.println(eliminarQuery.execute(context));
+  		}catch(Exception e){
+  			System.out.println("No se ha podido borrar " + e.getMessage());
+  			e.printStackTrace();
+  		}
+  	}
+  	
+    //Paso5 elimina todos los nodos command de una partida
+  	public static void removePartida(){
   		try{
   			System.out.println("Eliminamos los commandos de una partida.");
   			XQuery eliminarQuery = new XQuery("delete node /saveGame/.");
@@ -70,7 +93,14 @@ public class XQueryController {
   		}
   	}  	
   	
-  	private void updatePartida(Context context){
-  		XQuery serializeQuery = new XQuery("for $item in / saveGame \n"+"return " ); 		
+  	public void updateSaveGame(){
+  		try {
+  			XQuery serializeQuery = new XQuery("for $Command in /saveGame \n"+
+  					"return file:write('"+this.collectionPath+this.xmlPartida+"',$Command)" ); 
+			System.out.println(serializeQuery.execute(context));
+		} catch (BaseXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
   	}
 }

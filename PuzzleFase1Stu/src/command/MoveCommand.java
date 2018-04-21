@@ -12,7 +12,7 @@ import com.mongodb.BasicDBObject;
 import control.Controller;
 import view.PuzzleGUI;
 
-@XmlRootElement
+@XmlRootElement(name="Command")
 public class MoveCommand implements Command{
 	
 	private Controller controller;
@@ -26,6 +26,11 @@ public class MoveCommand implements Command{
 	
 	public MoveCommand(Controller c, int posX, int posY) {
 		this.controller=c;	
+		this.pos0=posX;
+		this.pos1=posY;
+	}
+	
+	public MoveCommand(int posX, int posY) {	
 		this.pos0=posX;
 		this.pos1=posY;
 	}
@@ -45,16 +50,15 @@ public class MoveCommand implements Command{
 		controller.notifyObservers(pos0,pos1);
 	}	
 
-	@XmlElement
+	//@XmlElement
 	public void setPos0(int p) {
 		pos0=p;
 	}
 	public int getPos0() {
 		return pos0;
 	}
-	
-	
-	@XmlElement
+		
+	//@XmlElement
 	public void setPos1(int p) {
 		pos1=p;
 	}
@@ -89,6 +93,8 @@ public class MoveCommand implements Command{
 
 	@Override
 	public String toString() {
-		return "MoveCommand [controller=" + controller + ", pos0=" + pos0 + ", pos1=" + pos1 + "]";
+		return ("element Command {" +
+				" element pos0{"+pos0+"}," +
+				" element pos1{"+pos1+"}}");
 	}	
 }
