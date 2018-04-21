@@ -2,7 +2,11 @@ package command;
 
 import java.util.Stack;
 
+import javax.swing.Box;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import control.Controller;
 
@@ -37,5 +41,6 @@ public class SolveCommand implements Command {
 		}
 		//Mensaje de que se ha solucionado el puzzle
 		JOptionPane.showMessageDialog(null,"Puzzle is solved");
+		
 	}
 }

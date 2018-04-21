@@ -11,8 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import javax.swing.Box;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -85,15 +89,38 @@ public class Controller extends AbstractController{
 				/*--------------------Meter en comando---------------------*/
 				File f=PuzzleGUI.getInstance().showFileSelector();
 				System.out.println("Path: "+f);
-				if(f!=null) {
-					PuzzleGUI.getInstance().updateBoard(f);
-					notifyObserversReset();
-					this.myView=PuzzleGUI.getInstance().getBoardView();
-					
-					this.getMoves().clear();
+				
+				JPanel j=new JPanel();
+				JTextField Rows = new JTextField(5);
+			      JTextField Columns = new JTextField(5);
+			      JTextField Size = new JTextField(5);
+			      
+			      JPanel myPanel = new JPanel();
+			      myPanel.add(new JLabel("Filas:"));
+			      myPanel.add(Rows);
+			      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+			      myPanel.add(new JLabel("Columnas:"));
+			      myPanel.add(Columns);
+			      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+			      myPanel.add(new JLabel("Tamaño de pieza:"));
+			      myPanel.add(Size);
 
-					System.out.println("Load Image");
-				}
+			      int result = JOptionPane.showConfirmDialog(null, myPanel, 
+			               "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);
+			      if (result == JOptionPane.OK_OPTION) {
+			         
+			    	  if(f!=null) {
+							PuzzleGUI.getInstance().updateBoard(f);
+							notifyObserversReset(Integer.parseInt(Rows.getText()),Integer.parseInt(Columns.getText()),Integer.parseInt(Size.getText()));
+							this.myView=PuzzleGUI.getInstance().getBoardView();
+							
+							this.getMoves().clear();
+
+							System.out.println("Load Image");
+						}
+			       }
+				
+				
 				
 				break;
 				
@@ -126,10 +153,10 @@ public class Controller extends AbstractController{
 		}
 	}	
 	
-	public void notifyObserversReset() {
+	public void notifyObserversReset(int rowNum,int columnNum,int imageSize) {
 		//TODO Auto-generated method stub
 		for(Observer o:observerList) {			
-			o.setNewBoard();
+			o.setNewBoard(rowNum,columnNum,imageSize);
 		}		
 	}
 

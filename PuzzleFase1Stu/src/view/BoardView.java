@@ -147,7 +147,8 @@ public class BoardView extends JPanel implements Observer {
 		}
     	
 		update(getGraphics());
-    }
+	}
+    
 
     public void update(Graphics g){
         paint(g);
@@ -159,6 +160,7 @@ public class BoardView extends JPanel implements Observer {
 
 		for(PieceView iconImage:iconArray){	
     			
+			//Asigno las coordenadas en las que se va a pintar
     		SetDrawnCoordinates(iconImage,iconImage.getImageSize());
     		
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
@@ -263,9 +265,13 @@ public class BoardView extends JPanel implements Observer {
 	}
 		
 	@Override
-	public void setNewBoard() {
-		iconArray.clear();
+	public void setNewBoard(int rowNum, int columnNum, int imageSize) {
 		
+		this.rowNum=rowNum;
+		this.columnNum=columnNum;
+		this.imageSize=imageSize;
+		
+		iconArray.clear();
 		BufferedImage img=resizeImage(image);
 	    BufferedImage[] listImg=splitImage(img);	
 	    
@@ -326,5 +332,17 @@ public class BoardView extends JPanel implements Observer {
 		// TODO Auto-generated method stub
 		iconArray=aux;
 	}
+	
+	private boolean checkWin() {
+		for(int i=0;i<iconArray.size();i++) {
+			if(iconArray.get(i).getId()!=i) {
+				return false;
+			}
+			
+		}
+		return true;
+	}
+
+	
 
 }

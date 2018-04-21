@@ -19,6 +19,7 @@ public interface Observer {
      * @param movedPos Posicion de la pieza a mover
      */
     public void update(int blankPos,int movedPos);
-    public void setNewBoard();
+    public void setNewBoard(int rowNum, int columnNum, int imageSize);
+	
 
 }
