@@ -58,9 +58,7 @@ public class PuzzleGUI extends JFrame{
         this.setSize(windowW,windowH);
         this.setLocation(centerFrame());
        
-    }
-    
-    
+    }   
 
     //Singleton
     public static PuzzleGUI getInstance(){
@@ -99,7 +97,6 @@ public class PuzzleGUI extends JFrame{
         clutterButton.addActionListener(controller);
         solveButton.addActionListener(controller);
 
-
         southPanel.add(clutterButton);
         southPanel.add(solveButton);
 
@@ -112,22 +109,28 @@ public class PuzzleGUI extends JFrame{
         JMenu archive = new JMenu("Archive");
         JMenu help = new JMenu("Help");
 
-        JMenuItem load = new JMenuItem("Load");
+        JMenuItem load = new JMenuItem("Load Image");
         load.setActionCommand("load");
+        
+        JMenuItem clean = new JMenuItem("Clean DB");
+        clean.setActionCommand("cleanDB");
+        
         JMenuItem exit = new JMenuItem("Exit");
         exit.setActionCommand("exit");
         JMenuItem info = new JMenuItem("Info");
         info.setActionCommand("info");
         
 
-        archive.add(load);    
+        archive.add(load);  
+        archive.add(clean); 
         archive.add(exit);
         help.add(info);
 
         menu.add(archive);
         menu.add(help);
 
-        load.addActionListener(controller);       
+        load.addActionListener(controller);    
+        clean.addActionListener(controller);    
         
         exit.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent ev) {

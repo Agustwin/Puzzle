@@ -55,31 +55,29 @@ public class SolveCommand implements Command {
 		// TODO Auto-generated method stub		
 		Stack<MoveCommand> aux=controller.getMoves();
 		while(!aux.isEmpty()) {
-			System.out.println("holaaaaaaaaaaa");
+			System.out.println("Ora!");
 			MoveCommand m=aux.pop();
+			
+			
+			///////////////////////////
+			//Metemos todos los comandos para llegar a la solucion a la coleccion
+			if(db.equals("baseX")){
+				
+				
+				
+			}else if(db.equals("mongo")){		
+				MongoClient mongoClient = new MongoClient("localhost",27017);
+				DB db = mongoClient.getDB("saveGame");
+				DBCollection collection = db.getCollection("Partidas");
+							
+				BasicDBObject document = m.toDBObjectCommand();
+				collection.insert(document);
+			}
+			///////////////////////////
+			
 			m.undoCommand();
 		}
-		
-		if(db.equals("baseX")){
-			
-			
-			
-		}else if(db.equals("mongo")){
-			SaveGame s=new SaveGame();
-			s.setStack(controller.moveCommands);
-			System.err.println("ESCRITURA");
-	
-			MongoClient mongoClient = new MongoClient("localhost",27017);
-			DB db = mongoClient.getDB("saveGame");
-			DBCollection collection = db.getCollection("Partidas");
 						
-			//Esto lo que hace es al resolver elminiar todos los comandos guardados en mongo
-			DBCursor cursor = collection.find();
-			while (cursor.hasNext()) {
-				collection.remove(cursor.next());
-			}
-		}
-		
 		//Mensaje de que se ha solucionado el puzzle
 		JOptionPane.showMessageDialog(null,"Puzzle is solved");
 	}

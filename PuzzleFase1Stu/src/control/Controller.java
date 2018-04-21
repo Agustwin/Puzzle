@@ -150,6 +150,36 @@ public class Controller extends AbstractController{
 				}				
 				break;
 				
+			case "cleanDB":	
+				
+				while(!this.moveCommands.isEmpty()) {
+					System.out.println("Ora!");
+					MoveCommand m=this.moveCommands.pop();
+					m.undoCommand();
+				}
+				
+				if(db.equals("baseX")){		
+					
+					
+				}else if (db.equals("mongo")){				
+					SaveGame s=new SaveGame();
+					s.setStack(this.moveCommands);
+			
+					mongoClient = new MongoClient("localhost",27017);
+					DB db = mongoClient.getDB("saveGame");
+					DBCollection collection = db.getCollection("Partidas");
+								
+					//Esto lo que hace es al resolver elminiar todos los comandos guardados en mongo
+					DBCursor cursor = collection.find();
+					while (cursor.hasNext()) {
+						collection.remove(cursor.next());
+					}
+				}
+				
+				System.out.println("DB cleaned");
+						
+			break;
+				
 			case "info":
 				JOptionPane.showMessageDialog(null,"Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
 				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");								
