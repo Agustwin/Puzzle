@@ -30,8 +30,7 @@ public class RandomCommand implements Command {
 		
 		int[]pos = new int[2];
 		
-		for(int i=0;i<10;i++) {
-			
+		for(int i=0;i<10;i++) {			
 			pos[0]=(int)(Math.random()*PuzzleGUI.getInstance().getBoardView().getRowNum()*PuzzleGUI.getInstance().getBoardView().getRowNum());
 			pos[1]=(int)(Math.random()*PuzzleGUI.getInstance().getBoardView().getColumnNum()*PuzzleGUI.getInstance().getBoardView().getColumnNum());
 			
@@ -39,11 +38,7 @@ public class RandomCommand implements Command {
 			
 			MoveCommand m=new MoveCommand(controller,pos[0],pos[1]);
 			m.execute();
-			controller.addCommand(m);
-			
-		}
-		
-		
+			controller.addCommand(m);			
+		}	
 	}
-
 }

@@ -77,6 +77,9 @@ public class Controller extends AbstractController{
     		e.printStackTrace();
     	}			
     	
+    	// Ponemos un contador para saber cuanto tiempo tarda iniciar y leer la base de datos
+        long startTime = System.nanoTime();   
+    	
     	//Comprobacion de la base de datos
     	if(db.equals("baseX")){
     		//Paso1	        
@@ -88,9 +91,7 @@ public class Controller extends AbstractController{
             
             
     	}else if(db.equals("mongo")){
-	    	// Ponemos un contador para saber cuanto tiempo tarda iniciar y leer la base de datos de mongo 
-	        long startTime = System.nanoTime();      	
-	        
+    		
 	    	this.mongoClient = new MongoClient("localhost",27017);
 			DB db = this.mongoClient.getDB("saveGame");
 			DBCollection collection = db.getCollection("Partidas");
@@ -105,16 +106,17 @@ public class Controller extends AbstractController{
 				}
 			} finally {
 				cursor.close();
-			}
-	    	   		
-			long endTime = System.nanoTime();
-			long duration = (endTime - startTime);
-			double millis = duration / 1000000.0; // conversion a milisegundos.
-	
-			System.out.println("Tiempo en cargar Mongo y los documentos de comandos: " + millis + "ms.");    									
+			}		
+			
     	}else{
     		System.out.println("Vuestro documento XML de configuracion tiene mal la base de datos.");
     	}
+    	
+    	long endTime = System.nanoTime();
+		long duration = (endTime - startTime);
+		double millis = duration / 1000000.0; // conversion a milisegundos.
+		
+		System.out.println("Tiempo en cargar Base de datos y los comandos: " + millis + "ms.");    
 	}
 	
 	//Ejecutamos todas las acciones con su correspondiente command
@@ -158,6 +160,9 @@ public class Controller extends AbstractController{
 					m.undoCommand();
 				}
 				
+				// Ponemos un contador para saber cuanto tiempo tarda en limpiar base de datos 
+		        long startTime = System.nanoTime();  
+				
 				if(db.equals("baseX")){		
 					
 					
@@ -176,7 +181,11 @@ public class Controller extends AbstractController{
 					}
 				}
 				
-				System.out.println("DB cleaned");
+				long endTime = System.nanoTime();
+				long duration = (endTime - startTime);
+				double millis = duration / 1000000.0; // conversion a milisegundos.
+				
+				System.out.println("Tiempo en limpiar Base de datos: " + millis + "ms.");  
 						
 			break;
 				
@@ -206,43 +215,35 @@ public class Controller extends AbstractController{
 			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
 			this.moveCommands.push(m);
 			
+        	// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo o query
+            long startTime = System.nanoTime(); 
+			
 			//////////////////////////
 			if(db.equals("baseX")){		
-				// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo 
-	            long startTime = System.nanoTime(); 
-	            
+            
 	            //Agregamos un comando de paretida a la base de datos
 		        this.XQ.addCommandPartida(m);
-		        
-		        long endTime = System.nanoTime();
-	    		long duration = (endTime - startTime);
-	    		double millis = duration / 1000000.0; // conversion a milisegundos.
-	    		
+    		
 	    		//Mostramos todos los movimientos con el nuevo incluido
 	    		this.XQ.queryPartidas("/saveGame", context);
 	    		
-	    		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");  
-	    		
 	        }else if (db.equals("mongo")){
-	        	
-	        	// Ponemos un contador para saber cuanto tiempo tarda en insertar un documento en mongo 
-	            long startTime = System.nanoTime(); 
-	            
+            
 	            //Obtenemos la coleccion donde guardaremos los movimientos como documentos
 	    		DB db = this.mongoClient.getDB("saveGame");
 	    		DBCollection collection = db.getCollection("Partidas");	    		
 	    								
 				BasicDBObject document = m.toDBObjectCommand();
 				collection.insert(document);
-				
-				
-				long endTime = System.nanoTime();
-	    		long duration = (endTime - startTime);
-	    		double millis = duration / 1000000.0; // conversion a milisegundos.
-	    		
-	    		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");   
+
 	        }
-			/////////////////////			
+			/////////////////////		
+			
+	        long endTime = System.nanoTime();
+    		long duration = (endTime - startTime);
+    		double millis = duration / 1000000.0; // conversion a milisegundos.
+    		
+    		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");  
 			
 			m.execute();
 		}		
