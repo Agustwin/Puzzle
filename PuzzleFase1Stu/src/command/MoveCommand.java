@@ -60,9 +60,11 @@ public class MoveCommand implements Command{
 		return pos1;
 	}
 		
+	/*
 	public Controller getController() {
 		return this.controller;
 	}
+	*/
 	
 	public void setController(Controller c) {
 		this.controller=c;

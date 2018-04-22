@@ -1,3 +1,42 @@
 <saveGame>
-
+  <Command>
+    <pos0>1</pos0>
+    <pos1>13</pos1>
+  </Command>
+  <Command>
+    <pos0>13</pos0>
+    <pos1>2</pos1>
+  </Command>
+  <Command>
+    <pos0>10</pos0>
+    <pos1>7</pos1>
+  </Command>
+  <Command>
+    <pos0>2</pos0>
+    <pos1>2</pos1>
+  </Command>
+  <Command>
+    <pos0>6</pos0>
+    <pos1>8</pos1>
+  </Command>
+  <Command>
+    <pos0>13</pos0>
+    <pos1>14</pos1>
+  </Command>
+  <Command>
+    <pos0>9</pos0>
+    <pos1>4</pos1>
+  </Command>
+  <Command>
+    <pos0>1</pos0>
+    <pos1>5</pos1>
+  </Command>
+  <Command>
+    <pos0>11</pos0>
+    <pos1>11</pos1>
+  </Command>
+  <Command>
+    <pos0>12</pos0>
+    <pos1>14</pos1>
+  </Command>
 </saveGame>
