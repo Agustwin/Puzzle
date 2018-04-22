@@ -142,25 +142,32 @@ public class Controller extends AbstractController{
 				}				
 				break;
 				
-			case "cleanDB":	
-				
-				while(!this.moveCommands.isEmpty()) {
-					System.out.println("Ora!");
-					MoveCommand m=this.moveCommands.pop();
-					m.undoCommand();
-				}
+			case "cleanDB":				
+							
 				
 				// Ponemos un contador para saber cuanto tiempo tarda en limpiar base de datos 
 		        long startTime = System.nanoTime();  
 				
 				if(db.equals("baseX")){		
-					
-					XQ.removePartida();
-					
+					while(!this.moveCommands.isEmpty()) {
+						System.out.println("Ora!");
+						MoveCommand m=this.moveCommands.pop();
+						
+						this.XQ.removePartida();
+						
+						m.undoCommand();
+					}	
+				
 					this.XQ.updateSaveGame();
 					this.XQ.queryPartidas("/saveGame");
 					
-				}else if (db.equals("mongo")){				
+				}else if (db.equals("mongo")){	
+					while(!this.moveCommands.isEmpty()) {
+						System.out.println("Ora!");
+						MoveCommand m=this.moveCommands.pop();
+
+						m.undoCommand();
+					}
 					SaveGame s=new SaveGame();
 					s.setStack(this.moveCommands);
 								
@@ -318,8 +325,6 @@ public class Controller extends AbstractController{
 
 	*/
 
-	//----------------Esto no funciona-------------------
-  	/////////////////////////////////////////////////////
 	@SuppressWarnings("unchecked")
 	public void readXML(){
 		try {			
@@ -349,7 +354,6 @@ public class Controller extends AbstractController{
 			e.printStackTrace();
 		}		
 	}
-	/////////////////////////////////////////////////
 	
 	/*
 	public void readMongo(){					

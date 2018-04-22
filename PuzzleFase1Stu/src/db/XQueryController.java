@@ -67,42 +67,21 @@ public class XQueryController {
   			System.out.println("No se ha podido insertar " + e.getMessage());
   			e.printStackTrace();
   		}
-  	}
+  	} 	  	
   	
-  	
-  	
-  	//----------------Esto no funciona-------------------
-  	/////////////////////////////////////////////////////
-  	//Paso4 elimina un nodo comando
-  	public void removeCommandPartida(MoveCommand commandPartida){
-  		try{
-  			System.out.println("Eliminamos el comando partida: " + commandPartida);
-  			//XQuery eliminarQuery = new XQuery("delete node /saveGame/" + commandPartida +"/.");
-  			XQuery eliminarQuery = new XQuery("delete /saveGame/Command[matches(pos0,"+ commandPartida.getPos0()+")");
-  			System.out.println(eliminarQuery.execute(context));
-  		}catch(Exception e){
-  			System.out.println("No se ha podido borrar " + e.getMessage());
-  			e.printStackTrace();
-  		}
-  	}
-  	
-    //Paso5 elimina todos los nodos command de una partida
+    //Paso4 elimina todos los nodos command de una partida
   	public void removePartida(){
   		try{
   			System.out.println("Eliminamos los commandos de una partida.");
-  			XQuery eliminarQuery = new XQuery("for $Command in /saveGame \n"+
-  					"return delete node /saveGame/Command/., $Command)" );
+  			XQuery eliminarQuery = new XQuery("delete node /saveGame/Command/.");
   			System.out.println(eliminarQuery.execute(context));
   		}catch(Exception e){
   			System.out.println("No se ha podido borrar partida" + e.getMessage());
   			e.printStackTrace();
   		}
   	} 
-  	/////////////////////////////////////////////////////
-  	
-  	
-  	
-  	
+
+  	//Paso5 Actualiza lo que hay en la base de datos al fichero Save.xml para que siempre coincidan
   	public void updateSaveGame(){
   		try {
   			XQuery serializeQuery = new XQuery("for $Command in /saveGame \n"+
