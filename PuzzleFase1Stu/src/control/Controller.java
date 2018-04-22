@@ -170,6 +170,11 @@ public class Controller extends AbstractController{
 			this.moveCommands.push(m);
 			m.execute();
 		}
+		//Compruebo si ha ganado
+		if(PuzzleGUI.getInstance().getBoardView().checkWin()) {
+			JOptionPane.showMessageDialog(null,"Puzzle is solved");
+
+		}
 		
 	}
 	

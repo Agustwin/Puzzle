@@ -333,7 +333,7 @@ public class BoardView extends JPanel implements Observer {
 		iconArray=aux;
 	}
 	
-	private boolean checkWin() {
+	public boolean checkWin() {
 		for(int i=0;i<iconArray.size();i++) {
 			if(iconArray.get(i).getId()!=i) {
 				return false;
