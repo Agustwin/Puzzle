@@ -85,6 +85,7 @@ public class MoveCommand implements Command{
 	    return dBObjectCommand;
 	}
 
+	//Imprime el comando para poder agregar como nodo en el xml
 	@Override
 	public String toString() {
 		return ("element Command {" +

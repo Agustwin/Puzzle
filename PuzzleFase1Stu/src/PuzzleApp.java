@@ -107,7 +107,7 @@ public class PuzzleApp {
     	   	// Visualizamos la aplicaciÃ³n.
     	   	PuzzleGUI.getInstance().setVisible(true);    
     	   	
-    	  //Carga movimientos realizados en la base de datos
+    	   	//Carga movimientos realizados en la base de datos
         	if(db.equals("baseX")){
         		myController.readXML();
         	}else if(db.equals("mongo")){

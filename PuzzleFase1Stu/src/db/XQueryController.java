@@ -14,7 +14,7 @@ public class XQueryController {
 	
 	private static Context context;
 	private String collectionPath;
-	private String xmlPartida = "/Save.xml";
+	private String xmlPartida = "Save.xml";
 	
 	public XQueryController(){
 		this.collectionPath = System.getProperty("user.dir");

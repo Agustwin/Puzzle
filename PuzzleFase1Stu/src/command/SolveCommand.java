@@ -11,13 +11,8 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.MongoClient;
 
 import control.Controller;
-import control.SaveGame;
 import db.MongoController;
 import db.XQueryController;
 
@@ -65,7 +60,7 @@ public class SolveCommand implements Command {
 			
 			
 			///////////////////////////
-			//Metemos todos los comandos para llegar a la solucion a la coleccion
+			//Metemos todos los comandos para llegar a la solucion a la coleccion o xml
 			if(db.equals("baseX")){
 				XQ = new XQueryController();
 				
