@@ -11,6 +11,7 @@ public class MongoController {
 	private DB db;
 	private DBCollection partidas;
 
+	@SuppressWarnings("deprecation")
 	public MongoController(){
 		java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
 		

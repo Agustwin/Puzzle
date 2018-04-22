@@ -21,7 +21,7 @@ public class XQueryController {
 	}
 
     //Creamos la coleccion de XML que en Basex es unica como si fuera la db
-  	public static void createCollection(String nameCollection){
+  	public void createCollection(String nameCollection){
   		try{
   			context = new Context();
   			String collectionPath = System.getProperty("user.dir");

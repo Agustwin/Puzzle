@@ -10,10 +10,6 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import org.basex.core.Context;
-import org.basex.core.cmd.Add;
-import org.basex.core.cmd.CreateDB;
-import org.basex.core.cmd.InfoDB;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -22,8 +18,6 @@ import org.jdom2.input.sax.XMLReaders;
 
 import control.AbstractController;
 import control.Controller;
-import db.MongoController;
-import db.XQueryController;
 
 /*
  * Copyright 2016 Miguel Ã�ngel RodrÃ­guez-GarcÃ­a (miguel.rodriguez@urjc.es).

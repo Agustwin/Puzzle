@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import command.MoveCommand;
 
-
 @XmlRootElement
 public class SaveGame {
 	Stack<MoveCommand>command;

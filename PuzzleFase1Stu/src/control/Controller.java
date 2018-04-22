@@ -29,11 +29,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
 
 import command.Command;
 import command.MoveCommand;
@@ -63,7 +59,7 @@ public class Controller extends AbstractController{
     private XQueryController XQ;	   
     
 	public Controller() throws IOException{
-		moveCommands=new Stack();
+		moveCommands=new Stack<MoveCommand>();
 		
 		//Lee el fichero de parametros para saber en que base de datos vamos a trabajar
 		SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
@@ -324,6 +320,7 @@ public class Controller extends AbstractController{
 
 	//----------------Esto no funciona-------------------
   	/////////////////////////////////////////////////////
+	@SuppressWarnings("unchecked")
 	public void readXML(){
 		try {			
 			while(!moveCommands.isEmpty()) {
@@ -334,7 +331,7 @@ public class Controller extends AbstractController{
 			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
-			Stack aux=s.getStack();
+			Stack<MoveCommand> aux=s.getStack();
 			
 			moveCommands.clear();
 			moveCommands=(Stack<MoveCommand>) aux.clone();
@@ -426,7 +423,7 @@ public class Controller extends AbstractController{
 		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");   
 	}
 	
-	public Stack getMoves() {
+	public Stack<MoveCommand> getMoves() {
 		// TODO Auto-generated method stub
 		return this.moveCommands;
 	}

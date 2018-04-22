@@ -10,9 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.mongodb.BasicDBObject;
 
 import control.Controller;
-import view.PuzzleGUI;
 
-@XmlRootElement(name="Command")
+@XmlRootElement
 public class MoveCommand implements Command{
 	
 	private Controller controller;
@@ -45,7 +44,7 @@ public class MoveCommand implements Command{
 		controller.notifyObservers(pos0,pos1);
 	}	
 
-	//@XmlElement
+	@XmlElement
 	public void setPos0(int p) {
 		pos0=p;
 	}
@@ -53,7 +52,7 @@ public class MoveCommand implements Command{
 		return pos0;
 	}
 		
-	//@XmlElement
+	@XmlElement
 	public void setPos1(int p) {
 		pos1=p;
 	}
