@@ -2,11 +2,14 @@ package control;
 
 import java.util.Stack;
 
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 
 import command.MoveCommand;
-@XmlRootElement
+
+@XmlRootElement(name = "saveGame")
 public class SaveGame {
 Stack<MoveCommand>command;
 

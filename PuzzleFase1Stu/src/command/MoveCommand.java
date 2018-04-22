@@ -7,8 +7,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.mongodb.BasicDBObject;
-
 import control.Controller;
 import view.PuzzleGUI;
 
@@ -60,10 +58,10 @@ public class MoveCommand implements Command{
 	public int getPos1() {
 		return pos1;
 	}	
-	
+	/*
 	public Controller getController() {
 		return this.controller;
-	}
+	}*/
 	
 	public void setController(Controller c) {
 		this.controller=c;
