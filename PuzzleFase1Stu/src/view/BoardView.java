@@ -112,11 +112,12 @@ public class BoardView extends JPanel implements Observer {
         return(images);
     }
 
-    public void update(int blankPos, int movedPos){   	
+    public void update(int blankPos, int movedPos){
+    	
     	PieceView blank=iconArray.get(blankPos);
 
     	iconArray.set(blankPos,iconArray.get(movedPos));
-    	iconArray.set(movedPos, blank);    	
+    	iconArray.set(movedPos, blank);   	
     	
     	//muevo las coordenadas de las piezas
 		int auxX=iconArray.get(movedPos).getIndexRow();
@@ -126,7 +127,8 @@ public class BoardView extends JPanel implements Observer {
 		iconArray.get(movedPos).setIndexColumn(iconArray.get(blankPos).getIndexColumn());
 		
 		iconArray.get(blankPos).setIndexColumn(auxY);
-		iconArray.get(blankPos).setIndexRow(auxX);    	
+		iconArray.get(blankPos).setIndexRow(auxX);
+    	
     	
     	//Actualizo las coordenadas de todo el puzle
     	for(int i=0;i<iconArray.size();i++) {
@@ -139,7 +141,7 @@ public class BoardView extends JPanel implements Observer {
 		}
     	
 		update(getGraphics());
-    }
+	}
 
     public void update(Graphics g){
         paint(g);
