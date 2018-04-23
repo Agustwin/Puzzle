@@ -242,6 +242,8 @@ public class Controller extends AbstractController{
 	        }
 			/////////////////////		
 			
+			
+			
 	        long endTime = System.nanoTime();
     		long duration = (endTime - startTime);
     		double millis = duration / 1000000.0; // conversion a milisegundos.
@@ -249,6 +251,12 @@ public class Controller extends AbstractController{
     		System.out.println("Tiempo en insertar un comando: " + millis + "ms.");  
 			
 			m.execute();
+			
+			//Compruebo si se ha ganado la partida
+			if(PuzzleGUI.getInstance().getBoardView().checkWin()) {
+				JOptionPane.showMessageDialog(null,"Puzzle is solved");
+
+			}
 		}		
 	}
 	

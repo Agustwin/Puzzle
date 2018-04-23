@@ -314,5 +314,13 @@ public class BoardView extends JPanel implements Observer {
 		// TODO Auto-generated method stub
 		iconArray=aux;
 	}
-
+	public boolean checkWin() {
+		for(int i=0;i<iconArray.size();i++) {
+			if(iconArray.get(i).getId()!=i) {
+				return false;
+			}
+			
+		}
+		return true;
+	}
 }
