@@ -86,7 +86,11 @@ public class Model extends AbstractModel<PieceModel>{
 	}
 	
 	@Override
-	public void setNewBoard() {
+	public void setNewBoard(int rowNum,int columnNum,int imageSize) {
+		this.rowNum=rowNum;
+		this.columnNum=columnNum;
+		this.pieceSize=imageSize;
+		
 		 for(int i=0;i<rowNum*columnNum;i++) {	        		
      		addNewPiece(i, i%rowNum,i/columnNum);    		
 		 }		

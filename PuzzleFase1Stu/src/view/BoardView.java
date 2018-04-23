@@ -253,7 +253,11 @@ public class BoardView extends JPanel implements Observer {
 	}
 
 	@Override
-	public void setNewBoard() {
+	public void setNewBoard(int rowNum,int columnNum,int imageSize) {
+		this.rowNum=rowNum;
+		this.columnNum=columnNum;
+		this.imageSize=imageSize;
+		
 		iconArray.clear();
 		
 		BufferedImage img=resizeImage(image);
@@ -314,5 +318,13 @@ public class BoardView extends JPanel implements Observer {
 		// TODO Auto-generated method stub
 		iconArray=aux;
 	}
-
+	public boolean checkWin() {
+		for(int i=0;i<iconArray.size();i++) {
+			if(iconArray.get(i).getId()!=i) {
+				return false;
+			}
+			
+		}
+		return true;
+	}
 }
