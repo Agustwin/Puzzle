@@ -31,6 +31,10 @@ import java.util.List;
  * @version 1.0
  */
 public class BoardView extends JPanel implements Observer {
+	
+   public static final int windowWidth=244;
+   public static final int windowHeight=162;
+	
     public static final int imageWidth= 96;
     public static final int imageHeight= 96;
     private ArrayList<PieceView> iconArray = null;
@@ -54,9 +58,11 @@ public class BoardView extends JPanel implements Observer {
         for(int i=0;i<rowNum*columnNum;i++) {      		
         		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
     		
+        		System.err.println("INDEXCOLUMN "+p.getIndexColumn()+"INDEXROW "+p.getIndexRow());
+        		SetDrawnCoordinates(p,imageSize);
         		iconArray.add(p);
             	
-            	SetDrawnCoordinates(p,imageSize);
+            	
         }
     }
 
@@ -78,7 +84,9 @@ public class BoardView extends JPanel implements Observer {
         		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
         		
         	}
-    	
+    		System.err.println("INDEXCOLUMN "+p.getIndexColumn()+"INDEXROW "+p.getIndexRow());
+
+        	SetDrawnCoordinates(p,imageSize);
         	iconArray.add(p);
         	
         }        
@@ -119,7 +127,7 @@ public class BoardView extends JPanel implements Observer {
     }
 
     public void update(int blankPos, int movedPos){
-    	    	
+
     	PieceView blank=iconArray.get(blankPos);
 
     	iconArray.set(blankPos,iconArray.get(movedPos));
@@ -136,14 +144,16 @@ public class BoardView extends JPanel implements Observer {
 		iconArray.get(blankPos).setIndexRow(auxX);
     	
     	
-    	//Actualizo las coordenadas de todo el puzle
-    	for(int i=0;i<iconArray.size();i++) {
-    		SetDrawnCoordinates(iconArray.get(i),iconArray.get(i).getImageSize());
-    	}
+    	//Actualizo las coordenadas en pantalla de las piezas movidas
+    	
+    		SetDrawnCoordinates(iconArray.get(movedPos),iconArray.get(movedPos).getImageSize());
+    		SetDrawnCoordinates(iconArray.get(blankPos),iconArray.get(blankPos).getImageSize());
+
+    	
     	
     	System.out.println("View: ");
 		for(PieceView p:iconArray) {
-			System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
+			//System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
 		}
     	
 		update(getGraphics());
@@ -156,12 +166,10 @@ public class BoardView extends JPanel implements Observer {
 
     public void paint(Graphics g){
     		
-    	//g.clearRect(0, 0,this.getWidth(), this.getHeight());
-
+    	//limpio antes de pintar
+    	g.clearRect(0, 0,windowWidth, windowHeight);
+    	//pinto la pantalla
 		for(PieceView iconImage:iconArray){	
-    			
-			//Asigno las coordenadas en las que se va a pintar
-    		SetDrawnCoordinates(iconImage,iconImage.getImageSize());
     		
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
@@ -222,7 +230,7 @@ public class BoardView extends JPanel implements Observer {
     
 	//Comprueba si el movimiento es valido devuelve los ids 
 	public int checkMove(int pos) {
-	
+
 		int blankPos=-1;
 		 rowNum=imageWidth/iconArray.get(0).getImageSize();
 		
@@ -261,7 +269,7 @@ public class BoardView extends JPanel implements Observer {
 
 
 	public void Clutter() {		
-		Collections.shuffle(iconArray);			
+		Collections.shuffle(iconArray);	
 	}
 		
 	@Override
@@ -302,11 +310,14 @@ public class BoardView extends JPanel implements Observer {
 
 	private void SetDrawnCoordinates(PieceView p,int imageSize) {
 	
-		rowOff=(this.getWidth()-this.imageWidth)/2;
-		colOff=(this.getHeight()-this.imageHeight)/2;
+
+		rowOff=(windowWidth-this.imageWidth)/2;
+		colOff=(windowHeight-this.imageHeight)/2;
 		
 		int drawnRow;
 		int drawnColumn;
+		
+		
 		
 		 drawnRow=p.getIndexRow()*imageSize;
 		 drawnColumn=p.getIndexColumn()*imageSize;    	 
