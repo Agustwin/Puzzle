@@ -6,8 +6,12 @@ import view.PuzzleGUI;
 public class RandomCommand implements Command {
 
 	private Controller controller;
-	public RandomCommand(Controller c) {
+	private int size;
+	
+	//Paso el tamaño del puzzle y el controlador como parámetros
+	public RandomCommand(Controller c,int puzzleSize) {
 		controller=c;
+		size=puzzleSize;
 	}
 	
 	
@@ -27,17 +31,16 @@ public class RandomCommand implements Command {
 	public void execute() {
 		// TODO Auto-generated method stub
 		
-		int random=(int) (Math.random()*10);
+
 		
 		
 		int[]pos = new int[2];
 		
 		for(int i=0;i<10;i++) {
 			
-			pos[0]=(int)(Math.random()*PuzzleGUI.getInstance().getBoardView().getRowNum()*PuzzleGUI.getInstance().getBoardView().getRowNum());
-			pos[1]=(int)(Math.random()*PuzzleGUI.getInstance().getBoardView().getColumnNum()*PuzzleGUI.getInstance().getBoardView().getColumnNum());
+			pos[0]=(int)(Math.random()*size);
+			pos[1]=(int)(Math.random()*size);
 			
-			System.out.println(pos[0]+" "+pos[1]);
 			
 			MoveCommand m=new MoveCommand(controller,pos[0],pos[1]);
 			m.execute();
