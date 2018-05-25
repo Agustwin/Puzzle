@@ -67,8 +67,7 @@ public class Controller extends AbstractController{
 
 		switch (action) {
 			case "clutter": 
-				//preguntar si se puede llamar
-				RandomCommand random=new RandomCommand(this,PuzzleGUI.getInstance().rowNum*PuzzleGUI.getInstance().columnNum);
+				RandomCommand random=new RandomCommand(this);
 				random.execute();
 				break;
 				
