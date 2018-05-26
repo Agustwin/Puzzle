@@ -10,8 +10,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.5.1</version>
         <configuration>
-          <source/>
-          <target/>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
     </plugins>
@@ -28,17 +28,16 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-	    <groupId>org.basex</groupId>
-	    <artifactId>basex</artifactId>
-	    <version>8.6.7</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.basex/basex -->
-	<dependency>
-	    <groupId>org.basex</groupId>
-	    <artifactId>basex</artifactId>
-	    <version>8.6.7</version>
-	</dependency>
+
+    
+<!-- https://mvnrepository.com/artifact/org.basex/basex -->
+<dependency>
+    <groupId>org.basex</groupId>
+    <artifactId>basex</artifactId>
+    <version>7.3.1</version>
+</dependency>
+
+
 	
 	<dependency>
 	    <groupId>org.jdom</groupId>
@@ -64,6 +63,5 @@
         <version>2.1.5</version>
         <!-- <scope>provided</scope> -->
     </dependency>
-   
   </dependencies>
 </project>
