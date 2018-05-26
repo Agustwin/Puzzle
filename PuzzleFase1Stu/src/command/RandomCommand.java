@@ -46,7 +46,7 @@ public class RandomCommand implements Command {
 			m.execute();
 			controller.addCommand(m);
 			
-		}
+		} 
 		
 		
 	}
