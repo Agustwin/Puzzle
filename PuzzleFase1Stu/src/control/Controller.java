@@ -83,36 +83,17 @@ public class Controller extends AbstractController{
 				File f=PuzzleGUI.getInstance().showFileSelector();
 				System.out.println("Path: "+f);
 				
-				JPanel j=new JPanel();
-				JTextField Rows = new JTextField(5);
-			      JTextField Columns = new JTextField(5);
-			      JTextField Size = new JTextField(5);
-			      
-			      JPanel myPanel = new JPanel();
-			      myPanel.add(new JLabel("Filas:"));
-			      myPanel.add(Rows);
-			      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-			      myPanel.add(new JLabel("Columnas:"));
-			      myPanel.add(Columns);
-			      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-			      myPanel.add(new JLabel("Tamaño de pieza:"));
-			      myPanel.add(Size);
-
-			      int result = JOptionPane.showConfirmDialog(null, myPanel, 
-			               "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);
-			      if (result == JOptionPane.OK_OPTION) {
-			         
-			    	  if(f!=null) {
-							PuzzleGUI.getInstance().updateBoard(f);
-							notifyObserversReset(Integer.parseInt(Rows.getText()),Integer.parseInt(Columns.getText()),Integer.parseInt(Size.getText()));
-							this.myView=PuzzleGUI.getInstance().getBoardView();
-							
-							this.getMoves().clear();
-
-							System.out.println("Load Image");
-						}
-			       }
 				
+			      if(f!=null) {
+			    	  //Método para introducir los parámetros
+			    	  	PuzzleGUI.getInstance().enterParameters();
+			    	  //Método para actualizar la imagen de la boardView	
+						PuzzleGUI.getInstance().updateBoard(f);
+						notifyObserversReset(PuzzleGUI.getInstance().rowNum,PuzzleGUI.getInstance().columnNum,PuzzleGUI.getInstance().imageSize);						
+						this.getMoves().clear();
+
+						System.out.println("Load Image");
+					}
 				
 				
 				break;

@@ -13,12 +13,11 @@ import org.jdom2.Element;
 
 public class Model extends AbstractModel<PieceModel>{
 	
-	protected ArrayList<PieceModel> listP=null;	
 	
 	
 	public Model(int rowNum, int columnNum, int pieceSize) {
 		super(rowNum, columnNum, pieceSize);
-		 listP=new ArrayList<PieceModel>();
+		
 	        
 	        for(int i=0;i<rowNum*columnNum;i++) {  	
 	    		addNewPiece( i, i%rowNum,i/columnNum);	        		
@@ -27,7 +26,6 @@ public class Model extends AbstractModel<PieceModel>{
 
 	public Model(int rowNum, int columnNum,int pieceSize, String[] imageList) {
 		super(rowNum,columnNum,pieceSize,imageList);
-	    listP=new ArrayList<PieceModel>();
 	        
         for(int i=0;i<rowNum*columnNum;i++) {  	
     		addNewPiece( i, i%rowNum,i/columnNum,imageList[i]);	        		

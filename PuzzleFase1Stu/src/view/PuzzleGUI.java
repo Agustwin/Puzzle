@@ -186,6 +186,33 @@ public class PuzzleGUI extends JFrame{
         
         
     }
+    
+    public void enterParameters(){
+    	JPanel j=new JPanel();
+		JTextField Rows = new JTextField(5);
+	      JTextField Columns = new JTextField(5);
+	      JTextField Size = new JTextField(5);
+	      
+	      JPanel myPanel = new JPanel();
+	      myPanel.add(new JLabel("Filas:"));
+	      myPanel.add(Rows);
+	      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+	      myPanel.add(new JLabel("Columnas:"));
+	      myPanel.add(Columns);
+	      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+	      myPanel.add(new JLabel("Tamaño de pieza:"));
+	      myPanel.add(Size);
+
+	      int result = JOptionPane.showConfirmDialog(null, myPanel, 
+	               "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);
+	      if (result == JOptionPane.OK_OPTION) {
+	         
+	    	this.rowNum=  Integer.parseInt(Rows.getText());
+	    	 this.columnNum= Integer.parseInt(Columns.getText());
+	    	 this.imageSize= Integer.parseInt(Size.getText());
+	    	  
+	       }
+    }
 
 
     public Object clone() throws CloneNotSupportedException {
