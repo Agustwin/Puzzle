@@ -1,3 +1,4 @@
+
 package model;
 
 import java.util.logging.Level;
@@ -83,3 +84,4 @@ java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
 		    return dBObjectCommand;
 		}
 }
+
