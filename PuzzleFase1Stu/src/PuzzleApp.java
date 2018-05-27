@@ -2,6 +2,8 @@ import view.BoardView;
 import view.PuzzleGUI;
 import model.AbstractModel;
 import model.Model;
+import model.MongoModel;
+import model.XBaseModel;
 
 import java.awt.Graphics;
 import java.io.File;
@@ -59,6 +61,7 @@ public class PuzzleApp {
     	   
     	   // Creamos el modelo
            AbstractModel myModel=new Model(rowNum, columnNum,imageSize);
+           AbstractModel mongo=new MongoModel(rowNum, columnNum,imageSize);
 
            // Creamos el controlador
            Controller myController=new Controller();
@@ -73,7 +76,8 @@ public class PuzzleApp {
            // AÃ±adimos un nuevo observador al controlador
            myController.addObserver(view);
            myController.addObserver(myModel);
-           
+           myController.addObserver(mongo);
+
 
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);
@@ -88,6 +92,8 @@ public class PuzzleApp {
           
            // Creamos el modelo
            AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
+           
+           AbstractModel baseX=new XBaseModel(rowNum, columnNum,imageSize);
 
            // Creamos el controlador
            Controller myController=new Controller();        
@@ -100,7 +106,8 @@ public class PuzzleApp {
        
            // AÃ±adimos un nuevo observador al controlador
            myController.addObserver(view);
-           myController.addObserver(myModel);         
+           myController.addObserver(myModel);
+           myController.addObserver(baseX);
 
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);       

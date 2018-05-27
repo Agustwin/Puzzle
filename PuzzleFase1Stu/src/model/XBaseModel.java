@@ -1,9 +1,14 @@
 package model;
 import org.basex.core.BaseXException;
 import org.basex.core.Context;
+import org.basex.core.cmd.Add;
 import org.basex.core.cmd.CreateDB;
 import org.basex.core.cmd.InfoDB;
 import org.basex.core.cmd.XQuery;
+
+import command.Command;
+import command.MoveCommand;
+import control.Controller;
 
 public class XBaseModel extends AbstractModel {
 	
@@ -13,6 +18,7 @@ public class XBaseModel extends AbstractModel {
 	 
 	public XBaseModel(int rowNum, int columnNum, int pieceSize) {
 		super(rowNum, columnNum, pieceSize);
+		
 		// TODO Auto-generated constructor stub
 		//Paso1	        
        /* String collection = "saveGame"; 
@@ -33,8 +39,8 @@ public class XBaseModel extends AbstractModel {
   			
   			//------------2----------------------
   			//System.out.println("\n* Create an empty collection and add documents.");
-  			//new CreateDB(nameCollection).execute(context);
-  			//new Add(xmlPartida, collectionPath).execute(context);
+  		//new CreateDB("saveGame").execute(context);
+  			new Add(xmlPartida, collectionPath).execute(context);
   			
   			
   			//Mostrar informacion de base de datos
@@ -48,8 +54,19 @@ public class XBaseModel extends AbstractModel {
 
 	@Override
 	public void update(int blankPos, int movedPos) {
-		// TODO Auto-generated method stub
 		
+		
+		Command commandPartida=new MoveCommand(null,blankPos,movedPos);
+		// TODO Auto-generated method stub
+		try{
+  			System.out.println("Insertamos el comando a la partida: " + commandPartida);
+  			XQuery insertQuery = new XQuery("insert node "+commandPartida+ " into /saveGame");
+  			System.out.println(insertQuery.execute(context));
+  		}catch(Exception e){
+  			System.out.println("No se ha podido insertar " + e.getMessage());
+  			e.printStackTrace();
+  		}
+		updateSaveGame();
 	}
 
 	@Override
@@ -75,5 +92,14 @@ public class XBaseModel extends AbstractModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	public void updateSaveGame(){
+  		try {
+  			XQuery serializeQuery = new XQuery("for $Command in /saveGame \n"+
+  					"return file:write('"+this.collectionPath+this.xmlPartida+"',$Command)" ); 
+			System.out.println(serializeQuery.execute(context));
+		} catch (BaseXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
