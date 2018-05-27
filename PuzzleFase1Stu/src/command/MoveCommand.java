@@ -7,6 +7,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.mongodb.BasicDBObject;
+
 import control.Controller;
 import view.PuzzleGUI;
 
@@ -40,7 +42,7 @@ public class MoveCommand implements Command{
 	}
 		
 	public void execute() {
-	controller.notifyObservers(pos0,pos1);
+		controller.notifyObservers(pos0,pos1);
 	}	
 
 	@XmlElement
@@ -58,12 +60,33 @@ public class MoveCommand implements Command{
 	public int getPos1() {
 		return pos1;
 	}	
-	/*
-	public Controller getController() {
-		return this.controller;
-	}*/
 	
 	public void setController(Controller c) {
 		this.controller=c;
 	}	
+	
+	// Transformo un objecto que me da MongoDB a un Objecto Java
+	public MoveCommand(BasicDBObject dBObjectCommand) {
+		this.pos0 = dBObjectCommand.getInt("pos0");
+		this.pos1 = dBObjectCommand.getInt("pos1");
+	}
+	
+	// Recibo Java y transformo a Mongo
+	public BasicDBObject toDBObjectCommand() {
+	    // Creamos una instancia BasicDBObject
+	    BasicDBObject dBObjectCommand = new BasicDBObject();
+
+	    dBObjectCommand.append("pos0", this.getPos0());
+	    dBObjectCommand.append("pos1", this.getPos1());
+	    
+	    return dBObjectCommand;
+	}
+
+	//Imprime el comando para poder agregar como nodo en el xml
+	@Override
+	public String toString() {
+		return ("element Command {" +
+				" element pos0{"+pos0+"}," +
+				" element pos1{"+pos1+"}}");
+	}
 }

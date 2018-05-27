@@ -26,8 +26,13 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.Mongo;
 
 import command.Command;
 import command.LoadCommand;
@@ -36,6 +41,7 @@ import command.RandomCommand;
 import command.SaveCommand;
 import command.SolveCommand;
 import model.Model;
+import model.MongoModel;
 import observer.Observer;
 import view.BoardView;
 import view.PieceView;
@@ -52,8 +58,10 @@ public class Controller extends AbstractController{
 	private Command save;
 	private Command load;
 	
+	private String db=null;
+	
 	public Controller() {
-		moveCommands=new Stack();
+		moveCommands=new Stack<MoveCommand>();
 		save=new SaveCommand(this);
 		load=new LoadCommand(this);
 	}
@@ -209,6 +217,7 @@ public class Controller extends AbstractController{
 		System.out.println("File Saved!");
 	}
 
+	@SuppressWarnings("unchecked")
 	public void readXML(){
 		try {
 			
@@ -220,7 +229,7 @@ public class Controller extends AbstractController{
 			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
-			Stack aux=s.getStack();
+			Stack<MoveCommand> aux=s.getStack();
 			
 			moveCommands.clear();
 			moveCommands=(Stack<MoveCommand>) aux.clone();
@@ -255,8 +264,18 @@ public class Controller extends AbstractController{
 		this.moveCommands.push(c);		
 	}
 	
-	public Stack getMoves() {
+	public Stack<MoveCommand> getMoves() {
 		// TODO Auto-generated method stub
 		return this.moveCommands;
 	}
+	
+	//Para inicializar la aplicacion ya con los movimientos cargados de la base de datos persistente
+	public void getDBMoves(){
+    	for(int i=0;i<moveCommands.size();i++) {
+			System.out.println(moveCommands.get(i).toString());
+			moveCommands.get(i).setController(this);
+			moveCommands.get(i).execute();
+		}	
+	}
+	
 }

@@ -60,7 +60,7 @@ public class PuzzleApp {
     	   File f=new File(imagePath);
     	   
     	   // Creamos el modelo
-           AbstractModel myModel=new Model(rowNum, columnNum,imageSize);
+           //AbstractModel myModel=new Model(rowNum, columnNum,imageSize);
            AbstractModel mongo=new MongoModel(rowNum, columnNum,imageSize);
 
            // Creamos el controlador
@@ -75,13 +75,20 @@ public class PuzzleApp {
         
            // AÃ±adimos un nuevo observador al controlador
            myController.addObserver(view);
-           myController.addObserver(myModel);
+           //myController.addObserver(myModel);
            myController.addObserver(mongo);
 
 
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);
-    	   
+           
+           //Carga movimientos realizados en la base de datos
+	       if(db.equals("baseX")){
+	    	   myController.readXML();
+	       }else if(db.equals("mongo")){
+	       	   myController.getDBMoves(); 
+	       }
+	    	   
        }else {
     	   String fileSeparator = System.getProperty("file.separator");
            imagePath=System.getProperty("user.dir")+fileSeparator+"resources"+fileSeparator;
@@ -91,9 +98,9 @@ public class PuzzleApp {
                   imagePath+"five.gif",imagePath+"six.gif",imagePath+"seven.gif",imagePath+"eight.gif"};
           
            // Creamos el modelo
-           AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
+           //AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
            
-           AbstractModel baseX=new XBaseModel(rowNum, columnNum,imageSize);
+           //AbstractModel baseX=new XBaseModel(rowNum, columnNum,imageSize);
 
            // Creamos el controlador
            Controller myController=new Controller();        
@@ -106,8 +113,8 @@ public class PuzzleApp {
        
            // AÃ±adimos un nuevo observador al controlador
            myController.addObserver(view);
-           myController.addObserver(myModel);
-           myController.addObserver(baseX);
+           //myController.addObserver(myModel);
+          //myController.addObserver(baseX);
 
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);       
