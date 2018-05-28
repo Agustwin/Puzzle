@@ -64,6 +64,59 @@ public class Controller extends AbstractController{
 		moveCommands=new Stack<MoveCommand>();
 		save=new SaveCommand(this);
 		load=new LoadCommand(this);
+		
+		//Lee el fichero de parametros para saber en que base de datos vamos a trabajar
+		SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
+    	File xmlFile = new File( "./resources/Parameters.xml" );   		    	
+    	try {   		
+    		System.out.println(xmlFile.getPath());
+    		Document document = (Document) builder.build( xmlFile );
+    		Element rootNode = document.getRootElement();
+    		db=rootNode.getChildTextTrim("db");  		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	// Ponemos un contador para saber cuanto tiempo tarda iniciar y leer la base de datos
+        long startTime = System.nanoTime();   
+    	
+    	//Comprobacion de la base de datos
+    	if(db.equals("baseX")){
+    		
+                       
+    	}else if(db.equals("mongo")){
+    		
+    		DBCursor cursor = MongoModel.getPartidas().find();
+    		
+			try {
+				while (cursor.hasNext()) {
+					MoveCommand m= new MoveCommand((BasicDBObject) cursor.next());
+					this.moveCommands.push(m);
+				}
+			} finally {
+				cursor.close();
+			}		
+			
+			DBCursor cursor2 = MongoModel.getPartidas().find();
+			
+			try{
+				while (cursor2.hasNext()) {
+					MongoModel.getPartidas().remove(cursor2.next());
+				}
+			} finally {
+				cursor2.close();
+			}
+			
+    	}else{
+    		System.out.println("Vuestro documento XML de configuracion tiene mal la base de datos.");
+    	}
+    	
+    	
+    	long endTime = System.nanoTime();
+		long duration = (endTime - startTime);
+		double millis = duration / 1000000.0; // conversion a milisegundos.
+		
+		System.out.println("Tiempo en cargar Base de datos y los comandos: " + millis + "ms."); 
 	}
 	
 	//Ejecutamos todas las acciones con su correspondiente command
@@ -82,7 +135,18 @@ public class Controller extends AbstractController{
 				
 			case "solve":
 				Command solve=new SolveCommand(this);
-				solve.execute();				
+				solve.execute();	
+				
+							
+				DBCursor cursor = MongoModel.getPartidas().find();
+				
+				try{
+					while (cursor.hasNext()) {
+						MongoModel.getPartidas().remove(cursor.next());
+					}
+				} finally {
+					cursor.close();
+				}
 				break;
 				
 			case "load":
