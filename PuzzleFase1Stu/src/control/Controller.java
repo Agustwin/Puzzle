@@ -69,7 +69,6 @@ public class Controller extends AbstractController{
 		SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
     	File xmlFile = new File( "./resources/Parameters.xml" );   		    	
     	try {   		
-    		System.out.println(xmlFile.getPath());
     		Document document = (Document) builder.build( xmlFile );
     		Element rootNode = document.getRootElement();
     		db=rootNode.getChildTextTrim("db");  		
@@ -95,8 +94,16 @@ public class Controller extends AbstractController{
 				}
 			} finally {
 				cursor.close();
-			}		
+			}
 			
+			long endTime = System.nanoTime();
+			long duration = (endTime - startTime);
+			double millis = duration / 1000000.0; // conversion a milisegundos.
+			
+			System.out.println("Tiempo en cargar Base de datos y los comandos: " + millis + "ms."); 
+			
+			//Una vez leidos los movimientos y puestos en la pila de comandos
+			//borramos la base de datos y la cargamos desde controller para que se actualice tanto en model como view
 			DBCursor cursor2 = MongoModel.getPartidas().find();
 			
 			try{
@@ -108,15 +115,9 @@ public class Controller extends AbstractController{
 			}
 			
     	}else{
-    		System.out.println("Vuestro documento XML de configuracion tiene mal la base de datos.");
+    		System.out.println("Vuestro documento XML de configuracion no tiene definido la base de datos, por lo que cargara el modelo de la practica 1.");
     	}
-    	
-    	
-    	long endTime = System.nanoTime();
-		long duration = (endTime - startTime);
-		double millis = duration / 1000000.0; // conversion a milisegundos.
-		
-		System.out.println("Tiempo en cargar Base de datos y los comandos: " + millis + "ms."); 
+   	
 	}
 	
 	//Ejecutamos todas las acciones con su correspondiente command
@@ -135,18 +136,7 @@ public class Controller extends AbstractController{
 				
 			case "solve":
 				Command solve=new SolveCommand(this);
-				solve.execute();	
-				
-							
-				DBCursor cursor = MongoModel.getPartidas().find();
-				
-				try{
-					while (cursor.hasNext()) {
-						MongoModel.getPartidas().remove(cursor.next());
-					}
-				} finally {
-					cursor.close();
-				}
+				solve.execute();						
 				break;
 				
 			case "load":
@@ -154,33 +144,22 @@ public class Controller extends AbstractController{
 				/*--------------------Meter en comando---------------------*/
 				File f=PuzzleGUI.getInstance().showFileSelector();
 				System.out.println("Path: "+f);
-				
-				
-			      if(f!=null) {
-			    	  //Método para introducir los parámetros
-			    	  	PuzzleGUI.getInstance().enterParameters();
-			    	  //Método para actualizar la imagen de la boardView	
-						PuzzleGUI.getInstance().updateBoard(f);
-						notifyObserversReset(PuzzleGUI.getInstance().rowNum,PuzzleGUI.getInstance().columnNum,PuzzleGUI.getInstance().imageSize);						
-						this.getMoves().clear();
+								
+			    if(f!=null) {
+			    	//Método para introducir los parámetros
+			    	PuzzleGUI.getInstance().enterParameters();
+			    	//Método para actualizar la imagen de la boardView	
+					PuzzleGUI.getInstance().updateBoard(f);
+					notifyObserversReset(PuzzleGUI.getInstance().rowNum,PuzzleGUI.getInstance().columnNum,PuzzleGUI.getInstance().imageSize);						
+					this.getMoves().clear();
 
-						System.out.println("Load Image");
-					}
-				
+					System.out.println("Load Image");
+				}				
 				
 				break;
 				
 			case "saveGame":
-				//save.execute();
-				
-				try {
-					writeXML();					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
+				save.execute();				
 				System.out.println("Save data");
 				break;
 				
@@ -249,8 +228,7 @@ public class Controller extends AbstractController{
 	}
 
 	public void writeXML() throws IOException{
-		
-		
+				
 		try {
 			
 			File file = new File("Save.xml");
@@ -263,20 +241,16 @@ public class Controller extends AbstractController{
 			SaveGame s=new SaveGame();
 			s.setStack(moveCommands);
 			System.err.println("ESCRITURA");
-			for(int i=0;i<moveCommands.size();i++) {
-			
+			for(int i=0;i<moveCommands.size();i++) {			
 				System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
 			}
 			
 			jaxbMarshaller.marshal(s, file);
-				jaxbMarshaller.marshal(s, System.out);
-			
-			
+			jaxbMarshaller.marshal(s, System.out);
 
-		      } catch (JAXBException e) {
+	   } catch (JAXBException e) {
 			e.printStackTrace();
-		      }
-
+	   }
 		
 		System.out.println("File Saved!");
 	}
@@ -306,15 +280,11 @@ public class Controller extends AbstractController{
 			for(int i=0;i<moveCommands.size();i++) {
 				moveCommands.get(i).setController(this);
 				moveCommands.get(i).execute();
-			}
-			
-			
-			
-		  } catch (JAXBException e) {
+			}			
+						
+		} catch (JAXBException e) {
 			e.printStackTrace();
-		  }	
-		
-		
+		}		
 	}
 
 	@Override

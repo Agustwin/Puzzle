@@ -18,8 +18,7 @@ public class LoadCommand implements Command {
 	private Controller controller;
 	public LoadCommand(Controller c) {
 		controller=c;
-	}
-	
+	}	
 	
 	@Override
 	public void undoCommand() {
@@ -36,16 +35,6 @@ public class LoadCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub	
-		
-		/*
-		JFileChooser fc2 = new JFileChooser();
-		int returnVal2 = fc2.showOpenDialog(null);
-		if(returnVal2==JFileChooser.APPROVE_OPTION){
-			file = fc2.getSelectedFile();
-		}	
-		*/			
-
 		controller.readXML();		
-
 	}
 }

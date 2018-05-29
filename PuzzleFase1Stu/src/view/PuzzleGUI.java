@@ -59,8 +59,7 @@ public class PuzzleGUI extends JFrame{
         this.setLocation(centerFrame());
        
     }
-    
-    
+
 
     //Singleton
     public static PuzzleGUI getInstance(){
@@ -75,10 +74,7 @@ public class PuzzleGUI extends JFrame{
         PuzzleGUI.rowNum = rowNum;
         PuzzleGUI.columnNum = columnNum;
         PuzzleGUI.imageSize = imageSize;
-        PuzzleGUI.imageList = imageList;
-        
-        
-        
+        PuzzleGUI.imageList = imageList;    
     }
     
     public static void initialize(AbstractController controller, int rowNum,int columnNum,int imageSize,File f){
@@ -86,10 +82,7 @@ public class PuzzleGUI extends JFrame{
         PuzzleGUI.rowNum = rowNum;
         PuzzleGUI.columnNum = columnNum;
         PuzzleGUI.imageSize = imageSize;
-        PuzzleGUI.f = f;
-        
-        
-        
+        PuzzleGUI.f = f;    
     }
 
     //MÃ©todo que crea el panel inferior
@@ -182,9 +175,7 @@ public class PuzzleGUI extends JFrame{
     public void updateBoard(File imageFile){
     	
     	boardView.setImage(imageFile);
-    	
-        
-        
+   
     }
     
     public void enterParameters(){
