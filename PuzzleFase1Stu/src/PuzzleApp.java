@@ -66,14 +66,13 @@ public class PuzzleApp {
 	       }else if(db.equals("mongo")){
 	    	   myModel = new MongoModel(rowNum, columnNum,imageSize);
 	       }else{
-	    	 //En caso de no recibir ninguna base datos entonces carga el modelo para la practica 1
+	    	   //En caso de no recibir ninguna base datos entonces carga el modelo para la practica 1
 	    	   myModel = new Model(rowNum, columnNum,imageSize);
 	       }          
 
            // Creamos el controlador
            Controller myController=new Controller();
            
-
            // Inicializamos la GUI
            PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, f);
            
@@ -148,11 +147,11 @@ public class PuzzleApp {
     		System.out.println(xmlFile.getPath());
     		Document document = (Document) builder.build( xmlFile );
     		Element rootNode = document.getRootElement();
-    		 imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
-    		 rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));
-    		 columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
-    		 imagePath=rootNode.getChildTextTrim("imagePath");
-    		 db=rootNode.getChildTextTrim("db");
+    		imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
+    		rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));
+    		columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
+    		imagePath=rootNode.getChildTextTrim("imagePath");
+    		db=rootNode.getChildTextTrim("db");
     		
     	}catch(Exception e) {
     		e.printStackTrace();

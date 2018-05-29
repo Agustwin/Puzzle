@@ -11,16 +11,16 @@ import command.MoveCommand;
 
 @XmlRootElement(name = "saveGame")
 public class SaveGame {
-Stack<MoveCommand>command;
-
-public SaveGame() {}
-
-public Stack<MoveCommand> getStack() {
-	return command;
-}
-
-@XmlElement(name="Command")
-public void setStack(Stack<MoveCommand> s) {
-	this.command=s;
-}
+	Stack<MoveCommand>command;
+	
+	public SaveGame() {}
+	
+	public Stack<MoveCommand> getStack() {
+		return command;
+	}
+	
+	@XmlElement(name="Command")
+	public void setStack(Stack<MoveCommand> s) {
+		this.command=s;
+	}
 }
