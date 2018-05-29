@@ -59,9 +59,16 @@ public class PuzzleApp {
     	   
     	   File f=new File(imagePath);
     	   
-    	   // Creamos el modelo
-           //AbstractModel myModel=new Model(rowNum, columnNum,imageSize);
-           AbstractModel mongo=new MongoModel(rowNum, columnNum,imageSize);
+    	   // Creamos el modelo segun la base de datos que queramos usar
+    	   AbstractModel myModel;
+    	   if(db.equals("baseX")){
+    		   myModel = new XBaseModel(rowNum, columnNum,imageSize);
+	       }else if(db.equals("mongo")){
+	    	   myModel = new MongoModel(rowNum, columnNum,imageSize);
+	       }else{
+	    	 //En caso de no recibir ninguna base datos entonces carga el modelo para la practica 1
+	    	   myModel = new Model(rowNum, columnNum,imageSize);
+	       }          
 
            // Creamos el controlador
            Controller myController=new Controller();
@@ -75,9 +82,7 @@ public class PuzzleApp {
         
            // AÃ±adimos un nuevo observador al controlador
            myController.addObserver(view);
-           //myController.addObserver(myModel);
-           myController.addObserver(mongo);
-
+           myController.addObserver(myModel);
 
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);
@@ -97,10 +102,16 @@ public class PuzzleApp {
            String[] imageList={imagePath+"blank.gif",imagePath+"one.gif",imagePath+"two.gif",imagePath+"three.gif",imagePath+ "four.gif",
                   imagePath+"five.gif",imagePath+"six.gif",imagePath+"seven.gif",imagePath+"eight.gif"};
           
-           // Creamos el modelo
-           //AbstractModel myModel=new Model(rowNum, columnNum,imageSize,imageList);
-           
-           //AbstractModel baseX=new XBaseModel(rowNum, columnNum,imageSize);
+           // Creamos el modelo segun la base de datos que queramos usar
+    	   AbstractModel myModel;
+    	   if(db.equals("baseX")){
+    		   myModel = new XBaseModel(rowNum, columnNum,imageSize,imageList);
+	       }else if(db.equals("mongo")){
+	    	   myModel = new MongoModel(rowNum, columnNum,imageSize,imageList);
+	       }else{
+	    	   //En caso de no recibir ninguna base datos entonces carga el modelo para la practica 1
+	    	   myModel = new Model(rowNum, columnNum,imageSize,imageList);
+	       }  
 
            // Creamos el controlador
            Controller myController=new Controller();        
@@ -113,11 +124,17 @@ public class PuzzleApp {
        
            // AÃ±adimos un nuevo observador al controlador
            myController.addObserver(view);
-           //myController.addObserver(myModel);
-          //myController.addObserver(baseX);
+           myController.addObserver(myModel);
 
            // Visualizamos la aplicaciÃ³n.
-           PuzzleGUI.getInstance().setVisible(true);       
+           PuzzleGUI.getInstance().setVisible(true);  
+           
+           //Carga movimientos realizados en la base de datos
+	       if(db.equals("baseX")){
+	    	   myController.readXML();
+	       }else if(db.equals("mongo")){
+	       	   myController.getDBMoves(); 
+	       }
        }
                            
     }

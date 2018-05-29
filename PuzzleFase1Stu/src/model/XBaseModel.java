@@ -51,6 +51,14 @@ public class XBaseModel extends AbstractModel {
   			System.out.println("No se ha podido generar coleccion: " + e.getMessage());
   		}
 	}
+	
+	public XBaseModel(int rowNum, int columnNum,int pieceSize, String[] imageList) {
+		super(rowNum,columnNum,pieceSize,imageList);
+	        
+        for(int i=0;i<rowNum*columnNum;i++) {  	
+    		addNewPiece( i, i%rowNum,i/columnNum,imageList[i]);	        		
+        }	        
+	}	 	
 
 	@Override
 	public void update(int blankPos, int movedPos) {
