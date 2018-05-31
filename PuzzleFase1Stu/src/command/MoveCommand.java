@@ -30,6 +30,11 @@ public class MoveCommand implements Command{
 		this.pos1=posY;
 	}
 	
+	public MoveCommand(int posX, int posY) {
+		this.pos0=posX;
+		this.pos1=posY;
+	}
+	
 	@Override
 	public void undoCommand() {
 		// TODO Auto-generated method stub
