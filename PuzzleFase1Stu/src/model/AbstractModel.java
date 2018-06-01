@@ -1,6 +1,8 @@
 package model;
 
+import java.awt.List;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import observer.Observer;
 
@@ -65,6 +67,8 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     public abstract boolean isPuzzleSolve();
     //genera movimientos aleatorios
     public abstract int[] getRandomMovement(int lastPos, int pos);
+    
+    public abstract Stack loadMoves();
 
     public int getRowCount() {
         return rowNum;

@@ -40,7 +40,7 @@ import command.MoveCommand;
 import command.RandomCommand;
 import command.SaveCommand;
 import command.SolveCommand;
-import model.Model;
+import model.AbstractModel;
 import model.MongoModel;
 import model.XBaseModel;
 import observer.Observer;
@@ -56,70 +56,17 @@ public class Controller extends AbstractController{
 	private int posX;
 	private int posY;
 	private Stack<MoveCommand> moveCommands;
-	private Command save;
-	private Command load;
+	private AbstractModel myModel;
 	
-	private String db=null;
+	
 	
 	public Controller() {
 		moveCommands=new Stack<MoveCommand>();
-		save=new SaveCommand(this);
-		load=new LoadCommand(this);
-		
-		//Lee el fichero de parametros para saber en que base de datos vamos a trabajar
-		SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
-    	File xmlFile = new File( "./resources/Parameters.xml" );   		    	
-    	try {   		
-    		Document document = (Document) builder.build( xmlFile );
-    		Element rootNode = document.getRootElement();
-    		db=rootNode.getChildTextTrim("db");  		
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    	}
-    	
-    	// Ponemos un contador para saber cuanto tiempo tarda iniciar y leer la base de datos
-        long startTime = System.nanoTime();   
-    	
-    	//Comprobacion de la base de datos
-    	if(db.equals("baseX")){
-    		//Paso1	        
-                       
-    	}else if(db.equals("mongo")){
-    		
-    		DBCursor cursor = MongoModel.getPartidas().find();
-    		
-			try {
-				while (cursor.hasNext()) {
-					MoveCommand m= new MoveCommand((BasicDBObject) cursor.next());
-					this.moveCommands.push(m);
-				}
-			} finally {
-				cursor.close();
-			}
-			
-			long endTime = System.nanoTime();
-			long duration = (endTime - startTime);
-			double millis = duration / 1000000.0; // conversion a milisegundos.
-			
-			System.out.println("Tiempo en cargar Base de datos y los comandos: " + millis + "ms."); 
-			
-			//Una vez leidos los movimientos y puestos en la pila de comandos
-			//borramos la base de datos y la cargamos desde controller para que se actualice tanto en model como view
-			DBCursor cursor2 = MongoModel.getPartidas().find();
-			
-			try{
-				while (cursor2.hasNext()) {
-					MongoModel.getPartidas().remove(cursor2.next());
-				}
-			} finally {
-				cursor2.close();
-			}
-			
-    	}else{
-    		System.out.println("Vuestro documento XML de configuracion no tiene definido la base de datos, por lo que cargara el modelo de la practica 1.");
+
+
     	}
    	
-	}
+	
 	
 	//Ejecutamos todas las acciones con su correspondiente command
 	@Override
@@ -160,11 +107,13 @@ public class Controller extends AbstractController{
 				break;
 				
 			case "saveGame":
+				SaveCommand save=new SaveCommand(this);
 				save.execute();				
 				System.out.println("Save data");
 				break;
 				
 			case "loadGame":
+				LoadCommand load=new LoadCommand(this);
 				load.execute();	
 				System.out.println("Load data");
 				break;
@@ -204,12 +153,12 @@ public class Controller extends AbstractController{
 		
 	}
 	
-	public BoardView getMyView() {
-		return myView;
+	public AbstractModel getMyModel() {
+		return myModel;
 	}
 
-	public void setMyView(BoardView myView) {
-		this.myView = myView;
+	public void setMyModel(AbstractModel Model) {
+		this.myModel = Model;
 	}
 	
 	public int getPosY() {
@@ -305,6 +254,29 @@ public class Controller extends AbstractController{
 	public Stack<MoveCommand> getMoves() {
 		// TODO Auto-generated method stub
 		return this.moveCommands;
+	}
+	//Se encarga de inicializar todos los modelos tras haber cargado de la base de datos los movimientos
+	public void LoadGame(AbstractModel Model){
+		// Ponemos un contador para saber cuanto tiempo tarda iniciar y leer la base de datos
+        long startTime = System.nanoTime();   
+    	
+    	//Comprobacion de la base de datos y cargamos del modelo
+    	    moveCommands=Model.loadMoves();
+        
+    	
+			
+		
+		if(moveCommands!=null){
+			for(int i=0;i<moveCommands.size();i++){
+				moveCommands.get(i).setController(this);
+    			moveCommands.get(i).execute();
+    		}
+			}
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime);
+		double millis = duration / 1000000.0; // conversion a milisegundos.
+		
+		System.out.println("Tiempo en cargar Base de datos y los comandos: " + millis + "ms."); 
 	}
 	
 	//Para inicializar la aplicacion ya con los movimientos cargados de la base de datos persistente

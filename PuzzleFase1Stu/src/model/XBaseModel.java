@@ -1,4 +1,8 @@
 package model;
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Stack;
+
 import org.basex.core.BaseXException;
 import org.basex.core.Context;
 import org.basex.core.cmd.Add;
@@ -164,6 +168,12 @@ public class XBaseModel extends AbstractModel<PieceModel>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public Stack loadMoves() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import org.jdom2.Element;
 
@@ -80,6 +81,12 @@ public class Model extends AbstractModel<PieceModel>{
 
 	@Override
 	public int[] getRandomMovement(int lastPos, int pos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Stack loadMoves() {
 		// TODO Auto-generated method stub
 		return null;
 	}
