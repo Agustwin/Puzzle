@@ -8,9 +8,8 @@ import org.basex.core.cmd.XQuery;
 
 import command.Command;
 import command.MoveCommand;
-import control.Controller;
 
-public class XBaseModel extends AbstractModel {
+public class XBaseModel extends AbstractModel<PieceModel>{
 	
 	private static Context context;
 	private String collectionPath;
@@ -20,12 +19,6 @@ public class XBaseModel extends AbstractModel {
 		super(rowNum, columnNum, pieceSize);
 		
 		// TODO Auto-generated constructor stub
-		//Paso1	        
-       /* String collection = "saveGame"; 
-        XQ = new XQueryController();
-        this.XQ.createCollection(collection);	           
-        
-        this.XQ.queryPartidas("/saveGame/Command");*/
 		this.collectionPath = System.getProperty("user.dir");
 		try{
   			context = new Context();
@@ -39,7 +32,7 @@ public class XBaseModel extends AbstractModel {
   			
   			//------------2----------------------
   			//System.out.println("\n* Create an empty collection and add documents.");
-  		//new CreateDB("saveGame").execute(context);
+  			//new CreateDB("saveGame").execute(context);
   			new Add(xmlPartida, collectionPath).execute(context);
   			
   			
@@ -50,11 +43,54 @@ public class XBaseModel extends AbstractModel {
   		}catch(BaseXException e){
   			System.out.println("No se ha podido generar coleccion: " + e.getMessage());
   		}
+		
+		try{
+  			XQuery xQuery = new XQuery("/saveGame/Command");
+  			System.out.println(xQuery.execute(context));
+  		}catch(Exception e){
+  			System.out.println("No se ha podido ejecutar la consulta: " + e.getMessage());
+  		}		
+		
+		for(int i=0;i<rowNum*columnNum;i++) {  	
+    		addNewPiece( i, i%rowNum,i/columnNum);	        		
+        }
 	}
 	
 	public XBaseModel(int rowNum, int columnNum,int pieceSize, String[] imageList) {
 		super(rowNum,columnNum,pieceSize,imageList);
 	        
+		this.collectionPath = System.getProperty("user.dir");
+		try{
+  			context = new Context();
+  			String collectionPath = System.getProperty("user.dir");
+  			System.out.println(collectionPath);  		
+  			
+  		    //-----------1---------------------------
+  			System.out.println("\n* Create a collection.");  			  			  			 			
+  			//Creamos una colecion anadimos los ficheros uno a uno
+  			new CreateDB("saveGame",collectionPath).execute(context); 			
+  			
+  			//------------2----------------------
+  			//System.out.println("\n* Create an empty collection and add documents.");
+  			//new CreateDB("saveGame").execute(context);
+  			new Add(xmlPartida, collectionPath).execute(context);
+  			
+  			
+  			//Mostrar informacion de base de datos
+  			System.out.println("\n* Show database information:");
+  			System.out.println(new InfoDB().execute(context));
+  			
+  		}catch(BaseXException e){
+  			System.out.println("No se ha podido generar coleccion: " + e.getMessage());
+  		}
+		
+		try{
+  			XQuery xQuery = new XQuery("/saveGame/Command");
+  			System.out.println(xQuery.execute(context));
+  		}catch(Exception e){
+  			System.out.println("No se ha podido ejecutar la consulta: " + e.getMessage());
+  		}	
+		
         for(int i=0;i<rowNum*columnNum;i++) {  	
     		addNewPiece( i, i%rowNum,i/columnNum,imageList[i]);	        		
         }	        
@@ -63,9 +99,24 @@ public class XBaseModel extends AbstractModel {
 	@Override
 	public void update(int blankPos, int movedPos) {
 		
-		
 		Command commandPartida=new MoveCommand(null,blankPos,movedPos);
 		// TODO Auto-generated method stub
+		//muevo las coordenadas de las piezas
+		int auxX=listP.get(movedPos).getIndexRow();
+		int auxY=listP.get(movedPos).getIndexColumn();
+	
+		listP.get(movedPos).setIndexRow(listP.get(blankPos).getIndexRow());
+		listP.get(movedPos).setIndexColumn(listP.get(blankPos).getIndexColumn());
+		
+		listP.get(blankPos).setIndexColumn(auxY);
+		listP.get(blankPos).setIndexRow(auxX);
+		
+		
+		PieceModel blank=listP.get(blankPos);
+
+    	listP.set(blankPos,listP.get(movedPos));
+    	listP.set(movedPos, blank);
+		
 		try{
   			System.out.println("Insertamos el comando a la partida: " + commandPartida);
   			XQuery insertQuery = new XQuery("insert node "+commandPartida+ " into /saveGame");
@@ -74,19 +125,22 @@ public class XBaseModel extends AbstractModel {
   			System.out.println("No se ha podido insertar " + e.getMessage());
   			e.printStackTrace();
   		}
+		
 		updateSaveGame();
 	}
 
 	@Override
 	public void addNewPiece(int id, int indexRow, int indexCol, String imagePath) {
 		// TODO Auto-generated method stub
-		
+		PieceModel p=new PieceModel( id, indexRow,indexCol,imagePath);
+		listP.add(p); 
 	}
 
 	@Override
 	public void addNewPiece(int id, int indexRow, int indexCol) {
 		// TODO Auto-generated method stub
-		
+		PieceModel p=new PieceModel( id, indexRow,indexCol);
+		listP.add(p);
 	}
 
 	@Override
@@ -100,6 +154,7 @@ public class XBaseModel extends AbstractModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	public void updateSaveGame(){
   		try {
   			XQuery serializeQuery = new XQuery("for $Command in /saveGame \n"+
@@ -110,4 +165,5 @@ public class XBaseModel extends AbstractModel {
 			e.printStackTrace();
 		}
 	}
+	
 }

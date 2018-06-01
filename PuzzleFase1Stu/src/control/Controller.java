@@ -42,6 +42,7 @@ import command.SaveCommand;
 import command.SolveCommand;
 import model.Model;
 import model.MongoModel;
+import model.XBaseModel;
 import observer.Observer;
 import view.BoardView;
 import view.PieceView;
@@ -81,7 +82,7 @@ public class Controller extends AbstractController{
     	
     	//Comprobacion de la base de datos
     	if(db.equals("baseX")){
-    		
+    		//Paso1	        
                        
     	}else if(db.equals("mongo")){
     		
@@ -270,17 +271,20 @@ public class Controller extends AbstractController{
 			Stack<MoveCommand> aux=s.getStack();
 			
 			moveCommands.clear();
-			moveCommands=(Stack<MoveCommand>) aux.clone();
-			System.err.println("Lectura");
-			for(int i=0;i<moveCommands.size();i++) {
-				
-				System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
-			}
+			if(aux != null){
+				moveCommands=(Stack<MoveCommand>) aux.clone();
 			
-			for(int i=0;i<moveCommands.size();i++) {
-				moveCommands.get(i).setController(this);
-				moveCommands.get(i).execute();
-			}			
+				System.err.println("Lectura");
+				for(int i=0;i<moveCommands.size();i++) {
+					
+					System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
+				}
+				
+				for(int i=0;i<moveCommands.size();i++) {
+					moveCommands.get(i).setController(this);
+					moveCommands.get(i).execute();
+				}	
+			}
 						
 		} catch (JAXBException e) {
 			e.printStackTrace();
