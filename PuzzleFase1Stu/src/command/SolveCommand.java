@@ -22,7 +22,7 @@ import model.MongoModel;
 public class SolveCommand implements Command {
 	private Controller controller;
 	private String db=null;
-	
+	//Controller tiene la lista de comandos cargada que es lo que hay que deshacer
 	public SolveCommand(Controller c) {
 		this.controller=c;
 		
