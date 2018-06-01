@@ -63,10 +63,7 @@ public class Controller extends AbstractController{
 	public Controller() {
 		moveCommands=new Stack<MoveCommand>();
 
-
-    	}
-   	
-	
+    }	
 	
 	//Ejecutamos todas las acciones con su correspondiente command
 	@Override
@@ -247,6 +244,7 @@ public class Controller extends AbstractController{
 			o.update(blankPos, movedPos);
 		}
 	}
+	
 	public void addCommand(MoveCommand c) {
 		this.moveCommands.push(c);		
 	}
@@ -255,37 +253,26 @@ public class Controller extends AbstractController{
 		// TODO Auto-generated method stub
 		return this.moveCommands;
 	}
+	
 	//Se encarga de inicializar todos los modelos tras haber cargado de la base de datos los movimientos
 	public void LoadGame(AbstractModel Model){
 		// Ponemos un contador para saber cuanto tiempo tarda iniciar y leer la base de datos
         long startTime = System.nanoTime();   
     	
     	//Comprobacion de la base de datos y cargamos del modelo
-    	    moveCommands=Model.loadMoves();
-        
-    	
-			
+    	moveCommands=Model.loadMoves();
+		
 		
 		if(moveCommands!=null){
 			for(int i=0;i<moveCommands.size();i++){
 				moveCommands.get(i).setController(this);
     			moveCommands.get(i).execute();
     		}
-			}
+		}
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime);
 		double millis = duration / 1000000.0; // conversion a milisegundos.
 		
 		System.out.println("Tiempo en cargar Base de datos y los comandos: " + millis + "ms."); 
 	}
-	
-	//Para inicializar la aplicacion ya con los movimientos cargados de la base de datos persistente
-	public void getDBMoves(){
-    	for(int i=0;i<moveCommands.size();i++) {
-			System.out.println(moveCommands.get(i).toString());
-			moveCommands.get(i).setController(this);
-			moveCommands.get(i).execute();
-		}	
-	}
-	
 }

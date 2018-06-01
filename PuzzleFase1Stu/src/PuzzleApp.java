@@ -122,21 +122,13 @@ public class PuzzleApp {
            // AÃ±adimos un nuevo observador al controlador
            myController.addObserver(view);
            myController.addObserver(myModel);
-
-         //Cargamos los movimientos de las bases de datos
-           myController.LoadGame(myModel);
            
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);  
-           /*
-           //Carga movimientos realizados en la base de datos
-	       if(db.equals("baseX")){
-	    	   myController.readXML();
-	       }else if(db.equals("mongo")){
-	       	   myController.getDBMoves(); 
-	       }*/
-       }
-                           
+           
+           //Cargamos los movimientos de las bases de datos
+           myController.LoadGame(myModel);
+       }                          
     }
        
     public static void readXML()  {	    	
