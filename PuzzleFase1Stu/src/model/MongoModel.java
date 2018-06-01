@@ -1,6 +1,9 @@
 
 package model;
 
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Stack;
 import java.util.logging.Level;
 
 import com.mongodb.BasicDBObject;
@@ -10,6 +13,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+
+import command.MoveCommand;
 
 
 public class MongoModel extends AbstractModel<PieceModel>{
@@ -220,6 +225,37 @@ public class MongoModel extends AbstractModel<PieceModel>{
 	    dBObjectCommand.append("pos1", movedPos);
 	    
 	    return dBObjectCommand;
+	}
+
+	@Override
+	public Stack loadMoves() {
+		// TODO Auto-generated method stub
+		Stack<MoveCommand> auxStack=new Stack<MoveCommand>();
+
+		DBCursor cursor = getPartidas().find();
+		
+		
+		try {
+			while (cursor.hasNext()) {
+				MoveCommand m= new MoveCommand((BasicDBObject) cursor.next());
+				auxStack.add(m);
+			}
+		} finally {
+			cursor.close();
+		}
+		//Una vez leidos los movimientos y puestos en la pila de comandos
+		//borramos la base de datos y la cargamos desde controller para que se actualice tanto en model como view
+		DBCursor cursor2 = MongoModel.getPartidas().find();
+		
+		
+	try{
+			while (cursor2.hasNext()) {
+				MongoModel.getPartidas().remove(cursor2.next());
+			}
+		} finally {
+			cursor2.close();
+		}
+		return auxStack;
 	}
 }
 

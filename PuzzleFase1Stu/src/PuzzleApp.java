@@ -69,9 +69,11 @@ public class PuzzleApp {
 	    	   //En caso de no recibir ninguna base datos entonces carga el modelo para la practica 1
 	    	   myModel = new Model(rowNum, columnNum,imageSize);
 	       }          
-
+    	   	
            // Creamos el controlador
+    	  //Le pasamos el modelo de datos al controller para que lo cargue
            Controller myController=new Controller();
+           
            
            // Inicializamos la GUI
            PuzzleGUI.initialize(myController, rowNum, columnNum, imageSize, f);
@@ -86,12 +88,8 @@ public class PuzzleApp {
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);
            
-           //Carga movimientos realizados en la base de datos
-	       if(db.equals("baseX")){
-	    	   myController.readXML();
-	       }else if(db.equals("mongo")){
-	       	   myController.getDBMoves(); 
-	       }
+           //Cargamos los movimientos de las bases de datos
+           myController.LoadGame(myModel);
 	    	   
        }else {
     	   String fileSeparator = System.getProperty("file.separator");
@@ -125,15 +123,18 @@ public class PuzzleApp {
            myController.addObserver(view);
            myController.addObserver(myModel);
 
+         //Cargamos los movimientos de las bases de datos
+           myController.LoadGame(myModel);
+           
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);  
-           
+           /*
            //Carga movimientos realizados en la base de datos
 	       if(db.equals("baseX")){
 	    	   myController.readXML();
 	       }else if(db.equals("mongo")){
 	       	   myController.getDBMoves(); 
-	       }
+	       }*/
        }
                            
     }
