@@ -228,7 +228,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 	}
 
 	@Override
-	public Stack loadMoves() {
+	public Stack<MoveCommand> loadMoves() {
 		// TODO Auto-generated method stub
 		Stack<MoveCommand> auxStack=new Stack<MoveCommand>();
 
@@ -248,7 +248,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		DBCursor cursor2 = MongoModel.getPartidas().find();
 		
 		
-	try{
+		try{
 			while (cursor2.hasNext()) {
 				MongoModel.getPartidas().remove(cursor2.next());
 			}

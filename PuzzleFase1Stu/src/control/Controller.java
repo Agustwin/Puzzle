@@ -56,13 +56,10 @@ public class Controller extends AbstractController{
 	private int posX;
 	private int posY;
 	private Stack<MoveCommand> moveCommands;
-	private AbstractModel myModel;
-	
-	
+	private AbstractModel myModel;	
 	
 	public Controller() {
 		moveCommands=new Stack<MoveCommand>();
-
     }	
 	
 	//Ejecutamos todas las acciones con su correspondiente command
@@ -137,15 +134,16 @@ public class Controller extends AbstractController{
 		posY=e.getY();
 		System.out.println("X: "+posX+" Y: "+posY);
 		int pos[]=PuzzleGUI.getInstance().getBoardView().movePiece(posX, posY);
+		
 		if(pos!=null) {
 			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
 			this.moveCommands.push(m);
 			m.execute();
 		}
+		
 		//Compruebo si ha ganado
 		if(PuzzleGUI.getInstance().getBoardView().checkWin()) {
 			JOptionPane.showMessageDialog(null,"Puzzle is solved");
-
 		}
 		
 	}
@@ -261,14 +259,14 @@ public class Controller extends AbstractController{
     	
     	//Comprobacion de la base de datos y cargamos del modelo
     	moveCommands=Model.loadMoves();
-		
-		
+				
 		if(moveCommands!=null){
 			for(int i=0;i<moveCommands.size();i++){
 				moveCommands.get(i).setController(this);
     			moveCommands.get(i).execute();
     		}
 		}
+		
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime);
 		double millis = duration / 1000000.0; // conversion a milisegundos.
