@@ -67,7 +67,6 @@ public class SolveCommand implements Command {
 		//Borramos todos los comandos de las bases de datos al solucionar el puzzle
 		if(db.equals("baseX")){
 			Stack<MoveCommand> auxStack=new Stack<MoveCommand>();
-			Stack<MoveCommand> auxStack2=new Stack<MoveCommand>();
 			
 			try {			
 				File file = new File("Save.xml");
@@ -75,8 +74,6 @@ public class SolveCommand implements Command {
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 				SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
 				auxStack=s.getStack();
-				
-				auxStack2=(Stack<MoveCommand>) auxStack.clone();
 							
 			} catch (JAXBException e) {
 				e.printStackTrace();
