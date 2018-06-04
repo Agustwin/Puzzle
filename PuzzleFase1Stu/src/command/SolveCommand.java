@@ -8,6 +8,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -17,7 +20,9 @@ import org.jdom2.input.sax.XMLReaders;
 import com.mongodb.DBCursor;
 
 import control.Controller;
+import control.SaveGame;
 import model.MongoModel;
+import model.XBaseModel;
 
 public class SolveCommand implements Command {
 	private Controller controller;
@@ -61,7 +66,31 @@ public class SolveCommand implements Command {
 		///////////////////////////
 		//Borramos todos los comandos de las bases de datos al solucionar el puzzle
 		if(db.equals("baseX")){
-		
+			Stack<MoveCommand> auxStack=new Stack<MoveCommand>();
+			Stack<MoveCommand> auxStack2=new Stack<MoveCommand>();
+			
+			try {			
+				File file = new File("Save.xml");
+				JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
+				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+				SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
+				auxStack=s.getStack();
+				
+				auxStack2=(Stack<MoveCommand>) auxStack.clone();
+							
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}	
+			
+			if(auxStack != null){
+				//Elimina todos los nodos command de una partida
+				while(!auxStack.isEmpty()) {
+					auxStack.pop();
+					
+					XBaseModel.removePartida();
+				}
+				XBaseModel.updateSaveGame();
+			}		
 		
 		}else if(db.equals("mongo")){		
 			DBCursor cursor = MongoModel.getPartidas().find();

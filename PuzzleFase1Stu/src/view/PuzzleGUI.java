@@ -56,8 +56,7 @@ public class PuzzleGUI extends JFrame{
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(windowW,windowH);
-        this.setLocation(centerFrame());
-       
+        this.setLocation(centerFrame());       
     }
 
 
@@ -196,15 +195,12 @@ public class PuzzleGUI extends JFrame{
 
 	      int result = JOptionPane.showConfirmDialog(null, myPanel, 
 	               "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);
-	      if (result == JOptionPane.OK_OPTION) {
-	         
-	    	this.rowNum=  Integer.parseInt(Rows.getText());
-	    	 this.columnNum= Integer.parseInt(Columns.getText());
-	    	 this.imageSize= Integer.parseInt(Size.getText());
-	    	  
+	      if (result == JOptionPane.OK_OPTION) {	         
+	    	  this.rowNum=  Integer.parseInt(Rows.getText());
+	    	  this.columnNum= Integer.parseInt(Columns.getText());
+	    	  this.imageSize= Integer.parseInt(Size.getText());	    	  
 	       }
     }
-
 
     public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();

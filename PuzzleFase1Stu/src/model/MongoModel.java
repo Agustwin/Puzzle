@@ -232,8 +232,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		// TODO Auto-generated method stub
 		Stack<MoveCommand> auxStack=new Stack<MoveCommand>();
 
-		DBCursor cursor = getPartidas().find();
-		
+		DBCursor cursor = getPartidas().find();		
 		
 		try {
 			while (cursor.hasNext()) {
@@ -243,11 +242,11 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		} finally {
 			cursor.close();
 		}
+		
 		//Una vez leidos los movimientos y puestos en la pila de comandos
 		//borramos la base de datos y la cargamos desde controller para que se actualice tanto en model como view
 		DBCursor cursor2 = MongoModel.getPartidas().find();
-		
-		
+				
 		try{
 			while (cursor2.hasNext()) {
 				MongoModel.getPartidas().remove(cursor2.next());
@@ -255,6 +254,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		} finally {
 			cursor2.close();
 		}
+		
 		return auxStack;
 	}
 }
