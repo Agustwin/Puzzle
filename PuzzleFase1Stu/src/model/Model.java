@@ -90,6 +90,12 @@ public class Model extends AbstractModel<PieceModel>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void remove() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 

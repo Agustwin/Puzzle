@@ -94,4 +94,7 @@ public abstract class AbstractModel<PieceModel> implements Observer {
 			addNewPiece(i, i%rowNum,i/columnNum);    		
 		}		
 	}
+    public abstract void remove();
+		// TODO Auto-generated constructor stub
+	
 }

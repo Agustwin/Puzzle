@@ -65,41 +65,7 @@ public class SolveCommand implements Command {
 		
 		///////////////////////////
 		//Borramos todos los comandos de las bases de datos al solucionar el puzzle
-		if(db.equals("baseX")){
-			Stack<MoveCommand> auxStack=new Stack<MoveCommand>();
-			
-			try {			
-				File file = new File("Save.xml");
-				JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
-				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-				SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
-				auxStack=s.getStack();
-							
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}	
-			
-			if(auxStack != null){
-				//Elimina todos los nodos command de una partida
-				while(!auxStack.isEmpty()) {
-					auxStack.pop();
-					
-					XBaseModel.removePartida();
-				}
-				XBaseModel.updateSaveGame();
-			}		
-		
-		}else if(db.equals("mongo")){		
-			DBCursor cursor = MongoModel.getPartidas().find();
-			
-			try{
-				while (cursor.hasNext()) {
-					MongoModel.getPartidas().remove(cursor.next());
-				}
-			} finally {
-				cursor.close();
-			}
-		}
+		this.controller.getMyModel().remove();
 		///////////////////////////
 		
 		//Mensaje de que se ha solucionado el puzzle

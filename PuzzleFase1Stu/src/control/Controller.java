@@ -254,6 +254,8 @@ public class Controller extends AbstractController{
 	
 	//Se encarga de inicializar todos los modelos tras haber cargado de la base de datos los movimientos
 	public void LoadGame(AbstractModel Model){
+		
+		this.myModel=Model;
 		// Ponemos un contador para saber cuanto tiempo tarda iniciar y leer la base de datos
         long startTime = System.nanoTime();   
     	

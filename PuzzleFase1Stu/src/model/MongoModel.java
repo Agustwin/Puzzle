@@ -257,5 +257,19 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		
 		return auxStack;
 	}
+
+	@Override
+	public void remove() {
+		// TODO Auto-generated method stub
+		DBCursor cursor = this.getPartidas().find();
+		
+		try{
+			while (cursor.hasNext()) {
+				MongoModel.getPartidas().remove(cursor.next());
+			}
+		} finally {
+			cursor.close();
+		}
+	}
 }
 

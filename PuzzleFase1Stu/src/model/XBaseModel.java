@@ -213,5 +213,32 @@ public class XBaseModel extends AbstractModel<PieceModel>{
   			System.out.println("No se ha podido borrar partida" + e.getMessage());
   			e.printStackTrace();
   		}
-  	} 
+  	}
+
+	@Override
+	public void remove() {
+		// TODO Auto-generated method stub
+		Stack<MoveCommand> auxStack=new Stack<MoveCommand>();
+		
+		try {			
+			File file = new File("Save.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
+			auxStack=s.getStack();
+						
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}	
+		
+		if(auxStack != null){
+			//Elimina todos los nodos command de una partida
+			while(!auxStack.isEmpty()) {
+				auxStack.pop();
+				
+				XBaseModel.removePartida();
+			}
+			XBaseModel.updateSaveGame();
+		}	
+	} 
 }
