@@ -31,16 +31,7 @@ public class SolveCommand implements Command {
 	public SolveCommand(Controller c) {
 		this.controller=c;
 		
-		SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
-    	File xmlFile = new File( "./resources/Parameters.xml" );   		    	
-    	try {   		
-    		Document document = (Document) builder.build( xmlFile );
-    		Element rootNode = document.getRootElement();
-    		db=rootNode.getChildTextTrim("db");  		
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    	}
-	}
+			}
 	
 	@Override
 	public void undoCommand() {

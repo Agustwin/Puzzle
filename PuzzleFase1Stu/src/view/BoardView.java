@@ -37,6 +37,8 @@ public class BoardView extends JPanel implements Observer {
     private File image;
     private int rowNum;
     private int columnNum;
+    private final int windowWidth=244;
+    private final int windowHeight=162;
     
     private int rowOff;
 	private int colOff;
@@ -76,9 +78,9 @@ public class BoardView extends JPanel implements Observer {
         		p=new PieceView( i,i%rowNum,i/rowNum,imageSize,"resources/blank.gif");
         	}else {
         		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
-        		
+        		 
         	}
-    	
+        	SetDrawnCoordinates(p,imageSize);
         	iconArray.add(p);
         	
         }        
@@ -137,9 +139,9 @@ public class BoardView extends JPanel implements Observer {
     	
     	
     	//Actualizo las coordenadas de todo el puzle
-    	for(int i=0;i<iconArray.size();i++) {
-    		SetDrawnCoordinates(iconArray.get(i),iconArray.get(i).getImageSize());
-    	}
+    	
+    		SetDrawnCoordinates(iconArray.get(movedPos),iconArray.get(movedPos).getImageSize());
+    		SetDrawnCoordinates(iconArray.get(blankPos),iconArray.get(blankPos).getImageSize());
     	
     	System.out.println("View: ");
 		for(PieceView p:iconArray) {
@@ -161,7 +163,7 @@ public class BoardView extends JPanel implements Observer {
 		for(PieceView iconImage:iconArray){	
     			
 			//Asigno las coordenadas en las que se va a pintar
-    		SetDrawnCoordinates(iconImage,iconImage.getImageSize());
+    		
     		
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
@@ -283,7 +285,7 @@ public class BoardView extends JPanel implements Observer {
 	    		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
 	    		
 	    	}
-	
+	    	SetDrawnCoordinates(p,imageSize);
 	    	iconArray.add(p);
 	    	
 	    }
@@ -302,8 +304,10 @@ public class BoardView extends JPanel implements Observer {
 
 	private void SetDrawnCoordinates(PieceView p,int imageSize) {
 	
-		rowOff=(this.getWidth()-this.imageWidth)/2;
-		colOff=(this.getHeight()-this.imageHeight)/2;
+		rowOff=(windowWidth-this.imageWidth)/2;
+		colOff=(windowHeight-this.imageHeight)/2;
+		
+		
 		
 		int drawnRow;
 		int drawnColumn;
