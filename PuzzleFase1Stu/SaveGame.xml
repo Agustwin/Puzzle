@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<saveGame>
+    <Command>
+        <pos0>8</pos0>
+        <pos1>1</pos1>
+    </Command>
+    <Command>
+        <pos0>1</pos0>
+        <pos1>5</pos1>
+    </Command>
+    <Command>
+        <pos0>4</pos0>
+        <pos1>15</pos1>
+    </Command>
+    <Command>
+        <pos0>14</pos0>
+        <pos1>11</pos1>
+    </Command>
+    <Command>
+        <pos0>13</pos0>
+        <pos1>10</pos1>
+    </Command>
+    <Command>
+        <pos0>12</pos0>
+        <pos1>3</pos1>
+    </Command>
+    <Command>
+        <pos0>11</pos0>
+        <pos1>15</pos1>
+    </Command>
+    <Command>
+        <pos0>0</pos0>
+        <pos1>1</pos1>
+    </Command>
+    <Command>
+        <pos0>5</pos0>
+        <pos1>10</pos1>
+    </Command>
+    <Command>
+        <pos0>1</pos0>
+        <pos1>9</pos1>
+    </Command>
+</saveGame>
