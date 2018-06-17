@@ -34,7 +34,7 @@ public class XBaseModel extends AbstractModel<PieceModel>{
 		this.collectionPath = System.getProperty("user.dir");
 		try{
   			context = new Context();
-  			String collectionPath = System.getProperty("user.dir");
+  			String collectionPath = System.getProperty("user.dir")+xmlPartida;
   			System.out.println(collectionPath);  		
   			
   		    //-----------1---------------------------
@@ -66,7 +66,7 @@ public class XBaseModel extends AbstractModel<PieceModel>{
 	public XBaseModel(int rowNum, int columnNum,int pieceSize, String[] imageList) {
 		super(rowNum,columnNum,pieceSize,imageList);
 	        
-		this.collectionPath = System.getProperty("user.dir");
+		this.collectionPath = System.getProperty("user.dir")+xmlPartida;
 		try{
   			context = new Context();
   			String collectionPath = System.getProperty("user.dir");

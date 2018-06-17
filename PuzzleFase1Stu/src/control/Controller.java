@@ -209,7 +209,7 @@ public class Controller extends AbstractController{
 				
 		try {
 			
-			File file = new File("Save.xml");
+			File file = new File("SaveGame.xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
@@ -241,7 +241,7 @@ public class Controller extends AbstractController{
 				moveCommands.pop().execute();
 			}
 			
-			File file = new File("Save.xml");
+			File file = new File("SaveGame.xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
