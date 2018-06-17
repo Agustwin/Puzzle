@@ -7,6 +7,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -29,6 +30,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 	@SuppressWarnings("deprecation")
 	public MongoModel(int rowNum, int columnNum, int pieceSize) {
 		super(rowNum, columnNum, pieceSize);
+		
 		// TODO Auto-generated constructor stub
 		java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
 		
@@ -270,6 +272,18 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		} finally {
 			cursor.close();
 		}
+	}
+
+	@Override
+	public double getStorage() {
+		// TODO Auto-generated method stub
+		
+		CommandResult resultSet = partidas.getStats();
+		
+		double d=Double.valueOf((int)resultSet.get("size"));
+		
+		return d ;
+		
 	}
 }
 

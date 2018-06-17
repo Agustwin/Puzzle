@@ -84,7 +84,7 @@ public class Controller extends AbstractController{
 				
 				
 				 Time = (long) ((endTime - startTime) / 1000000.0);
-				PuzzleGUI.getInstance().setStats("Clutter: ", Time);
+				PuzzleGUI.getInstance().setStats("Clutter: ", Time,myModel.getStorage());
 				
 				break;
 				
@@ -99,7 +99,7 @@ public class Controller extends AbstractController{
 				
 				
 				 Time = (long) ((endTime - startTime) / 1000000.0);
-				PuzzleGUI.getInstance().setStats("Solve: ", Time);
+				PuzzleGUI.getInstance().setStats("Solve: ", Time,myModel.getStorage());
 				break;
 				
 			case "load":
@@ -168,7 +168,7 @@ public class Controller extends AbstractController{
 			
 			endTime=System.nanoTime();
 			long Time = (long) ((endTime - startTime) / 1000000.0);
-			PuzzleGUI.getInstance().setStats("Move: ", Time);
+			PuzzleGUI.getInstance().setStats("Move: ", Time,myModel.getStorage());
 
 		}
 		

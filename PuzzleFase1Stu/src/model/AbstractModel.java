@@ -99,5 +99,5 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     public abstract void remove();
 		// TODO Auto-generated constructor stub
 	
- 
+ public abstract double getStorage();
 }

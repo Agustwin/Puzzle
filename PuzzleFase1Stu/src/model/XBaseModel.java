@@ -14,6 +14,8 @@ import org.basex.core.cmd.Add;
 import org.basex.core.cmd.CreateDB;
 import org.basex.core.cmd.InfoDB;
 import org.basex.core.cmd.XQuery;
+import org.basex.data.MetaProp;
+
 
 import command.Command;
 import command.MoveCommand;
@@ -243,5 +245,12 @@ public class XBaseModel extends AbstractModel<PieceModel>{
 			}
 			XBaseModel.updateSaveGame();
 		}	
+	}
+
+	@Override
+	public double getStorage() {
+		File f=new File("Save.xml");
+	
+		return f.length();
 	} 
 }

@@ -98,6 +98,13 @@ public class Model extends AbstractModel<PieceModel>{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public double getStorage() {
+		return 0;
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 
