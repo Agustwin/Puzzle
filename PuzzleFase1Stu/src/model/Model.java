@@ -10,6 +10,8 @@ import java.util.Stack;
 
 import org.jdom2.Element;
 
+import command.MoveCommand;
+
 
 
 public class Model extends AbstractModel<PieceModel>{
@@ -88,7 +90,7 @@ public class Model extends AbstractModel<PieceModel>{
 	@Override
 	public Stack loadMoves() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Stack<MoveCommand>();
 	}
 
 	@Override

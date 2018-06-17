@@ -65,6 +65,9 @@ public class Controller extends AbstractController{
 	//Ejecutamos todas las acciones con su correspondiente command
 	@Override
 	public void actionPerformed(ActionEvent act) {
+		
+		long startTime,endTime;
+		long Time;
 		// TODO Auto-generated method stub			
 		this.action = act.getActionCommand();
 		System.out.println(	act.getSource().toString());
@@ -73,12 +76,30 @@ public class Controller extends AbstractController{
 			case "clutter": 
 				//preguntar si se puede llamar
 				RandomCommand random=new RandomCommand(this,PuzzleGUI.getInstance().rowNum*PuzzleGUI.getInstance().columnNum);
+				 startTime=System.nanoTime();
+				
 				random.execute();
+				
+				 endTime=System.nanoTime(); 
+				
+				
+				 Time = (long) ((endTime - startTime) / 1000000.0);
+				PuzzleGUI.getInstance().setStats("Clutter: ", Time);
+				
 				break;
 				
 			case "solve":
 				Command solve=new SolveCommand(this);
-				solve.execute();						
+				
+				 startTime=System.nanoTime();
+				
+				solve.execute();
+				
+				 endTime=System.nanoTime(); 
+				
+				
+				 Time = (long) ((endTime - startTime) / 1000000.0);
+				PuzzleGUI.getInstance().setStats("Solve: ", Time);
 				break;
 				
 			case "load":
@@ -129,7 +150,11 @@ public class Controller extends AbstractController{
 		}		
 	}
 
-	public void mouseClicked(MouseEvent e) {		
+	public void mouseClicked(MouseEvent e) {	
+		
+		long startTime,endTime;
+		
+		startTime=System.nanoTime();
 		posX=e.getX();
 		posY=e.getY();
 		System.out.println("X: "+posX+" Y: "+posY);
@@ -137,9 +162,16 @@ public class Controller extends AbstractController{
 		
 		if(pos!=null) {
 			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
+			System.err.println(moveCommands);
 			this.moveCommands.push(m);
 			m.execute();
+			
+			endTime=System.nanoTime();
+			long Time = (long) ((endTime - startTime) / 1000000.0);
+			PuzzleGUI.getInstance().setStats("Move: ", Time);
+
 		}
+		
 		
 		//Compruebo si ha ganado
 		if(PuzzleGUI.getInstance().getBoardView().checkWin()) {

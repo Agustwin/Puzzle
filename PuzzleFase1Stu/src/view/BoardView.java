@@ -162,7 +162,7 @@ public class BoardView extends JPanel implements Observer {
 
 		for(PieceView iconImage:iconArray){	
     			
-			//Asigno las coordenadas en las que se va a pintar
+			
     		
     		
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
@@ -262,9 +262,7 @@ public class BoardView extends JPanel implements Observer {
 	}
 
 
-	public void Clutter() {		
-		Collections.shuffle(iconArray);			
-	}
+
 		
 	@Override
 	public void setNewBoard(int rowNum, int columnNum, int imageSize) {

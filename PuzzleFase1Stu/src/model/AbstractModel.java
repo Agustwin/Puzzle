@@ -25,6 +25,8 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     
 	protected ArrayList<PieceModel> listP=null;	
 
+	//Variable que almacenará el tiempo utilizado en las transacciones
+    
     
     //constructor de la clase.
     public AbstractModel(int rowNum, int columnNum,int pieceSize, String[] imageList) {
@@ -32,7 +34,7 @@ public abstract class AbstractModel<PieceModel> implements Observer {
         this.columnNum = columnNum;
         this.pieceSize = pieceSize;
         this.imageList = imageList;
-        
+       
         listP=new ArrayList<PieceModel>();
         
     }
@@ -97,4 +99,5 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     public abstract void remove();
 		// TODO Auto-generated constructor stub
 	
+ 
 }

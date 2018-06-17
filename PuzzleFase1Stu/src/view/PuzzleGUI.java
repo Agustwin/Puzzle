@@ -36,6 +36,8 @@ public class PuzzleGUI extends JFrame{
      windowH=250;
 	private int windowW=250;
 	private JPanel j;
+	
+	private JLabel statistics;
     /**
      * Constructor privado
      */
@@ -52,11 +54,16 @@ public class PuzzleGUI extends JFrame{
         this.setJMenuBar(createMenuBar());
         this.getContentPane().add(boardView, BorderLayout.CENTER);
         j=createSouthPanel();
+        JPanel stats=new JPanel();
+        statistics=new JLabel("estadisticas");
+        stats.add(statistics);
+        this.getContentPane().add(stats, BorderLayout.NORTH);
         this.getContentPane().add(j, BorderLayout.SOUTH);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setSize(windowW,windowH);
+        this.setSize(windowW,windowH); 
         this.setLocation(centerFrame());       
+        
     }
 
 
@@ -200,6 +207,12 @@ public class PuzzleGUI extends JFrame{
 	    	  this.columnNum= Integer.parseInt(Columns.getText());
 	    	  this.imageSize= Integer.parseInt(Size.getText());	    	  
 	       }
+    }
+    
+    public void setStats(String action,long time){
+    	String aux=action+" "+time+" ms Memoria: ";
+    	this.statistics.setText(aux);
+    	
     }
 
     public Object clone() throws CloneNotSupportedException {

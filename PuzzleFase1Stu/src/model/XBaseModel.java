@@ -99,6 +99,8 @@ public class XBaseModel extends AbstractModel<PieceModel>{
 	@Override
 	public void update(int blankPos, int movedPos) {
 		
+	 
+		
 		Command commandPartida=new MoveCommand(null,blankPos,movedPos);
 		// TODO Auto-generated method stub
 		//muevo las coordenadas de las piezas
@@ -129,6 +131,7 @@ public class XBaseModel extends AbstractModel<PieceModel>{
 		
 		//Actualiza lo que hay en la base de datos al fichero Save.xml para que siempre coincidan
 		updateSaveGame();
+	
 	}
 
 	@Override
