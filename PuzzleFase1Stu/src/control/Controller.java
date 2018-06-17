@@ -169,14 +169,15 @@ public class Controller extends AbstractController{
 			endTime=System.nanoTime();
 			long Time = (long) ((endTime - startTime) / 1000000.0);
 			PuzzleGUI.getInstance().setStats("Move: ", Time,myModel.getStorage());
-
+			
+			if(PuzzleGUI.getInstance().getBoardView().checkWin()) {
+				JOptionPane.showMessageDialog(null,"Puzzle is solved");
+			}
 		}
 		
 		
 		//Compruebo si ha ganado
-		if(PuzzleGUI.getInstance().getBoardView().checkWin()) {
-			JOptionPane.showMessageDialog(null,"Puzzle is solved");
-		}
+		
 		
 	}
 	
@@ -302,9 +303,8 @@ public class Controller extends AbstractController{
 		}
 		
 		long endTime = System.nanoTime();
-		long duration = (endTime - startTime);
-		double millis = duration / 1000000.0; // conversion a milisegundos.
 		
-		System.out.println("Tiempo en cargar Base de datos y los comandos: " + millis + "ms."); 
+		long Time = (long) ((endTime - startTime) / 1000000.0);		
+		PuzzleGUI.getInstance().setStats("Load: ", Time, myModel.getStorage());
 	}
 }

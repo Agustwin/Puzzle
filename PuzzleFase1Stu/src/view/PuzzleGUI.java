@@ -210,7 +210,7 @@ public class PuzzleGUI extends JFrame{
     }
     
     public void setStats(String action,long time, double storage){
-    	String aux=action+" "+time+" ms Memoria: "+storage+" bytes";
+    	String aux=action+" "+time+" ms Memory: "+storage+" bytes";
     	this.statistics.setText(aux);
     	
     }

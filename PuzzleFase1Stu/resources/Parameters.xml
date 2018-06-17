@@ -5,5 +5,5 @@
 <rowNum>4</rowNum>
 <columnNum>4</columnNum>
 <imagePath>.\resources\Prueba.jpg</imagePath>
-<db>baseX</db>
+<db>mongo</db>
 </Parameters>
