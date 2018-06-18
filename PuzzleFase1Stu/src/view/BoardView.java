@@ -37,8 +37,8 @@ public class BoardView extends JPanel implements Observer {
     private File image;
     private int rowNum;
     private int columnNum;
-    private final int windowWidth=244;
-    private final int windowHeight=162;
+    private final int windowWidth=390;
+    private final int windowHeight=/*162 alto real el otro es para ajustarlo*/120;
     
     private int rowOff;
 	private int colOff;

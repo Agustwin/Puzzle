@@ -12,10 +12,14 @@ import org.basex.core.BaseXException;
 import org.basex.core.Context;
 import org.basex.core.cmd.Add;
 import org.basex.core.cmd.CreateDB;
+import org.basex.core.cmd.Info;
 import org.basex.core.cmd.InfoDB;
+import org.basex.core.cmd.InfoStorage;
+import org.basex.core.cmd.Optimize;
 import org.basex.core.cmd.XQuery;
 import org.basex.data.MetaProp;
-
+import org.basex.query.*;
+import org.basex.server.Sessions;
 
 import command.Command;
 import command.MoveCommand;
@@ -250,7 +254,14 @@ public class XBaseModel extends AbstractModel<PieceModel>{
 	@Override
 	public double getStorage() {
 		File f=new File("Save.xml");
-	
+String a = null;
+		try {
+			 a=new InfoDB().execute(context);
+		} catch (BaseXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	System.err.println(a);
 		return f.length();
 	} 
 }

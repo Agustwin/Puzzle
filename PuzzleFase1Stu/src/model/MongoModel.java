@@ -280,6 +280,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		
 		CommandResult resultSet = partidas.getStats();
 		
+		
 		double d=Double.valueOf((int)resultSet.get("size"));
 		
 		return d ;

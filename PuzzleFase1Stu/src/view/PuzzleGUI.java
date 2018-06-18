@@ -34,7 +34,7 @@ public class PuzzleGUI extends JFrame{
     //ancho y alto de la ventana
     private int
      windowH=250;
-	private int windowW=250;
+	private int windowW=400;
 	private JPanel j;
 	
 	private JLabel statistics;
@@ -209,8 +209,11 @@ public class PuzzleGUI extends JFrame{
 	       }
     }
     
-    public void setStats(String action,long time, double storage){
-    	String aux=action+" "+time+" ms Memory: "+storage+" bytes";
+    public void setStats(String action,long time, double storage, double transactionStorage, double ratio){
+    	
+    	
+    	String aux="<html>"+"Time "+action+" "+time+" ms Transaction memory: "+transactionStorage+" B"+"<br/>"
+    			+ " Total Storage: "+storage+" Time/Memory(ms/B): "+ratio+"</html>";
     	this.statistics.setText(aux);
     	
     }

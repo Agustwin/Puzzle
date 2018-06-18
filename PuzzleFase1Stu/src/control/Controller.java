@@ -68,6 +68,7 @@ public class Controller extends AbstractController{
 		
 		long startTime,endTime;
 		long Time;
+		double initialStorage,finalStorage,TransactionStorage;
 		// TODO Auto-generated method stub			
 		this.action = act.getActionCommand();
 		System.out.println(	act.getSource().toString());
@@ -77,14 +78,17 @@ public class Controller extends AbstractController{
 				//preguntar si se puede llamar
 				RandomCommand random=new RandomCommand(this,PuzzleGUI.getInstance().rowNum*PuzzleGUI.getInstance().columnNum);
 				 startTime=System.nanoTime();
+				  initialStorage=myModel.getStorage();
 				
 				random.execute();
 				
 				 endTime=System.nanoTime(); 
+				  finalStorage=myModel.getStorage();
 				
-				
+				 
 				 Time = (long) ((endTime - startTime) / 1000000.0);
-				PuzzleGUI.getInstance().setStats("Clutter: ", Time,myModel.getStorage());
+				  TransactionStorage=Math.abs(finalStorage-initialStorage);
+				PuzzleGUI.getInstance().setStats("Clutter: ", Time,finalStorage,TransactionStorage,Time/TransactionStorage);
 				
 				break;
 				
@@ -92,14 +96,16 @@ public class Controller extends AbstractController{
 				Command solve=new SolveCommand(this);
 				
 				 startTime=System.nanoTime();
+				 initialStorage=myModel.getStorage();
 				
 				solve.execute();
 				
 				 endTime=System.nanoTime(); 
-				
+				finalStorage=myModel.getStorage();
 				
 				 Time = (long) ((endTime - startTime) / 1000000.0);
-				PuzzleGUI.getInstance().setStats("Solve: ", Time,myModel.getStorage());
+				  TransactionStorage=Math.abs(finalStorage-initialStorage);
+					PuzzleGUI.getInstance().setStats("Solve: ", Time,finalStorage,TransactionStorage,Time/TransactionStorage);
 				break;
 				
 			case "load":
@@ -155,6 +161,7 @@ public class Controller extends AbstractController{
 		long startTime,endTime;
 		
 		startTime=System.nanoTime();
+		double initialStorage=myModel.getStorage();
 		posX=e.getX();
 		posY=e.getY();
 		System.out.println("X: "+posX+" Y: "+posY);
@@ -167,8 +174,11 @@ public class Controller extends AbstractController{
 			m.execute();
 			
 			endTime=System.nanoTime();
+			double finalStorage=myModel.getStorage();
+			
 			long Time = (long) ((endTime - startTime) / 1000000.0);
-			PuzzleGUI.getInstance().setStats("Move: ", Time,myModel.getStorage());
+			double TransactionStorage=Math.abs(finalStorage-initialStorage);
+			PuzzleGUI.getInstance().setStats("Move: ", Time,finalStorage,TransactionStorage,Time/TransactionStorage);
 			
 			if(PuzzleGUI.getInstance().getBoardView().checkWin()) {
 				JOptionPane.showMessageDialog(null,"Puzzle is solved");
@@ -291,7 +301,8 @@ public class Controller extends AbstractController{
 		this.myModel=Model;
 		// Ponemos un contador para saber cuanto tiempo tarda iniciar y leer la base de datos
         long startTime = System.nanoTime();   
-    	
+		double initialStorage=myModel.getStorage();
+
     	//Comprobacion de la base de datos y cargamos del modelo
     	moveCommands=Model.loadMoves();
 				
@@ -303,8 +314,20 @@ public class Controller extends AbstractController{
 		}
 		
 		long endTime = System.nanoTime();
+		double finalStorage=myModel.getStorage();
+
 		
 		long Time = (long) ((endTime - startTime) / 1000000.0);		
-		PuzzleGUI.getInstance().setStats("Load: ", Time, myModel.getStorage());
+		double TransactionStorage=finalStorage;
+		double ratio;
+		if(TransactionStorage!=0){
+			 ratio=Time/TransactionStorage;
+
+		}else{
+			 ratio=0;
+
+		}
+		
+		PuzzleGUI.getInstance().setStats("Load: ", Time,finalStorage,TransactionStorage,ratio);
 	}
 }
