@@ -67,7 +67,7 @@ public class PuzzleApp {
 	    	   myModel = new MongoModel(rowNum, columnNum,imageSize);
 	       }else{
 	    	   //En caso de no recibir ninguna base datos entonces carga el modelo para la practica 1
-	    	   myModel = new Model(rowNum, columnNum,imageSize);
+	     	   myModel = new Model(rowNum, columnNum,imageSize);
 	       }          
     	   	
            // Creamos el controlador
