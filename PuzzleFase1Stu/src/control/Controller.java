@@ -42,7 +42,7 @@ import command.SaveCommand;
 import command.SolveCommand;
 import model.AbstractModel;
 import model.MongoModel;
-import model.XBaseModel;
+import model.BaseXModel;
 import observer.Observer;
 import view.BoardView;
 import view.PieceView;
@@ -52,7 +52,7 @@ public class Controller extends AbstractController{
 	//Variable para recibir del PuzzleGUI la accion realizada
 	private String action;
 	
-	private BoardView myView;
+
 	private int posX;
 	private int posY;
 	private Stack<MoveCommand> moveCommands;

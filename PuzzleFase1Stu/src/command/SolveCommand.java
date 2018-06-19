@@ -22,7 +22,7 @@ import com.mongodb.DBCursor;
 import control.Controller;
 import control.SaveGame;
 import model.MongoModel;
-import model.XBaseModel;
+import model.BaseXModel;
 
 public class SolveCommand implements Command {
 	private Controller controller;

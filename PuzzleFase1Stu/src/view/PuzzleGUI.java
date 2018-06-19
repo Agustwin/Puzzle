@@ -212,8 +212,8 @@ public class PuzzleGUI extends JFrame{
     public void setStats(String action,long time, double storage, double transactionStorage, double ratio){
     	
     	
-    	String aux="<html>"+"Time "+action+" "+time+" ms Transaction memory: "+transactionStorage+" B"+"<br/>"
-    			+ " Total Storage: "+storage+" Time/Memory(ms/B): "+ratio+"</html>";
+    	String aux="<html>"+"Time "+action+" "+time+" ms, Transaction memory: "+transactionStorage+", Bytes,"+"<br/>"
+    			+ " Total Storage: "+storage+", Time/Memory(ms/B): "+ratio+"</html>";
     	this.statistics.setText(aux);
     	
     }

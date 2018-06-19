@@ -77,7 +77,7 @@ public class MoveCommand implements Command{
 	}
 	
 	// Recibo Java y transformo a Mongo
-	public BasicDBObject toDBObjectCommand() {
+/*	public BasicDBObject toDBObjectCommand() {
 	    // Creamos una instancia BasicDBObject
 	    BasicDBObject dBObjectCommand = new BasicDBObject();
 
@@ -85,7 +85,7 @@ public class MoveCommand implements Command{
 	    dBObjectCommand.append("pos1", this.getPos1());
 	    
 	    return dBObjectCommand;
-	}
+	}*/
 
 	//Imprime el comando para poder agregar como nodo en el xml
 	@Override

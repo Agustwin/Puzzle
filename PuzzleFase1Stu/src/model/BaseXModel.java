@@ -1,6 +1,7 @@
 package model;
 import java.awt.List;
 import java.io.File;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -17,21 +18,24 @@ import org.basex.core.cmd.InfoDB;
 import org.basex.core.cmd.InfoStorage;
 import org.basex.core.cmd.Optimize;
 import org.basex.core.cmd.XQuery;
+import org.basex.data.Data;
+import org.basex.data.MetaData;
 import org.basex.data.MetaProp;
 import org.basex.query.*;
+import org.basex.server.Log;
 import org.basex.server.Sessions;
 
 import command.Command;
 import command.MoveCommand;
 import control.SaveGame;
 
-public class XBaseModel extends AbstractModel<PieceModel>{
+public class BaseXModel extends AbstractModel<PieceModel>{
 	
 	private static Context context;
 	private static String collectionPath;
 	private static String xmlPartida = "/Save.xml";
 	 
-	public XBaseModel(int rowNum, int columnNum, int pieceSize) {
+	public BaseXModel(int rowNum, int columnNum, int pieceSize) {
 		super(rowNum, columnNum, pieceSize);
 		
 		// TODO Auto-generated constructor stub
@@ -55,19 +59,19 @@ public class XBaseModel extends AbstractModel<PieceModel>{
   		}
 		
 		//Consulta todos los commands de una partida
-		try{
+		/*try{
   			XQuery xQuery = new XQuery("/saveGame/Command");
   			System.out.println(xQuery.execute(context));
   		}catch(Exception e){
   			System.out.println("No se ha podido ejecutar la consulta: " + e.getMessage());
-  		}		
+  		}		*/
 		
 		for(int i=0;i<rowNum*columnNum;i++) {  	
     		addNewPiece( i, i%rowNum,i/columnNum);	        		
         }
 	}
 	
-	public XBaseModel(int rowNum, int columnNum,int pieceSize, String[] imageList) {
+	public BaseXModel(int rowNum, int columnNum,int pieceSize, String[] imageList) {
 		super(rowNum,columnNum,pieceSize,imageList);
 	        
 		this.collectionPath = System.getProperty("user.dir");
@@ -176,92 +180,72 @@ public class XBaseModel extends AbstractModel<PieceModel>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+  		
 	}
 
 	@Override
 	public Stack<MoveCommand> loadMoves() {
 		// TODO Auto-generated method stub
 		Stack<MoveCommand> auxStack=new Stack<MoveCommand>();
-		Stack<MoveCommand> auxStack2=new Stack<MoveCommand>();
+		String query=null;
 		
+		try {
+			query=new XQuery("//saveGame").execute(context);
+			System.err.println(query);
+		} catch (BaseXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		StringReader reader = new StringReader(query);
 		try {			
-			File file = new File("Save.xml");
+			
 			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
+			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(reader);
 			auxStack=s.getStack();
 			
-			if(auxStack != null){
-				auxStack2=(Stack<MoveCommand>) auxStack.clone();
-			}			
+			if(auxStack==null){
+				auxStack=new Stack<MoveCommand>();
+			}
+			
+					
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}	
 		
-		//Despues de guardar la pila en auxStack2 limpiamos el xml para que ejecute los comandos desde el controller
-		if(auxStack != null){
-			//Elimina todos los nodos command de una partida
-			while(!auxStack.isEmpty()) {
-				auxStack.pop();
-				
-				removePartida();
-			}
-			updateSaveGame();
-		}		
+		remove();
 			
-		return auxStack2;
+		return auxStack;
 	}	
 	
-	//Con este metodo nos encargamos de limpiar la base de datos
-	public static void removePartida(){
-  		try{
-  			System.out.println("Eliminamos los commandos de una partida.");
-  			XQuery eliminarQuery = new XQuery("delete node /saveGame/Command/.");
-  			System.out.println(eliminarQuery.execute(context));
-  		}catch(Exception e){
-  			System.out.println("No se ha podido borrar partida" + e.getMessage());
-  			e.printStackTrace();
-  		}
-  	}
+	
 
 	@Override
 	public void remove() {
-		// TODO Auto-generated method stub
-		Stack<MoveCommand> auxStack=new Stack<MoveCommand>();
 		
-		try {			
-			File file = new File("Save.xml");
-			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
-			auxStack=s.getStack();
-						
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}	
-		
-		if(auxStack != null){
-			//Elimina todos los nodos command de una partida
-			while(!auxStack.isEmpty()) {
-				auxStack.pop();
-				
-				XBaseModel.removePartida();
+		XQuery eliminarQuery = new XQuery("delete node //Command");
+			try {
+				System.out.println(eliminarQuery.execute(context));
+			} catch (BaseXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			XBaseModel.updateSaveGame();
-		}	
+			BaseXModel.updateSaveGame();
+		
 	}
 
 	@Override
 	public double getStorage() {
 		File f=new File("Save.xml");
-String a = null;
+		
+		XQuery serializeQuery = new XQuery("db:property('saveGame','size')" ); 
 		try {
-			 a=new InfoDB().execute(context);
+			System.out.println(serializeQuery.execute(context));
 		} catch (BaseXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	System.err.println(a);
+		
 		return f.length();
 	} 
 }

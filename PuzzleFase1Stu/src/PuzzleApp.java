@@ -3,7 +3,7 @@ import view.PuzzleGUI;
 import model.AbstractModel;
 import model.Model;
 import model.MongoModel;
-import model.XBaseModel;
+import model.BaseXModel;
 
 import java.awt.Graphics;
 import java.io.File;
@@ -62,7 +62,7 @@ public class PuzzleApp {
     	   // Creamos el modelo segun la base de datos que queramos usar
     	   AbstractModel myModel;
     	   if(db.equals("baseX")){
-    		   myModel = new XBaseModel(rowNum, columnNum,imageSize);
+    		   myModel = new BaseXModel(rowNum, columnNum,imageSize);
 	       }else if(db.equals("mongo")){
 	    	   myModel = new MongoModel(rowNum, columnNum,imageSize);
 	       }else{
@@ -102,7 +102,7 @@ public class PuzzleApp {
            // Creamos el modelo segun la base de datos que queramos usar
     	   AbstractModel myModel;
     	   if(db.equals("baseX")){
-    		   myModel = new XBaseModel(rowNum, columnNum,imageSize,imageList);
+    		   myModel = new BaseXModel(rowNum, columnNum,imageSize,imageList);
 	       }else if(db.equals("mongo")){
 	    	   myModel = new MongoModel(rowNum, columnNum,imageSize,imageList);
 	       }else{

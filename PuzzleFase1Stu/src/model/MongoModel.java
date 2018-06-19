@@ -54,7 +54,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
         }
 		
 		
-		DBCursor cursor = this.partidas.find();
+	/*	DBCursor cursor = this.partidas.find();
 		
 		try {
 			while (cursor.hasNext()) {
@@ -77,7 +77,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 			}
 		} finally {
 			cursor.close();
-		}
+		}*/
 		
 		System.out.println("Model: ");
 		for(PieceModel p:listP) {
@@ -113,7 +113,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
     		addNewPiece( i, i%rowNum,i/columnNum);	        		
         }
 		
-		DBCursor cursor = this.partidas.find();
+		/*DBCursor cursor = this.partidas.find();
 		
 		try {
 			while (cursor.hasNext()) {
@@ -136,7 +136,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 			}
 		} finally {
 			cursor.close();
-		}
+		}*/
 	}
 
 	@Override
