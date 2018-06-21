@@ -245,7 +245,7 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return f.length();
+		//Dado que el fichero tiene un tamaño estando vacío de 11 bytes se toman esos 11 bytes como 0(como si estuviera vacía)
+		return f.length()-11;
 	} 
 }

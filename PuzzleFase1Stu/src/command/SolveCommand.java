@@ -42,25 +42,20 @@ public class SolveCommand implements Command {
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
+				Stack<MoveCommand> aux=controller.getMoves();
+				while(!aux.isEmpty()) {
+					MoveCommand m=aux.pop();	
+					m.undoCommand();
+				}
+				
+				///////////////////////////
+				//Borramos todos los comandos de las bases de datos al solucionar el puzzle
+				this.controller.getMyModel().remove();
+				///////////////////////////
+				
+				
 	}
 
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub		
-		Stack<MoveCommand> aux=controller.getMoves();
-		while(!aux.isEmpty()) {
-			MoveCommand m=aux.pop();	
-			m.undoCommand();
-		}
-		
-		///////////////////////////
-		//Borramos todos los comandos de las bases de datos al solucionar el puzzle
-		this.controller.getMyModel().remove();
-		///////////////////////////
-		
-		//Mensaje de que se ha solucionado el puzzle
-		JOptionPane.showMessageDialog(null,"Puzzle is solved");
-		
-	}
+	
 }

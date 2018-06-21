@@ -9,5 +9,5 @@ package command;
 public interface Command {
     public void undoCommand();
     public void redoCommand();
-	public void execute();
+	
 }

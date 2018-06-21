@@ -29,12 +29,7 @@ public class LoadCommand implements Command {
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub
-		
+		controller.readXML();
 	}
 
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub	
-		controller.readXML();		
-	}
 }

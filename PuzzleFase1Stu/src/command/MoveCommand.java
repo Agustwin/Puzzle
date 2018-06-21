@@ -44,11 +44,9 @@ public class MoveCommand implements Command{
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub		
+		controller.notifyObservers(pos0,pos1);
 	}
 		
-	public void execute() {
-		controller.notifyObservers(pos0,pos1);
-	}	
 
 	@XmlElement
 	public void setPos0(int p) {

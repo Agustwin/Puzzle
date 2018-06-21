@@ -24,16 +24,7 @@ public class RandomCommand implements Command {
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-		
-
-		
-		
 		int[]pos = new int[2];
 		
 		for(int i=0;i<10;i++) {
@@ -43,12 +34,12 @@ public class RandomCommand implements Command {
 			
 			
 			MoveCommand m=new MoveCommand(controller,pos[0],pos[1]);
-			m.execute();
+			m.redoCommand();
 			controller.addCommand(m);
 			
 		} 
-		
-		
 	}
+
+	
 
 }

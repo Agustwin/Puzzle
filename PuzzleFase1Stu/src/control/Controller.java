@@ -80,7 +80,7 @@ public class Controller extends AbstractController{
 				 startTime=System.nanoTime();
 				  initialStorage=myModel.getStorage();
 				
-				random.execute();
+				random.redoCommand();
 				
 				 endTime=System.nanoTime(); 
 				  finalStorage=myModel.getStorage();
@@ -98,14 +98,25 @@ public class Controller extends AbstractController{
 				 startTime=System.nanoTime();
 				 initialStorage=myModel.getStorage();
 				
-				solve.execute();
+				solve.redoCommand();
 				
 				 endTime=System.nanoTime(); 
 				finalStorage=myModel.getStorage();
 				
 				 Time = (long) ((endTime - startTime) / 1000000.0);
 				  TransactionStorage=Math.abs(finalStorage-initialStorage);
-					PuzzleGUI.getInstance().setStats("Solve: ", Time,finalStorage,TransactionStorage,Time/TransactionStorage);
+				  double ratio=0;
+				  if(TransactionStorage!=0){
+						 ratio=Time/TransactionStorage;
+
+					}else{
+						 ratio=0;
+
+					}
+				//Mensaje de que se ha solucionado el puzzle
+					JOptionPane.showMessageDialog(null,"Puzzle is solved");
+				  
+					PuzzleGUI.getInstance().setStats("Solve: ", Time,finalStorage,TransactionStorage,ratio);
 				break;
 				
 			case "load":
@@ -129,13 +140,13 @@ public class Controller extends AbstractController{
 				
 			case "saveGame":
 				SaveCommand save=new SaveCommand(this);
-				save.execute();				
+				save.redoCommand();				
 				System.out.println("Save data");
 				break;
 				
 			case "loadGame":
 				LoadCommand load=new LoadCommand(this);
-				load.execute();	
+				load.redoCommand();	
 				System.out.println("Load data");
 				break;
 				
@@ -171,7 +182,7 @@ public class Controller extends AbstractController{
 			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
 			System.err.println(moveCommands);
 			this.moveCommands.push(m);
-			m.execute();
+			m.redoCommand();
 			
 			endTime=System.nanoTime();
 			double finalStorage=myModel.getStorage();
@@ -245,10 +256,11 @@ public class Controller extends AbstractController{
 
 	@SuppressWarnings("unchecked")
 	public void readXML(){
+		
 		try {
 			
 			while(!moveCommands.isEmpty()) {
-				moveCommands.pop().execute();
+				moveCommands.pop().redoCommand();
 			}
 			
 			File file = new File("SaveGame.xml");
@@ -269,7 +281,7 @@ public class Controller extends AbstractController{
 				
 				for(int i=0;i<moveCommands.size();i++) {
 					moveCommands.get(i).setController(this);
-					moveCommands.get(i).execute();
+					moveCommands.get(i).redoCommand();
 				}	
 			}
 						
@@ -309,7 +321,7 @@ public class Controller extends AbstractController{
 		if(moveCommands!=null){
 			for(int i=0;i<moveCommands.size();i++){
 				moveCommands.get(i).setController(this);
-    			moveCommands.get(i).execute();
+    			moveCommands.get(i).redoCommand();
     		}
 		}
 		

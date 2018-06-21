@@ -35,12 +35,6 @@ public class SaveCommand implements Command {
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
 		try {
 			controller.writeXML();
 		} catch (IOException e) {
@@ -48,4 +42,6 @@ public class SaveCommand implements Command {
 			e.printStackTrace();
 		}
 	}
+
+
 }
