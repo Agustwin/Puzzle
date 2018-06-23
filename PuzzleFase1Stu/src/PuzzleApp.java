@@ -134,21 +134,24 @@ public class PuzzleApp {
     public static void readXML()  {	    	
     	SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
     	File xmlFile = new File( "./resources/Parameters.xml" );
-    		    	
+    	Document document=null;
     	try {
     		
-    		System.out.println(xmlFile.getPath());
-    		Document document = (Document) builder.build( xmlFile );
-    		Element rootNode = document.getRootElement();
-    		imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
-    		rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));
-    		columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
-    		imagePath=rootNode.getChildTextTrim("imagePath");
-    		db=rootNode.getChildTextTrim("db");
+    		document = (Document) builder.build( xmlFile );
+    		
     		
     	}catch(Exception e) {
-    		e.printStackTrace();
+    		System.err.println("Error, no se ha podido validar el DTD");
+    		System.exit(-1);
     	}	
+    	System.out.println(xmlFile.getPath());
+    	
+		Element rootNode = document.getRootElement();
+		imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));
+		rowNum=Integer.parseInt(rootNode.getChildTextTrim("rowNum"));
+		columnNum=Integer.parseInt(rootNode.getChildTextTrim("columnNum"));
+		imagePath=rootNode.getChildTextTrim("imagePath");
+		db=rootNode.getChildTextTrim("db");
     }
     
 }
