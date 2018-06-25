@@ -130,8 +130,9 @@ public class PuzzleApp {
            myController.LoadGame(myModel);
        }                          
     }
-       
+       //Método que se encarga de leer el fichero Parameters.xml
     public static void readXML()  {	    	
+    	//Validamos el DTD
     	SAXBuilder builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
     	File xmlFile = new File( "./resources/Parameters.xml" );
     	Document document=null;
@@ -141,7 +142,9 @@ public class PuzzleApp {
     		
     		
     	}catch(Exception e) {
+    		//Si el DTD no está validado cerramos la aplicación y mostramos un mensaje por consola
     		System.err.println("Error, no se ha podido validar el DTD");
+    		System.err.println("La aplicación se cerrará");
     		System.exit(-1);
     	}	
     	System.out.println(xmlFile.getPath());

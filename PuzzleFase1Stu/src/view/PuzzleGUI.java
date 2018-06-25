@@ -36,13 +36,14 @@ public class PuzzleGUI extends JFrame{
      windowH=250;
 	private int windowW=400;
 	private JPanel j;
-	
+	//Etiqueta donde se escribirán las estadísticas
 	private JLabel statistics;
     /**
      * Constructor privado
      */
     private PuzzleGUI(){
         super("GMD PuzzleGUI");
+        //Si la lista de imagenes está vacia cargo el fichero de imagen y viceversa
         if(this.imageList==null) {
         	boardView = new BoardView(rowNum,columnNum,imageSize,f);
         }else {
@@ -55,10 +56,12 @@ public class PuzzleGUI extends JFrame{
         this.getContentPane().add(boardView, BorderLayout.CENTER);
         j=createSouthPanel();
         JPanel stats=new JPanel();
+        //----------Se crea el apartado de estadisticas--------
         statistics=new JLabel("estadisticas");
         stats.add(statistics);
         this.getContentPane().add(stats, BorderLayout.NORTH);
         this.getContentPane().add(j, BorderLayout.SOUTH);
+        //-------------fin estadisticas-----------------------
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(windowW,windowH); 
@@ -74,7 +77,7 @@ public class PuzzleGUI extends JFrame{
         }
         return(instance);
     }
-
+//inicializa con una lista de imagenes
     public static void initialize(AbstractController controller, int rowNum,int columnNum,int imageSize,String[] imageList){
         PuzzleGUI.controller = controller;
         PuzzleGUI.rowNum = rowNum;
@@ -83,6 +86,7 @@ public class PuzzleGUI extends JFrame{
         PuzzleGUI.imageList = imageList;    
     }
     
+    //inicializa con un fichero que es la imagen
     public static void initialize(AbstractController controller, int rowNum,int columnNum,int imageSize,File f){
         PuzzleGUI.controller = controller;
         PuzzleGUI.rowNum = rowNum;
@@ -124,7 +128,7 @@ public class PuzzleGUI extends JFrame{
         JMenuItem info = new JMenuItem("Info");
         info.setActionCommand("info");
         
-        //Paso 4 para guardar y cargar partidas
+        //para guardar y cargar partidas
         JMenuItem saveGame = new JMenuItem("saveGame");
         saveGame.setActionCommand("saveGame");
         JMenuItem loadGame = new JMenuItem("loadGame");
@@ -141,7 +145,7 @@ public class PuzzleGUI extends JFrame{
 
         load.addActionListener(controller);
         
-        //Paso 4 para guardar y cargar partidas
+        //Se les asigna el controlador como actionListener
         saveGame.addActionListener(controller);
         loadGame.addActionListener(controller);
         
@@ -162,7 +166,7 @@ public class PuzzleGUI extends JFrame{
         int yCoord = (screenSize.height - this.getHeight()) / 2;
         return(new Point(xCoord,yCoord));
     }
-
+//Muestra el selector de ficheros y devuelve el fichero seleccionado
     public File showFileSelector(){
         File selectedFile = null;
         JFileChooser fc = new JFileChooser();
@@ -184,6 +188,7 @@ public class PuzzleGUI extends JFrame{
    
     }
     
+    //Muestra la ventana de introducir parámetros para cuando se carga una nueva imagen
     public void enterParameters(){
     	JPanel j=new JPanel();
 		JTextField Rows = new JTextField(5);
@@ -202,16 +207,17 @@ public class PuzzleGUI extends JFrame{
 
 	      int result = JOptionPane.showConfirmDialog(null, myPanel, 
 	               "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);
+	      //Si los parametros se han introducido correctamente se asignan al puzzle
 	      if (result == JOptionPane.OK_OPTION) {	         
 	    	  this.rowNum=  Integer.parseInt(Rows.getText());
 	    	  this.columnNum= Integer.parseInt(Columns.getText());
 	    	  this.imageSize= Integer.parseInt(Size.getText());	    	  
 	       }
     }
-    
+    //Sirve para Asignar a la etiqueta estadísticas su valor
     public void setStats(String action,long time, double storage, double transactionStorage, double ratio){
     	
-    	
+    	//Se escribe en código Html porque JLabel lo soporta y nos permite hacer el salto de linea con <br>
     	String aux="<html>"+"Time "+action+" "+time+" ms, Transaction memory: "+transactionStorage+", Bytes,"+"<br/>"
     			+ " Total Storage: "+storage+", Time/Memory(ms/B): "+ratio+"</html>";
     	this.statistics.setText(aux);

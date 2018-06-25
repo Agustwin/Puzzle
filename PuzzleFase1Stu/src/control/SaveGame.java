@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.*;
 
 import command.MoveCommand;
 
+//Clase que nos permite realizar el marshall y unmarshall de la pila de comandos
 @XmlRootElement(name = "saveGame")
 public class SaveGame {
 	Stack<MoveCommand>command;
@@ -18,7 +19,7 @@ public class SaveGame {
 	public Stack<MoveCommand> getStack() {
 		return command;
 	}
-	
+	//Método que nos va a permitir escribir la lista de comandos en el XML
 	@XmlElement(name="Command")
 	public void setStack(Stack<MoveCommand> s) {
 		this.command=s;

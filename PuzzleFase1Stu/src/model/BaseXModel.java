@@ -28,6 +28,7 @@ import org.basex.server.Sessions;
 import command.Command;
 import command.MoveCommand;
 import control.SaveGame;
+import view.PieceView;
 
 public class BaseXModel extends AbstractModel<PieceModel>{
 	
@@ -41,6 +42,7 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 		// TODO Auto-generated constructor stub
 		this.collectionPath = System.getProperty("user.dir");
 		try{
+			//Creamos el contexto y obtenemos la ruta de la colección
   			context = new Context();
   			String collectionPath = System.getProperty("user.dir")+xmlPartida;
   			System.out.println(collectionPath);  		
@@ -58,14 +60,7 @@ public class BaseXModel extends AbstractModel<PieceModel>{
   			System.out.println("No se ha podido generar coleccion: " + e.getMessage());
   		}
 		
-		//Consulta todos los commands de una partida
-		/*try{
-  			XQuery xQuery = new XQuery("/saveGame/Command");
-  			System.out.println(xQuery.execute(context));
-  		}catch(Exception e){
-  			System.out.println("No se ha podido ejecutar la consulta: " + e.getMessage());
-  		}		*/
-		
+	//Creamos las piezas
 		for(int i=0;i<rowNum*columnNum;i++) {  	
     		addNewPiece( i, i%rowNum,i/columnNum);	        		
         }
@@ -117,9 +112,11 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 		int auxX=listP.get(movedPos).getIndexRow();
 		int auxY=listP.get(movedPos).getIndexColumn();
 	
+		//Ponemos las coordenadas a la pieza movida
 		listP.get(movedPos).setIndexRow(listP.get(blankPos).getIndexRow());
 		listP.get(movedPos).setIndexColumn(listP.get(blankPos).getIndexColumn());
 		
+		//ponemos las coordenadas de la otra pieza
 		listP.get(blankPos).setIndexColumn(auxY);
 		listP.get(blankPos).setIndexRow(auxX);
 		
@@ -128,6 +125,8 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 
     	listP.set(blankPos,listP.get(movedPos));
     	listP.set(movedPos, blank);
+    	
+    	
 		
     	//Agrega un comando al xml actual
 		try{
@@ -143,7 +142,7 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 		updateSaveGame();
 	
 	}
-
+//Añade una pieza al array de piezas
 	@Override
 	public void addNewPiece(int id, int indexRow, int indexCol, String imagePath) {
 		// TODO Auto-generated method stub
@@ -158,17 +157,7 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 		listP.add(p);
 	}
 
-	@Override
-	public boolean isPuzzleSolve() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int[] getRandomMovement(int lastPos, int pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	
 	//Actualiza lo que hay en la base de datos al fichero Save.xml para que siempre coincidan
 	public static void updateSaveGame(){
@@ -183,6 +172,7 @@ public class BaseXModel extends AbstractModel<PieceModel>{
   		
 	}
 
+	//Realiza una consulta mediante una query y obtiene todos los movimientos de la base de datos que los devuelve en una pila
 	@Override
 	public Stack<MoveCommand> loadMoves() {
 		// TODO Auto-generated method stub
@@ -196,6 +186,7 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//El stringreader es necesario para pasar los elementos obtenidos en la query al Unmarshaller
 		StringReader reader = new StringReader(query);
 		try {			
 			
@@ -219,10 +210,10 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 	}	
 	
 	
-
+//Elimina mediante una query todos los nodos de la base de datos
 	@Override
 	public void remove() {
-		
+		//Creamos la query que elimine todos los nodos de la bd
 		XQuery eliminarQuery = new XQuery("delete node //Command");
 			try {
 				System.out.println(eliminarQuery.execute(context));
@@ -233,19 +224,13 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 			BaseXModel.updateSaveGame();
 		
 	}
-
+	//Devuelve lo que ocupa el fichero que almacena la bd
 	@Override
 	public double getStorage() {
 		File f=new File("Save.xml");
 		
-		XQuery serializeQuery = new XQuery("db:property('saveGame','size')" ); 
-		try {
-			System.out.println(serializeQuery.execute(context));
-		} catch (BaseXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//Dado que el fichero tiene un tamaño estando vacío de 11 bytes se toman esos 11 bytes como 0(como si estuviera vacía)
+		
+		//Dado que el fichero tiene un tamaño estando vacío de 11 bytes(Por la etiqueta saveGame) se toman esos 11 bytes como 0(como si estuviera vacía) por eso se resta 11
 		return f.length()-11;
 	} 
 }

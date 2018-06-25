@@ -54,30 +54,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
         }
 		
 		
-	/*	DBCursor cursor = this.partidas.find();
-		
-		try {
-			while (cursor.hasNext()) {
-				toJavaObjectCommand(cursor.next());
-				
-				System.out.println("pos0:"+this.pos0+" pos1:"+this.pos1);
-				int auxX=listP.get(pos0).getIndexRow();
-				int auxY=listP.get(pos1).getIndexColumn();
-			
-				listP.get(pos1).setIndexRow(listP.get(pos0).getIndexRow());
-				listP.get(pos1).setIndexColumn(listP.get(pos0).getIndexColumn());
-				
-				listP.get(pos0).setIndexColumn(auxY);
-				listP.get(pos0).setIndexRow(auxX);
-								
-				PieceModel blank=listP.get(pos0);
-
-		    	listP.set(pos0,listP.get(pos1));
-		    	listP.set(pos1, blank);
-			}
-		} finally {
-			cursor.close();
-		}*/
+	
 		
 		System.out.println("Model: ");
 		for(PieceModel p:listP) {
@@ -113,35 +90,14 @@ public class MongoModel extends AbstractModel<PieceModel>{
     		addNewPiece( i, i%rowNum,i/columnNum);	        		
         }
 		
-		/*DBCursor cursor = this.partidas.find();
 		
-		try {
-			while (cursor.hasNext()) {
-				toJavaObjectCommand(cursor.next());
-				
-				System.out.println("pos0:"+this.pos0+" pos1:"+this.pos1);
-				int auxX=listP.get(pos0).getIndexRow();
-				int auxY=listP.get(pos1).getIndexColumn();
-			
-				listP.get(pos1).setIndexRow(listP.get(pos0).getIndexRow());
-				listP.get(pos1).setIndexColumn(listP.get(pos0).getIndexColumn());
-				
-				listP.get(pos0).setIndexColumn(auxY);
-				listP.get(pos0).setIndexRow(auxX);
-								
-				PieceModel blank=listP.get(pos0);
-
-		    	listP.set(pos0,listP.get(pos1));
-		    	listP.set(pos1, blank);
-			}
-		} finally {
-			cursor.close();
-		}*/
 	}
 
 	@Override
 	public void update(int blankPos, int movedPos) {
-		// TODO Auto-generated method stub
+		
+		//Cambiamos las coordenadas y las piezas de posicion
+		
 		int auxX=listP.get(movedPos).getIndexRow();
 		int auxY=listP.get(movedPos).getIndexColumn();
 	
@@ -157,10 +113,13 @@ public class MongoModel extends AbstractModel<PieceModel>{
     	listP.set(blankPos,listP.get(movedPos));
     	listP.set(movedPos, blank);
 		
+    	//Convertimos el objeto en un documento mongo y lo añadimos a la base de datos
 		BasicDBObject document = toDBObjectCommand(blankPos,movedPos);
 		partidas.insert(document);
+		
+		
 	}
-
+	//Añade una pieza al array de piezas
 	@Override
 	public void addNewPiece(int id, int indexRow, int indexCol, String imagePath) {
 		// TODO Auto-generated method stub
@@ -175,17 +134,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		listP.add(p);
 	}
 
-	@Override
-	public boolean isPuzzleSolve() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int[] getRandomMovement(int lastPos, int pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	
 	public MongoClient getMongoClient() {
 		return mongoClient;
@@ -228,7 +177,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 	    
 	    return dBObjectCommand;
 	}
-
+//Obtiene mediante una consulta find todos los movimientos de la base de datos y los mete en una pila que devuelve
 	@Override
 	public Stack<MoveCommand> loadMoves() {
 		// TODO Auto-generated method stub
@@ -259,7 +208,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		
 		return auxStack;
 	}
-
+//Borra todos los movimientos de la base de datos
 	@Override
 	public void remove() {
 		// TODO Auto-generated method stub
@@ -273,7 +222,7 @@ public class MongoModel extends AbstractModel<PieceModel>{
 			cursor.close();
 		}
 	}
-
+//Devuelve cuanto ocupa la base de datos
 	@Override
 	public double getStorage() {
 		// TODO Auto-generated method stub

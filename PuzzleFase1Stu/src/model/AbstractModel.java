@@ -25,7 +25,6 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     
 	protected ArrayList<PieceModel> listP=null;	
 
-	//Variable que almacenará el tiempo utilizado en las transacciones
     
     
     //constructor de la clase.
@@ -65,10 +64,7 @@ public abstract class AbstractModel<PieceModel> implements Observer {
      */
     public abstract void addNewPiece(int id, int indexRow, int indexCol);
 
-    //comprueba si el puzzle ha sido solucionado
-    public abstract boolean isPuzzleSolve();
-    //genera movimientos aleatorios
-    public abstract int[] getRandomMovement(int lastPos, int pos);
+    
     
     public abstract Stack loadMoves();
 
@@ -83,10 +79,11 @@ public abstract class AbstractModel<PieceModel> implements Observer {
     public int getPieceSize(){
         return pieceSize;
     }
+    //resetea el modelo en el que se ejecuta con los parámetros que se le pasan
     @Override
 	public void setNewBoard(int rowNum, int columnNum, int imageSize) {
     	
-		 this.rowNum=rowNum;
+		 	this.rowNum=rowNum;
 	        this.columnNum=columnNum;
 	        this.pieceSize=imageSize;
 	        
@@ -96,8 +93,9 @@ public abstract class AbstractModel<PieceModel> implements Observer {
 			addNewPiece(i, i%rowNum,i/columnNum);    		
 		}		
 	}
+    //Borrará la base de datos si la hay
     public abstract void remove();
-		// TODO Auto-generated constructor stub
-	
+		
+	//Devuelve lo que ocupa la base de datos
  public abstract double getStorage();
 }

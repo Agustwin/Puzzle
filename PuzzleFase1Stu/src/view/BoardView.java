@@ -37,8 +37,9 @@ public class BoardView extends JPanel implements Observer {
     private File image;
     private int rowNum;
     private int columnNum;
+    //Estas variables que definen el ancho y el alto de la boardView solo se utilizan para centrar el puzzle
     private final int windowWidth=390;
-    private final int windowHeight=/*162 alto real el otro es para ajustarlo*/120;
+    private final int windowHeight=120;/*162 alto real 120 es para ajustarlo ya que se han añadido las estadísticas en la pantalla*/
     
     private int rowOff;
 	private int colOff;
@@ -53,13 +54,12 @@ public class BoardView extends JPanel implements Observer {
         
         iconArray=new ArrayList<PieceView>();
      
+        //Añadimos todas las piezas al array y se les asignan las coordenadas de pantalla
         for(int i=0;i<rowNum*columnNum;i++) {      		
         		PieceView p=new PieceView( i,i%rowNum,i/rowNum,imageSize,imageList[i]);
-    		
+        		SetDrawnCoordinates(p,imageSize);
         		iconArray.add(p);
-            	
-            	SetDrawnCoordinates(p,imageSize);
-        }
+            	}
     }
 
     public BoardView(int rowNum, int columnNum, int imageSize, File imageFile){
@@ -72,14 +72,17 @@ public class BoardView extends JPanel implements Observer {
         BufferedImage img=resizeImage(imageFile);
         BufferedImage[] listImg=splitImage(img);    	
         
+        //Se crean las Piezas del tablero y se añaden al array
         for(int i=0;i< listImg.length;i++) {
         	PieceView p;
+        	//La primera pieza se carga como la pieza blanca
         	if(i==0) {
         		p=new PieceView( i,i%rowNum,i/rowNum,imageSize,"resources/blank.gif");
         	}else {
         		 p=new PieceView( i,i%rowNum,i/rowNum,imageSize,listImg[i]); 
         		 
         	}
+        	//Se asignan las coordenadas de pantalla
         	SetDrawnCoordinates(p,imageSize);
         	iconArray.add(p);
         	
@@ -107,7 +110,7 @@ public class BoardView extends JPanel implements Observer {
         return(resizedImage);
     }
 
-    //dividimos la imagen en el nÃºmero
+    //dividimos la imagen en el Tablero
     public BufferedImage[] splitImage(BufferedImage image){
     	
     	BufferedImage images[]=new BufferedImage[columnNum*rowNum];
@@ -120,6 +123,7 @@ public class BoardView extends JPanel implements Observer {
         return(images);
     }
 
+    //Actualiza la posicion de las piezas en el tablero
     public void update(int blankPos, int movedPos){
     	    	
     	PieceView blank=iconArray.get(blankPos);
@@ -147,7 +151,7 @@ public class BoardView extends JPanel implements Observer {
 		for(PieceView p:iconArray) {
 			System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
 		}
-    	
+    	//Se pintan las piezas cambiadas
 		update(getGraphics());
 	}
     
@@ -158,13 +162,9 @@ public class BoardView extends JPanel implements Observer {
 
     public void paint(Graphics g){
     		
-    	//g.clearRect(0, 0,this.getWidth(), this.getHeight());
 
 		for(PieceView iconImage:iconArray){	
-    			
-			
-    		
-    		
+
             g.drawImage(iconImage.getImage(), iconImage.getDrawnRowIndex(), iconImage.getDrawnColumnIndex(), iconImage.getImageSize(), iconImage.getImageSize(), this);
             
         }
@@ -263,7 +263,7 @@ public class BoardView extends JPanel implements Observer {
 
 
 
-		
+		//Resetea el tablero con los valores introducidos como parámetros, vuelve a generar el array de piezas
 	@Override
 	public void setNewBoard(int rowNum, int columnNum, int imageSize) {
 		
@@ -299,9 +299,10 @@ public class BoardView extends JPanel implements Observer {
 	public void setImage(File image) {
 		this.image = image;
 	}
-
+//Asigna las coordenadas de pantalla en función de sus coordenadas en el tablero
 	private void SetDrawnCoordinates(PieceView p,int imageSize) {
 	
+		//Se calcula un offset en base a la ventana para centrar el puzzle en el centro de la ventana
 		rowOff=(windowWidth-this.imageWidth)/2;
 		colOff=(windowHeight-this.imageHeight)/2;
 		
@@ -335,6 +336,7 @@ public class BoardView extends JPanel implements Observer {
 		iconArray=aux;
 	}
 	
+	//Comprueba si se ha ganado, si el id de todas las piezas coincide con su posición en el tablero se gana
 	public boolean checkWin() {
 		for(int i=0;i<iconArray.size();i++) {
 			if(iconArray.get(i).getId()!=i) {

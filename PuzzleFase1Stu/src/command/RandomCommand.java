@@ -20,7 +20,7 @@ public class RandomCommand implements Command {
 		// TODO Auto-generated method stub
 		
 	}
-
+    //Genera números aleatorios para rellenar los comandos y los ejecuta
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub

@@ -35,10 +35,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
 
 import command.Command;
-import command.LoadCommand;
 import command.MoveCommand;
 import command.RandomCommand;
-import command.SaveCommand;
 import command.SolveCommand;
 import model.AbstractModel;
 import model.MongoModel;
@@ -73,9 +71,10 @@ public class Controller extends AbstractController{
 		this.action = act.getActionCommand();
 		System.out.println(	act.getSource().toString());
 
+		//Vemos que acción se ha realizado
 		switch (action) {
-			case "clutter": 
-				//preguntar si se puede llamar
+			case "clutter":  
+				
 				RandomCommand random=new RandomCommand(this,PuzzleGUI.getInstance().rowNum*PuzzleGUI.getInstance().columnNum);
 				 startTime=System.nanoTime();
 				  initialStorage=myModel.getStorage();
@@ -85,7 +84,7 @@ public class Controller extends AbstractController{
 				 endTime=System.nanoTime(); 
 				  finalStorage=myModel.getStorage();
 				
-				 
+				 //Calculamos el rendimiento y lo mostramos por pantalla
 				 Time = (long) ((endTime - startTime) / 1000000.0);
 				  TransactionStorage=Math.abs(finalStorage-initialStorage);
 				PuzzleGUI.getInstance().setStats("Clutter: ", Time,finalStorage,TransactionStorage,Time/TransactionStorage);
@@ -102,10 +101,12 @@ public class Controller extends AbstractController{
 				
 				 endTime=System.nanoTime(); 
 				finalStorage=myModel.getStorage();
-				
+				 //Calculamos el rendimiento y lo mostramos por pantalla
+
 				 Time = (long) ((endTime - startTime) / 1000000.0);
 				  TransactionStorage=Math.abs(finalStorage-initialStorage);
 				  double ratio=0;
+				  //Este if es por si hay un cero en el denominador(Base de datos vacía) no salga infinito.
 				  if(TransactionStorage!=0){
 						 ratio=Time/TransactionStorage;
 
@@ -119,6 +120,7 @@ public class Controller extends AbstractController{
 					PuzzleGUI.getInstance().setStats("Solve: ", Time,finalStorage,TransactionStorage,ratio);
 				break;
 				
+				//Cargar una nueva imagen
 			case "load":
 				
 				/*--------------------Meter en comando---------------------*/
@@ -130,26 +132,31 @@ public class Controller extends AbstractController{
 			    	PuzzleGUI.getInstance().enterParameters();
 			    	//Método para actualizar la imagen de la boardView	
 					PuzzleGUI.getInstance().updateBoard(f);
-					notifyObserversReset(PuzzleGUI.getInstance().rowNum,PuzzleGUI.getInstance().columnNum,PuzzleGUI.getInstance().imageSize);						
+					//Método para notificar a todos los observers que se va a crear un nuevo puzzle
+					notifyObserversReset(PuzzleGUI.getInstance().rowNum,PuzzleGUI.getInstance().columnNum,PuzzleGUI.getInstance().imageSize);	
+					//Limpiamos la pila de comandos
 					this.getMoves().clear();
 
 					System.out.println("Load Image");
 				}				
 				
 				break;
-				
+				//Guardamos la partida en un xml
 			case "saveGame":
-				SaveCommand save=new SaveCommand(this);
-				save.redoCommand();				
+			try {
+				this.writeXML();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				System.out.println("Save data");
 				break;
-				
+				//Cargamos la partida del Xml
 			case "loadGame":
-				LoadCommand load=new LoadCommand(this);
-				load.redoCommand();	
+				this.readXML();
 				System.out.println("Load data");
 				break;
-				
+				//Muestra la información de los autores
 			case "info":
 				JOptionPane.showMessageDialog(null,"Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
 				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
@@ -160,6 +167,7 @@ public class Controller extends AbstractController{
 		}
 	}	
 	
+	//Resetea los observers al cargar un nuevo puzzle
 	public void notifyObserversReset(int rowNum,int columnNum,int imageSize) {
 		//TODO Auto-generated method stub
 		for(Observer o:observerList) {			
@@ -167,6 +175,7 @@ public class Controller extends AbstractController{
 		}		
 	}
 
+	//Recoge los eventos de ratón
 	public void mouseClicked(MouseEvent e) {	
 		
 		long startTime,endTime;
@@ -177,8 +186,9 @@ public class Controller extends AbstractController{
 		posY=e.getY();
 		System.out.println("X: "+posX+" Y: "+posY);
 		int pos[]=PuzzleGUI.getInstance().getBoardView().movePiece(posX, posY);
-		
+		//Comprobamos si pos es null se ha clickado en una posición no válida
 		if(pos!=null) {
+			//Se crea el comando, se almacena y se ejecuta
 			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
 			System.err.println(moveCommands);
 			this.moveCommands.push(m);
@@ -187,10 +197,12 @@ public class Controller extends AbstractController{
 			endTime=System.nanoTime();
 			double finalStorage=myModel.getStorage();
 			
+			//Se calculan la s métricas
 			long Time = (long) ((endTime - startTime) / 1000000.0);
 			double TransactionStorage=Math.abs(finalStorage-initialStorage);
 			PuzzleGUI.getInstance().setStats("Move: ", Time,finalStorage,TransactionStorage,Time/TransactionStorage);
 			
+			//Comprobamos si se ha ganado la partida
 			if(PuzzleGUI.getInstance().getBoardView().checkWin()) {
 				JOptionPane.showMessageDialog(null,"Puzzle is solved");
 			}
@@ -210,22 +222,7 @@ public class Controller extends AbstractController{
 		this.myModel = Model;
 	}
 	
-	public int getPosY() {
-		return posY;
-	}
-	
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
-	
-	public int getPosX() {
-		return posX;
-	}
-	
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
-
+	//Escribe en el xml SaveGame.xml la pila de comandos
 	public void writeXML() throws IOException{
 				
 		try {
@@ -234,16 +231,14 @@ public class Controller extends AbstractController{
 			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
-			// output pretty printed
+			
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
+			//Usamos Savegame para pasar la pila y escribirla
 			SaveGame s=new SaveGame();
 			s.setStack(moveCommands);
 			System.err.println("ESCRITURA");
-			for(int i=0;i<moveCommands.size();i++) {			
-				System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
-			}
 			
+			//escribe en el xml
 			jaxbMarshaller.marshal(s, file);
 			jaxbMarshaller.marshal(s, System.out);
 
@@ -253,7 +248,7 @@ public class Controller extends AbstractController{
 		
 		System.out.println("File Saved!");
 	}
-
+//Lee el xml SaveGame.xml
 	@SuppressWarnings("unchecked")
 	public void readXML(){
 		
@@ -268,17 +263,15 @@ public class Controller extends AbstractController{
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
 			Stack<MoveCommand> aux=s.getStack();
-			
+			//Limpiamos la pila de comandos
 			moveCommands.clear();
+			//Si aux es distinto de null significa que se ha cargado correctamente al menos un movimiento
 			if(aux != null){
 				moveCommands=(Stack<MoveCommand>) aux.clone();
 			
 				System.err.println("Lectura");
-				for(int i=0;i<moveCommands.size();i++) {
-					
-					System.err.println("Pos0: "+moveCommands.get(i).getPos0()+" Pos1: "+moveCommands.get(i).getPos1());
-				}
 				
+				//Asignamos un controlador al comando para poder ejecutarlo
 				for(int i=0;i<moveCommands.size();i++) {
 					moveCommands.get(i).setController(this);
 					moveCommands.get(i).redoCommand();
@@ -289,7 +282,7 @@ public class Controller extends AbstractController{
 			e.printStackTrace();
 		}		
 	}
-
+//actualizamos un movimiento a los observers
 	@Override
 	public void notifyObservers(int blankPos, int movedPos) {
 		// TODO Auto-generated method stub
@@ -297,11 +290,11 @@ public class Controller extends AbstractController{
 			o.update(blankPos, movedPos);
 		}
 	}
-	
+	//Añade un comando a la pila
 	public void addCommand(MoveCommand c) {
 		this.moveCommands.push(c);		
 	}
-	
+	//Devuelve la pila de comandos
 	public Stack<MoveCommand> getMoves() {
 		// TODO Auto-generated method stub
 		return this.moveCommands;
@@ -317,7 +310,7 @@ public class Controller extends AbstractController{
 
     	//Comprobacion de la base de datos y cargamos del modelo
     	moveCommands=Model.loadMoves();
-				
+		//Si la pila de comandos no está vacía se ejecutan los comandos
 		if(moveCommands!=null){
 			for(int i=0;i<moveCommands.size();i++){
 				moveCommands.get(i).setController(this);
@@ -328,10 +321,11 @@ public class Controller extends AbstractController{
 		long endTime = System.nanoTime();
 		double finalStorage=myModel.getStorage();
 
-		
+		//calculamos las métricas
 		long Time = (long) ((endTime - startTime) / 1000000.0);		
 		double TransactionStorage=finalStorage;
 		double ratio;
+		  //Este if es por si hay un cero en el denominador(Base de datos vacía) no salga infinito.
 		if(TransactionStorage!=0){
 			 ratio=Time/TransactionStorage;
 

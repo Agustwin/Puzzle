@@ -38,7 +38,8 @@ public class SolveCommand implements Command {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	//Deshace todos los command del controller
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub

@@ -65,8 +65,4 @@ public class PieceModel {
 		this.imagePath = imagePath;
 	}
 
-	public int getImageSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

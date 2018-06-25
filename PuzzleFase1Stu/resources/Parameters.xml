@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Parameters SYSTEM "./DTD.dtd">
 <Parameters>
-<imageSize>24</imageSize>
-<rowNum>4</rowNum>
-<columnNum>4</columnNum>
+<imageSize>32</imageSize>
+<rowNum>3</rowNum>
+<columnNum>3</columnNum>
 <imagePath>.\resources\Prueba.jpg</imagePath>
 <db>baseX</db>
 </Parameters>

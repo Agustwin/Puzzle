@@ -34,13 +34,13 @@ public class MoveCommand implements Command{
 		this.pos0=posX;
 		this.pos1=posY;
 	}
-	
+	//deshace el comando
 	@Override
 	public void undoCommand() {
 		// TODO Auto-generated method stub
 		controller.notifyObservers(pos1,pos0);							
 	}			
-		
+		//comando hacia adelante
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub		

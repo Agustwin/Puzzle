@@ -75,17 +75,7 @@ public class Model extends AbstractModel<PieceModel>{
 		listP.add(p); 
 	}
 
-	@Override
-	public boolean isPuzzleSolve() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int[] getRandomMovement(int lastPos, int pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public Stack loadMoves() {
