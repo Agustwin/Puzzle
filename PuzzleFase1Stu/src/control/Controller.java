@@ -226,7 +226,7 @@ public class Controller extends AbstractController{
 			
 			File file = new File("SaveGame.xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller(); 
 
 			
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
