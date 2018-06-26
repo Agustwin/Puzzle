@@ -126,11 +126,14 @@ public class BaseXModel extends AbstractModel<PieceModel>{
     	listP.set(blankPos,listP.get(movedPos));
     	listP.set(movedPos, blank);
     	
-    	
+    	//imprimo por consola el modelo
+    	System.out.println("Model: ");
+		for(PieceModel p:listP) {
+			System.out.println("id: "+p.getId()+" X: "+p.getIndexRow()+" Y: "+p.getIndexColumn());
+		}
 		
     	//Agrega un comando al xml actual
 		try{
-  			System.out.println("Insertamos el comando a la partida: " + commandPartida);
   			XQuery insertQuery = new XQuery("insert node "+commandPartida+ " into /saveGame");
   			System.out.println(insertQuery.execute(context));
   		}catch(Exception e){
@@ -181,7 +184,7 @@ public class BaseXModel extends AbstractModel<PieceModel>{
 		
 		try {
 			query=new XQuery("//saveGame").execute(context);
-			System.err.println(query);
+			System.out.println(query);
 		} catch (BaseXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -180,7 +180,7 @@ public class BoardView extends JPanel implements Observer {
     		//localizo la imagen sobre la que ha pulsado el puntero
     		if(posX>p.getDrawnRowIndex() && posX<p.getDrawnRowIndex()+p.getImageSize() && posY>p.getDrawnColumnIndex() && posY<p.getDrawnColumnIndex()+p.getImageSize()) {
     			
-    				System.out.println("id: "+p.getId());
+    				
     				
     				return i;
 
@@ -208,8 +208,7 @@ public class BoardView extends JPanel implements Observer {
     	int pos=locatePiece(posX,posY);
     	int blankPos=checkMove(pos);		//Devuelve la pieza blanca solo si es adyacente a la pieza que se quiere mover
     	
-    	System.out.println("poooooooooooooos"+pos);
-    	System.out.println("blaaaaaaaaaaaaaank"+blankPos);
+    
     	if(pos==-1 || blankPos==-1) {
     		return null;
     	}
@@ -232,7 +231,7 @@ public class BoardView extends JPanel implements Observer {
 		
 		if(pos-1>=0) {
 			if(iconArray.get(pos-1).getId()==0) {
-				System.out.println("HIT1");
+				
 				return pos-1;
 			}
 			
@@ -240,21 +239,18 @@ public class BoardView extends JPanel implements Observer {
 		
 		if(pos+1<iconArray.size()) {
 			if(iconArray.get(pos+1).getId()==0) {
-				System.out.println("HIT2");
 				return pos+1;
 			}
 		}
 		
 		if(pos-rowNum>=0) {
 			if(iconArray.get(pos-rowNum).getId()==0) {
-				System.out.println("HIT3");
 				return pos-rowNum;
 				}    		
 			}
 		
 		if(pos+rowNum<iconArray.size()) {
 			if(iconArray.get(pos+rowNum).getId()==0) {
-				System.out.println("HIT4");
 				return pos+rowNum;
 			}
 		}

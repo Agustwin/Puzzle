@@ -163,7 +163,7 @@ public class PuzzleApp {
     		System.err.println("La aplicación se cerrará");
     		System.exit(-1);
     	}	
-    	System.out.println(xmlFile.getPath());
+    	
     	
 		Element rootNode = document.getRootElement();
 		imageSize = Integer.parseInt(rootNode.getChildTextTrim("imageSize"));

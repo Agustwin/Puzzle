@@ -69,7 +69,7 @@ public class Controller extends AbstractController{
 		double initialStorage,finalStorage,TransactionStorage;
 		// TODO Auto-generated method stub			
 		this.action = act.getActionCommand();
-		System.out.println(	act.getSource().toString());
+	
 
 		//Vemos que acción se ha realizado
 		switch (action) {
@@ -125,7 +125,7 @@ public class Controller extends AbstractController{
 				
 				/*--------------------Meter en comando---------------------*/
 				File f=PuzzleGUI.getInstance().showFileSelector();
-				System.out.println("Path: "+f);
+				
 								
 			    if(f!=null) {
 			    	//Método para introducir los parámetros
@@ -139,7 +139,7 @@ public class Controller extends AbstractController{
 					//Eliminamos los comandos del puzle anterior de la base de datos
 					this.myModel.remove();
 
-					System.out.println("Load Image");
+					
 				}				
 				
 				break;
@@ -151,17 +151,14 @@ public class Controller extends AbstractController{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-				System.out.println("Save data");
 				break;
 				//Cargamos la partida del Xml
 			case "loadGame":
 				this.readXML();
-				System.out.println("Load data");
 				break;
 				//Muestra la información de los autores
 			case "info":
 				JOptionPane.showMessageDialog(null,"Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
-				System.out.println("Práctica de Agustín López Arribas y Zhong Hao Lin Chen");
 				break;
 				
 			default:
@@ -186,13 +183,11 @@ public class Controller extends AbstractController{
 		double initialStorage=myModel.getStorage();
 		posX=e.getX();
 		posY=e.getY();
-		System.out.println("X: "+posX+" Y: "+posY);
 		int pos[]=PuzzleGUI.getInstance().getBoardView().movePiece(posX, posY);
 		//Comprobamos si pos es null se ha clickado en una posición no válida
 		if(pos!=null) {
 			//Se crea el comando, se almacena y se ejecuta
 			MoveCommand m=new MoveCommand(this,pos[0],pos[1]);
-			System.err.println(moveCommands);
 			this.moveCommands.push(m);
 			m.redoCommand();
 			
@@ -238,7 +233,6 @@ public class Controller extends AbstractController{
 			//Usamos Savegame para pasar la pila y escribirla
 			SaveGame s=new SaveGame();
 			s.setStack(moveCommands);
-			System.err.println("ESCRITURA");
 			
 			//escribe en el xml
 			jaxbMarshaller.marshal(s, file);
@@ -276,7 +270,6 @@ public class Controller extends AbstractController{
 			if(aux != null){
 				//Copia de los comandos actuales por si no se puede relaizar la carga volver al punto de antes de cargar
 				Stack<MoveCommand> Backup=(Stack<MoveCommand>) moveCommands.clone();
-				System.err.println("Lectura");
 				/*Puede darse el caso que se esté intentando cargar una partida que se ha guardado de otro puzle, con otros parámetros y que por tanto algún movimiento guardado se salga del tablero
 				en este caso lo que se hace es omitir la carga y volver al estado inicial para que no salte una excepción*/
 				try{
