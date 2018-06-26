@@ -96,7 +96,7 @@ public class PuzzleApp {
                }catch(Exception e){
             	   System.err.print("Los movimientos contenidos en la base de datos se salen del tablero generado a partir del XML \nSe cargará el puzzle por defecto");
             	   myController.getMoves().clear();
-            	   myModel.remove();
+
                }
 	    	   
        }else {

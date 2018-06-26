@@ -272,6 +272,8 @@ public class BoardView extends JPanel implements Observer {
 		this.imageSize=imageSize;
 		
 		iconArray.clear();
+		//limpiamos la pantalla para que no se superpongan las imagenes
+		getGraphics().clearRect(0, 0, this.windowWidth, this.windowHeight);
 		BufferedImage img=resizeImage(image);
 	    BufferedImage[] listImg=splitImage(img);	
 	    

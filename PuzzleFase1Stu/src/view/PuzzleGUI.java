@@ -191,16 +191,13 @@ public class PuzzleGUI extends JFrame{
     //Muestra la ventana de introducir parámetros para cuando se carga una nueva imagen
     public void enterParameters(){
     	JPanel j=new JPanel();
-		JTextField Rows = new JTextField(5);
-	      JTextField Columns = new JTextField(5);
+		JTextField RowsAndColumns = new JTextField(5);
 	      JTextField Size = new JTextField(5);
 	      
 	      JPanel myPanel = new JPanel();
-	      myPanel.add(new JLabel("Filas:"));
-	      myPanel.add(Rows);
 	      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-	      myPanel.add(new JLabel("Columnas:"));
-	      myPanel.add(Columns);
+	      myPanel.add(new JLabel("Número de filas y columnas:"));
+	      myPanel.add(RowsAndColumns);
 	      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
 	      myPanel.add(new JLabel("Tamaño de pieza:"));
 	      myPanel.add(Size);
@@ -209,9 +206,18 @@ public class PuzzleGUI extends JFrame{
 	               "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);
 	      //Si los parametros se han introducido correctamente se asignan al puzzle
 	      if (result == JOptionPane.OK_OPTION) {	         
-	    	  this.rowNum=  Integer.parseInt(Rows.getText());
-	    	  this.columnNum= Integer.parseInt(Columns.getText());
-	    	  this.imageSize= Integer.parseInt(Size.getText());	    	  
+	    	  
+	    	  
+	    	  
+	    	  this.rowNum=  Integer.parseInt(RowsAndColumns.getText());
+	    	  this.columnNum= Integer.parseInt(RowsAndColumns.getText());
+	    	  this.imageSize= Integer.parseInt(Size.getText());	    
+	    	  
+	    	  if(this.imageSize>96/rowNum){
+	    		  this.imageSize=(int)96/rowNum;
+	    		  JOptionPane.showMessageDialog(null,"Tamaño de imagen introducido demasiado grande para el número de casillas introducido\nSe asignará el máximo tamaño posible: "+imageSize);
+	    	  }
+	    	  
 	       }
     }
     //Sirve para Asignar a la etiqueta estadísticas su valor

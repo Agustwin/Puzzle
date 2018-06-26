@@ -253,7 +253,7 @@ public class Controller extends AbstractController{
 //Lee el xml SaveGame.xml
 	@SuppressWarnings("unchecked")
 	public void readXML(){
-		
+		Stack<MoveCommand> aux=null;
 		try {
 			
 			while(!moveCommands.isEmpty()) {
@@ -264,25 +264,38 @@ public class Controller extends AbstractController{
 			JAXBContext jaxbContext = JAXBContext.newInstance(SaveGame.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			SaveGame s = (SaveGame) jaxbUnmarshaller.unmarshal(file);
-			Stack<MoveCommand> aux=s.getStack();
-			//Limpiamos la pila de comandos
-			moveCommands.clear();
-			//Si aux es distinto de null significa que se ha cargado correctamente al menos un movimiento
-			if(aux != null){
-				moveCommands=(Stack<MoveCommand>) aux.clone();
 			
-				System.err.println("Lectura");
-				
-				//Asignamos un controlador al comando para poder ejecutarlo
-				for(int i=0;i<moveCommands.size();i++) {
-					moveCommands.get(i).setController(this);
-					moveCommands.get(i).redoCommand();
-				}	
-			}
-						
+			 aux=s.getStack();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}		
+			
+			
+			//Si aux es distinto de null significa que se ha cargado correctamente al menos un movimiento
+			
+			if(aux != null){
+				//Copia de los comandos actuales por si no se puede relaizar la carga volver al punto de antes de cargar
+				Stack<MoveCommand> Backup=(Stack<MoveCommand>) moveCommands.clone();
+				System.err.println("Lectura");
+				/*Puede darse el caso que se esté intentando cargar una partida que se ha guardado de otro puzle, con otros parámetros y que por tanto algún movimiento guardado se salga del tablero
+				en este caso lo que se hace es omitir la carga y volver al estado inicial para que no salte una excepción*/
+				try{
+					//Limpiamos la pila de comandos
+					moveCommands.clear();
+					moveCommands=(Stack<MoveCommand>) aux.clone();
+					for(int i=0;i<moveCommands.size();i++) {
+						moveCommands.get(i).setController(this);
+						moveCommands.get(i).redoCommand();
+					}	
+				}catch(Exception e){
+					this.moveCommands=Backup;
+					System.err.println("Los movimientos almacenados en el Xml exceden el tamaño del tablero actual, no se puede cargar con estos parámetros");
+				}
+				//Asignamos un controlador al comando para poder ejecutarlo
+				
+			}
+						
+		
 	}
 //actualizamos un movimiento a los observers
 	@Override
