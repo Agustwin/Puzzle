@@ -136,6 +136,8 @@ public class Controller extends AbstractController{
 					notifyObserversReset(PuzzleGUI.getInstance().rowNum,PuzzleGUI.getInstance().columnNum,PuzzleGUI.getInstance().imageSize);	
 					//Limpiamos la pila de comandos
 					this.getMoves().clear();
+					//Eliminamos los comandos del puzle anterior de la base de datos
+					this.myModel.remove();
 
 					System.out.println("Load Image");
 				}				

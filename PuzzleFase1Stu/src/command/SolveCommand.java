@@ -43,7 +43,7 @@ public class SolveCommand implements Command {
 	@Override
 	public void redoCommand() {
 		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub		
+			
 				Stack<MoveCommand> aux=controller.getMoves();
 				while(!aux.isEmpty()) {
 					MoveCommand m=aux.pop();	

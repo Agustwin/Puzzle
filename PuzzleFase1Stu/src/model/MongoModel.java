@@ -38,11 +38,25 @@ public class MongoModel extends AbstractModel<PieceModel>{
 			// PASO 1: Conexión al Server de MongoDB Pasándole el host y el puerto
 	        this.mongoClient = new MongoClient("localhost",27017);
 	        
-	        // PASO 2: Conexión a la base de datos de la práctica
-	        this.db = mongoClient.getDB("saveGame");
+	       
+	     // PASO 2: Conexión a la base de datos de la práctica
+	       this.db = mongoClient.getDB("saveGame");
+	      
 	        System.out.println("Conectado a la base de datos de partidas de Mongo");
 	        
-	        // PASO 3: Obtenemos las colecciones
+	        //PASO 3 si no existe la coleccion partidas se crea
+	        if(!db.collectionExists("Partidas")){
+	        	
+	        	BasicDBObject dBObject = new BasicDBObject();
+
+	        	//Objeto para configurar la colección
+	    	    dBObject.append("capped",false);
+	    	    dBObject.append("autoIndexId",true);
+	        	
+	        	db.createCollection("Partidas",dBObject);
+	        }
+	        
+	        // PASO 4: Obtenemos las colecciones
 	        this.partidas = db.getCollection("Partidas");
 
 		}catch(Exception e){
@@ -79,7 +93,19 @@ public class MongoModel extends AbstractModel<PieceModel>{
 	        this.db = mongoClient.getDB("saveGame");
 	        System.out.println("Conectado a la base de datos de partidas de Mongo");
 	        
-	        // PASO 3: Obtenemos las colecciones
+	        //PASO 3 si no existe la coleccion partidas se crea
+	        if(!db.collectionExists("Partidas")){
+	        	
+	        	BasicDBObject dBObject = new BasicDBObject();
+
+	        	//Objeto para configurar la colección
+	    	    dBObject.append("capped",false);
+	    	    dBObject.append("autoIndexId",true);
+	        	
+	        	db.createCollection("Partidas",dBObject);
+	        }
+	        
+	        // PASO 4: Obtenemos las colecciones
 	        this.partidas = db.getCollection("Partidas");
 
 		}catch(Exception e){
@@ -92,6 +118,8 @@ public class MongoModel extends AbstractModel<PieceModel>{
 		
 		
 	}
+	
+	
 
 	@Override
 	public void update(int blankPos, int movedPos) {

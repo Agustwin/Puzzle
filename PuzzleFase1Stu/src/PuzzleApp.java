@@ -88,8 +88,16 @@ public class PuzzleApp {
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);
            
-           //Cargamos los movimientos de las bases de datos
-           myController.LoadGame(myModel);
+           /*Cargamos los movimientos de las bases de datos, se controla con try catch por si los movimientos almacenados superan el tamaño de la base de datos
+           si esto ocurre cargamos el puzzle con los parámetros de xml en su estado inicial. Por eso borramos los comandos de la base de datos y los cargados en la pila
+           del controlador*/         
+           try{
+               myController.LoadGame(myModel);
+               }catch(Exception e){
+            	   System.err.print("Los movimientos contenidos en la base de datos se salen del tablero generado a partir del XML \nSe cargará el puzzle por defecto");
+            	   myController.getMoves().clear();
+            	   myModel.remove();
+               }
 	    	   
        }else {
     	   String fileSeparator = System.getProperty("file.separator");
@@ -126,9 +134,17 @@ public class PuzzleApp {
            // Visualizamos la aplicaciÃ³n.
            PuzzleGUI.getInstance().setVisible(true);  
            
-           //Cargamos los movimientos de las bases de datos
+           /*Cargamos los movimientos de las bases de datos, se controla con try catch por si los movimientos almacenados superan el tamaño de la base de datos
+           si esto ocurre cargamos el puzzle con los parámetros de xml en su estado inicial. Por eso borramos los comandos de la base de datos y los cargados en la pila
+           del controlador*/
+           try{
            myController.LoadGame(myModel);
-       }                          
+           }catch(Exception e){
+        	   System.err.print("Los movimientos contenidos en la base de datos se salen del tablero generado a partir del XML \nSe cargará el puzzle por defecto");
+        	   myController.getMoves().clear();
+        	   myModel.remove();
+           }
+           }                          
     }
        //Método que se encarga de leer el fichero Parameters.xml
     public static void readXML()  {	    	
